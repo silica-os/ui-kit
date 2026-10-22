@@ -120,10 +120,8 @@ function onKey(e) {
   backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
 }
 .s-slider__body.is-dragging .s-slider__thumb::after { display: none; }
-.s-slider__body.is-dragging .s-slider__core {
-  display: block; position: absolute; left: 8px; top: 4px; width: 20px; height: 20px; border-radius: 10px;
-  background: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border);
-}
+/* lens rule: while the glass lens shows, the solid thumb it replaces is not drawn */
+.s-slider__body.is-dragging .s-slider__core { display: none; }
 
 /* vertical */
 .s-slider--vertical .s-slider__body { width: 20px; height: var(--s-slider-w, 160px); }

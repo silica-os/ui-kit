@@ -108,7 +108,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
     :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled }]"
     :role="action ? 'group' : multiple ? 'group' : 'radiogroup'"
   >
-    <span v-if="thumb.show" class="s-segmented__thumb" :class="{ 'is-animated': animate }" :style="{ left: thumb.left + 'px', width: thumb.width + 'px' }" />
+    <span v-if="thumb.show && !lens.show" class="s-segmented__thumb" :class="{ 'is-animated': animate }" :style="{ left: thumb.left + 'px', width: thumb.width + 'px' }" />
     <span v-if="lens.show" class="s-segmented__lens" :style="{ left: lens.left + 'px', top: lens.top + 'px', width: lens.width + 'px', height: lens.height + 'px' }" />
     <template v-if="action">
       <template v-for="(it, i) in items" :key="it.value">
