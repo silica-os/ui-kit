@@ -26,7 +26,8 @@ import Code from '../Code.vue'
 const chosen = ref('')
 const name = ref('Lemon cake')
 const bool = reactive({ a: true, b: false })
-const place = ref('documents')
+const place = ref('')
+const tags = ref('')
 const file = ref('lemon')
 const where = ref('Documents')
 const view = ref('icons')
@@ -41,14 +42,23 @@ const code = computed(() => `<SDialog title="Share recipe" primary="Share" secon
   </div>
 </SDialog>
 
-<SFilePanel mode="save" v-model:name="name" v-model:location="where" :locations="[…]" :places="[…]" :files="[…]" v-model="file" @primary="…" @secondary="…" />
+<SFilePanel mode="save" v-model:expanded="expanded" v-model:name="name" v-model:location="where" :locations="[…]" :places="[{ title, items }]" :files="[…]" v-model="file" @primary="…" @secondary="…" />
 
 <SNotification title="Recipes" message="Two new recipes…" time="now" color="…" glyph="…"
   :actions="[{ value: 'reply', label: 'Reply' }]" @action="…" @close="…" />`)
 
-const places = [{ value: 'documents', label: 'Documents', icon: 'doc' }, { value: 'downloads', label: 'Downloads', icon: 'download', badge: 3 }, { value: 'pictures', label: 'Pictures', icon: 'photo' }]
+const places = [
+  { title: 'Favorites', items: [{ value: 'documents', label: 'Documents', icon: 'doc' }, { value: 'downloads', label: 'Downloads', icon: 'download' }, { value: 'pictures', label: 'Pictures', icon: 'photo' }, { value: 'desktop', label: 'Desktop', icon: 'desktop' }] },
+  { title: 'Locations', items: [{ value: 'home', label: 'Home', icon: 'house' }, { value: 'drive', label: 'Drive', icon: 'drive' }] },
+]
 const locations = ['Documents', 'Downloads', 'Pictures']
-const files = [{ value: 'lemon', label: 'Lemon cake.recipe', icon: 'doc', date: 'Today, 09:41' }, { value: 'focaccia', label: 'Focaccia.recipe', icon: 'doc', date: 'Yesterday' }, { value: 'limoncello', label: 'Limoncello notes.txt', icon: 'doc', date: '12 Oct 2026' }]
+const files = [
+  { value: 'lemon', label: 'Lemon cake.recipe', icon: 'doc', kind: 'Recipe', date: 'Today, 09:41' },
+  { value: 'focaccia', label: 'Focaccia.recipe', icon: 'doc', kind: 'Recipe', date: 'Yesterday' },
+  { value: 'limoncello', label: 'Limoncello notes.txt', icon: 'doc', kind: 'Text', date: '12 Oct 2026' },
+  { value: 'tiramisu', label: 'Tiramisu.recipe', icon: 'doc', kind: 'Recipe', date: '3 Oct 2026' },
+]
+const expanded = ref(true)
 const msg = 'Two new recipes were added to Lemon cake. Tap to open them.'
 const acts = [{ value: 'reply', label: 'Reply' }, { value: 'mute', label: 'Mute' }]
 const items = ref([
@@ -65,7 +75,7 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
 </script>
 
 <template>
-  <DocPage title="Dialog and Notification" lead="SDialog is the raised 20 pt dialog (title, form rows, SDialogFooter with the primary button last) that also serves as a sheet in an SWindow; SFilePanel is the Finder-style open and save panel (toolbar, SFileBrowser, buttons). SNotification is the glass banner (or the card inside SNotificationCentre), SNotificationStack groups them.">
+  <DocPage title="Dialog and Notification" lead="SDialog is the raised 20 pt dialog (title, form rows, SDialogFooter with the primary button last) that also serves as a sheet in an SWindow; SFilePanel is the Finder-style open and save panel (full-height sidebar, toolbar, striped SFileBrowser, buttons) and collapses to the compact save panel. SNotification is the glass banner (or the card inside SNotificationCentre), SNotificationStack groups them.">
     <h2>Playground: dialog</h2>
     <Stage :pad="32" class="center">
       <Transition name="s-dialog" mode="out-in"><SDialog v-if="dlgOpen" title="Share recipe" primary="Share" secondary="Cancel" @primary="chosen = `share ${name}`; dlgOpen = false" @secondary="chosen = 'cancel'; dlgOpen = false" @close="dlgOpen = false" autofocus>
@@ -86,7 +96,10 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
         <SFilePanel mode="open" v-model:location="where" :locations="locations" v-model:place="place" v-model="file" v-model:view="view" v-model:search="query" :places="places" :files="files" />
       </SidePair>
       <SidePair label="Save panel" kit="Dialogs/Dialog/Save Panel/Rest" stack>
-        <SFilePanel mode="save" v-model:name="name" v-model:location="where" :locations="locations" v-model:place="place" v-model="file" v-model:view="view" v-model:search="query" :places="places" :files="files" />
+        <SFilePanel mode="save" v-model:name="name" v-model:tags="tags" v-model:location="where" :locations="locations" v-model:place="place" v-model="file" v-model:view="view" v-model:search="query" :places="places" :files="files" />
+      </SidePair>
+      <SidePair label="Save panel, compact" kit="Dialogs/Dialog/Save Panel Compact/Rest" stack>
+        <SFilePanel mode="save" :expanded="false" v-model:name="name" v-model:tags="tags" v-model:location="where" :locations="locations" />
       </SidePair>
       <SidePair label="Generic" kit="Dialogs/Dialog/Generic/Rest">
         <SDialog title="Share recipe" primary="Save" secondary="Cancel">
