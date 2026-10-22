@@ -108,8 +108,10 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
     :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled }]"
     :role="action ? 'group' : multiple ? 'group' : 'radiogroup'"
   >
-    <span v-if="thumb.show && !lens.show" class="s-segmented__thumb" :class="{ 'is-animated': animate }" :style="{ left: thumb.left + 'px', width: thumb.width + 'px' }" />
-    <span v-if="lens.show" class="s-segmented__lens" :style="{ left: lens.left + 'px', top: lens.top + 'px', width: lens.width + 'px', height: lens.height + 'px' }" />
+    <span
+      v-if="thumb.show || lens.show" class="s-segmented__thumb" :class="{ 'is-animated': animate, 'is-lens': lens.show }"
+      :style="lens.show ? { left: lens.left + 'px', width: lens.width + 'px', top: lens.top + 'px', height: lens.height + 'px' } : { left: thumb.left + 'px', width: thumb.width + 'px' }"
+    />
     <template v-if="action">
       <template v-for="(it, i) in items" :key="it.value">
         <span v-if="i" class="s-segmented__sep" />
@@ -139,11 +141,12 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
   position: absolute; top: var(--seg-pad); height: var(--seg-item-h); box-sizing: border-box; border-radius: calc(var(--seg-item-h) / 2); pointer-events: none;
   background: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border), 0 1px 2px #0000001a;
 }
-.s-segmented__thumb.is-animated { transition: left var(--spring-snappy), width var(--spring-snappy), transform var(--spring-snappy), box-shadow var(--fade-quick); }
-/* pressed: a glass lens swells around the item under the pointer */
-.s-segmented__lens {
-  position: absolute; box-sizing: border-box; border-radius: calc(var(--seg-item-h) * 1.1); pointer-events: none; z-index: 2;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40;
+.s-segmented__thumb { background-color: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border), inset 0 1px 1px transparent, inset 0 0 3px transparent, 0 1px 2px #0000001a; backdrop-filter: blur(0px) saturate(1); -webkit-backdrop-filter: blur(0px) saturate(1); z-index: 2; }
+.s-segmented__thumb.is-animated { transition: left var(--spring-snappy), width var(--spring-snappy), top var(--spring-snappy), height var(--spring-snappy), border-radius var(--spring-snappy), background-color var(--spring-snappy), box-shadow var(--spring-snappy), backdrop-filter var(--spring-snappy); }
+/* pressed: the selected thumb itself swells into the glass lens around the pressed item (same element, animated) */
+.s-segmented__thumb.is-lens {
+  border-radius: calc(var(--seg-item-h) * 1.1); background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 1px 2px transparent;
   backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
 }
 .s-segmented--any .s-segmented__thumb { display: none; }

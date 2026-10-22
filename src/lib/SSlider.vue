@@ -84,7 +84,7 @@ function onKey(e) {
       <template v-if="ticks">
         <span v-for="i in tickCount" :key="i" class="s-slider__tick" :style="{ '--t': (i - 1) / (tickCount - 1) }" />
       </template>
-      <span class="s-slider__thumb"><span class="s-slider__core" /></span>
+      <span class="s-slider__thumb" />
     </div>
     <SIcon v-if="maxIcon && !vertical" class="s-slider__glyph" :name="maxIcon" :size="16" />
   </div>
@@ -103,8 +103,10 @@ function onKey(e) {
 
 .s-slider__thumb {
   position: absolute; top: 0; left: calc(var(--p) * (100% - 20px)); width: 20px; height: 20px; border-radius: 10px;
-  background: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-1);
-  transition: background var(--fade-quick), box-shadow var(--fade-quick);
+  background-color: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border), inset 0 1px 1px transparent, inset 0 0 3px transparent, var(--elevation-1);
+  backdrop-filter: blur(0px) saturate(1); -webkit-backdrop-filter: blur(0px) saturate(1);
+  transition: background-color var(--spring-snappy), box-shadow var(--spring-snappy), width var(--spring-snappy), height var(--spring-snappy),
+    margin var(--spring-snappy), border-radius var(--spring-snappy), backdrop-filter var(--spring-snappy);
 }
 .s-slider__thumb::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; transition: background var(--fade-quick), box-shadow var(--fade-quick); }
 .s-slider__body:is(:hover, .is-hover) .s-slider__thumb::after { background: var(--accent-amalfi-soft); }
@@ -112,22 +114,19 @@ function onKey(e) {
 .s-slider__body:is(:active, .is-pressed) .s-slider__thumb::after { background: none; }
 .s-slider__body:is(:focus-visible, .is-focus) .s-slider__thumb::after { box-shadow: 0 0 0 3px var(--line-focus); }
 
-/* lens while dragging: the thumb sits in a 36 x 28 glass capsule */
-.s-slider__core { display: none; }
+/* dragging: the thumb itself becomes the 36 x 28 glass lens (same element, animated from the solid thumb) */
 .s-slider__body.is-dragging .s-slider__thumb {
-  top: -4px; left: calc(var(--p) * (100% - 20px) - 8px); width: 36px; height: 28px; border-radius: 14px; background: none;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40;
+  margin: -4px 0 0 -8px; width: 36px; height: 28px; border-radius: 14px; background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 0 0 transparent;
   backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
 }
 .s-slider__body.is-dragging .s-slider__thumb::after { display: none; }
-/* lens rule: while the glass lens shows, the solid thumb it replaces is not drawn */
-.s-slider__body.is-dragging .s-slider__core { display: none; }
 
 /* vertical */
 .s-slider--vertical .s-slider__body { width: 20px; height: var(--s-slider-w, 160px); }
 .s-slider--vertical .s-slider__track { left: 8px; right: auto; top: 0; bottom: 0; width: 4px; height: auto; }
 .s-slider--vertical .s-slider__fill { left: 8px; top: auto; bottom: 0; width: 4px; height: calc(var(--p) * 100%); }
 .s-slider--vertical .s-slider__thumb { left: 0; top: auto; bottom: calc(var(--p) * (100% - 20px)); }
-.s-slider--vertical .s-slider__body.is-dragging .s-slider__thumb { left: -8px; bottom: calc(var(--p) * (100% - 20px) - 4px); }
+.s-slider--vertical .s-slider__body.is-dragging .s-slider__thumb { margin: 0 0 -4px -8px; }
 .s-slider--vertical .s-slider__tick { display: none; }
 </style>

@@ -24,6 +24,11 @@ let moved = false
 const dim = computed(() => SIZES[props.size])
 const left = computed(() => (props.modelValue ? dim.value.w - dim.value.t - INSET : INSET))
 const stretch = computed(() => (props.force === 'pressed' ? 4 : 0))
+const thumbStyle = computed(() => {
+  const d = dim.value
+  if (dragging.value) return { left: lensX.value - d.lens / 2 + 'px' }
+  return { left: left.value - (props.modelValue ? stretch.value : 0) + 'px', width: `calc(var(--t) + ${stretch.value}px)` }
+})
 const on = computed(() => (dragging.value ? lensX.value > dim.value.w / 2 : props.modelValue))
 
 function onDown(e) {
@@ -63,8 +68,7 @@ function onClick() {
     @pointerdown="onDown" @pointermove="onMove" @pointerup="onUp" @click="onClick"
   >
     <span class="s-switch__track" />
-    <span v-if="!dragging" class="s-switch__thumb" :style="{ left: left - (modelValue ? stretch : 0) + 'px', width: `calc(var(--t) + ${stretch}px)` }" />
-    <span v-else class="s-switch__lens" :style="{ left: lensX - dim.lens / 2 + 'px' }" />
+    <span class="s-switch__thumb" :class="{ 'is-lens': dragging }" :style="thumbStyle" />
   </button>
 </template>
 
@@ -82,14 +86,21 @@ function onClick() {
 .s-switch:is(:focus-visible, .is-focus) .s-switch__track::after { box-shadow: 0 0 0 3px var(--line-focus); }
 
 .s-switch__thumb {
-  position: absolute; top: 2px; height: var(--t); border-radius: calc(var(--t) / 2); background: var(--text-on-accent); box-shadow: var(--elevation-1);
-  transition: left var(--spring-snappy), width var(--spring-snappy);
+  position: absolute; top: 2px; height: var(--t); border-radius: calc(var(--t) / 2); background: var(--text-on-accent);
+  box-shadow: 0 0 0 0 transparent, inset 0 0 0 0 transparent, var(--elevation-1);
+  backdrop-filter: blur(0px) saturate(1); -webkit-backdrop-filter: blur(0px) saturate(1);
+  transition: left var(--spring-snappy), width var(--spring-snappy), height var(--spring-snappy), top var(--spring-snappy),
+    border-radius var(--spring-snappy), background-color var(--spring-snappy), box-shadow var(--spring-snappy), backdrop-filter var(--spring-snappy);
 }
 .s-switch:is(:active, .is-pressed):not(.is-dragging) .s-switch__thumb { width: calc(var(--t) + 4px) !important; }
 .s-switch--on:is(:active, .is-pressed):not(.is-dragging) .s-switch__thumb { left: calc(var(--w) - var(--t) - 6px) !important; }
-.s-switch__lens {
-  position: absolute; top: calc((var(--h) - var(--lens)) / 2); width: var(--lens); height: var(--lens); border-radius: 50%;
+/* dragging: the thumb itself becomes the glass lens (same element, animated), and follows the pointer without lag */
+.s-switch__thumb.is-lens {
+  top: calc((var(--h) - var(--lens)) / 2); width: var(--lens); height: var(--lens); border-radius: calc(var(--lens) / 2);
+  background-color: transparent;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-2);
-  background: var(--glass-tint-thin); backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
+  backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
+  transition: top var(--spring-snappy), width var(--spring-snappy), height var(--spring-snappy), border-radius var(--spring-snappy),
+    background-color var(--spring-snappy), box-shadow var(--spring-snappy), backdrop-filter var(--spring-snappy);
 }
 </style>
