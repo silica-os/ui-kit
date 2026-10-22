@@ -28,8 +28,8 @@ function onChange(e) {
 </template>
 
 <style>
-.s-check { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: var(--font-body); color: var(--text-primary); padding: 0 4px; min-height: 20px; }
-.s-check:not(:has(.s-check__label)) { padding: 0; }
+.s-check { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: var(--font-body); color: var(--text-primary); padding: 0; }
+.s-check:has(.s-check__label) { padding: 0 4px; min-height: 20px; }
 .s-check.is-disabled { opacity: 0.35; cursor: default; pointer-events: none; }
 .s-check__input, .s-radio__input { position: absolute; opacity: 0; width: 0; height: 0; margin: 0; }
 

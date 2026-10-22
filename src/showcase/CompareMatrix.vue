@@ -26,7 +26,7 @@ const show = ref(true)
       <div v-for="c in cols" :key="c.key" class="head">{{ c.label }}</div>
       <template v-for="r in rows" :key="r.key">
         <div class="head row">{{ r.label }}</div>
-        <div v-for="c in cols" :key="c.key" class="cell">
+        <div v-for="c in cols" :key="c.key" class="cell" :data-audit="kit && kit(r, c) ? 'pair' : null" :data-kit="kit ? kit(r, c) : null" :data-cell="`${r.label} / ${c.label}`">
           <slot :row="r" :col="c" />
           <KitRef v-if="kit && show && kit(r, c)" :name="kit(r, c)" :scale="scale" />
         </div>

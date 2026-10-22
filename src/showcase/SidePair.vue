@@ -6,7 +6,7 @@ defineProps({ label: { type: String, default: '' }, kit: { type: String, require
 </script>
 
 <template>
-  <div class="pair" :class="{ stack }">
+  <div class="pair" :class="{ stack }" data-audit="side" :data-kit="kit" :data-cell="label">
     <div class="side"><div class="lab">Live{{ label ? `: ${label}` : '' }}</div><slot /></div>
     <div class="side"><div class="lab">Kit</div><KitRef :name="kit" /></div>
   </div>
