@@ -12,6 +12,8 @@ import SMenuSeparator from '../../lib/SMenuSeparator.vue'
 import SDock from '../../lib/SDock.vue'
 import SDockTile from '../../lib/SDockTile.vue'
 import SDockSeparator from '../../lib/SDockSeparator.vue'
+import SDockCallout from '../../lib/SDockCallout.vue'
+import SMenu from '../../lib/SMenu.vue'
 import DocPage from '../DocPage.vue'
 import Stage from '../Stage.vue'
 import KitRef from '../KitRef.vue'
@@ -46,14 +48,24 @@ const apps = [
   { label: 'Reminders', glyph: 'checklist', color: 'var(--palette-terracotta)' },
   { label: 'Photos', glyph: 'photo', color: 'var(--palette-bouganville)' },
   { label: 'Notes', glyph: 'doc-text', color: 'var(--palette-limone)' },
-  { label: 'Terminal', glyph: 'terminal', color: 'var(--text-primary)', running: true },
+  { label: 'Terminal', glyph: 'terminal', color: 'var(--palette-lavanda)', running: true },
   { label: 'Settings', glyph: 'gear', color: 'var(--text-secondary)' },
 ]
 const items = [{ key: 'Menu/Rest', label: 'Menu, rest', text: 'File' }, { key: 'Menu/Active', label: 'Menu, open', text: 'File', active: true }, { key: 'Name/Rest', label: 'App name', text: 'Recipes', bold: true }, { key: 'Silica/Rest', label: 'Silica mark', mark: true }]
+const shelfItems = [
+  { label: 'Launchpad', glyph: 'circle-grid-3x3', color: 'var(--text-tertiary)' }, { label: 'Mail', glyph: 'message-ellipsis', color: 'var(--accent-amalfi)', running: true }, { label: 'Reminders', glyph: 'checklist', color: 'var(--palette-terracotta)' },
+  { label: 'Photos', glyph: 'photo', color: 'var(--palette-bouganville)' }, { label: 'Notes', glyph: 'doc-text', color: 'var(--palette-limone)' }, { label: 'Terminal', glyph: 'terminal', color: 'var(--palette-lavanda)', running: true },
+  { label: 'Settings', glyph: 'gear', color: 'var(--text-secondary)' }, { separator: true, key: 'sep' }, { label: 'Downloads', glyph: 'download', color: 'var(--palette-mare)' }, { label: 'Trash', glyph: 'trash' },
+]
 const one = [{ key: 'x', label: 'Live over kit' }]
 const tiles = [
+  { key: 'Launchpad/Rest', label: 'Launchpad', glyph: 'circle-grid-3x3', color: 'var(--text-tertiary)' }, { key: 'Launchpad/Running', label: 'Launchpad, running', glyph: 'circle-grid-3x3', color: 'var(--text-tertiary)', running: true },
   { key: 'Mail/Rest', label: 'Mail', glyph: 'message-ellipsis', color: 'var(--accent-amalfi)' }, { key: 'Mail/Running', label: 'Mail, running', glyph: 'message-ellipsis', color: 'var(--accent-amalfi)', running: true },
-  { key: 'Notes/Rest', label: 'Notes', glyph: 'doc-text', color: 'var(--palette-limone)' }, { key: 'Trash Empty/Rest', label: 'Trash', glyph: 'trash' }, { key: 'Missing/Rest', label: 'Missing app', glyph: 'question' },
+  { key: 'Notes/Rest', label: 'Notes', glyph: 'doc-text', color: 'var(--palette-limone)' }, { key: 'Notes/Running', label: 'Notes, running', glyph: 'doc-text', color: 'var(--palette-limone)', running: true },
+  { key: 'Photos/Rest', label: 'Photos', glyph: 'photo', color: 'var(--palette-bouganville)' }, { key: 'Reminders/Rest', label: 'Reminders', glyph: 'checklist', color: 'var(--palette-terracotta)' },
+  { key: 'Settings/Running', label: 'Settings, running', glyph: 'gear', color: 'var(--text-secondary)', running: true }, { key: 'Terminal/Running', label: 'Terminal, running', glyph: 'terminal', color: 'var(--palette-lavanda)', running: true },
+  { key: 'Stack/Rest', label: 'Stack', glyph: 'download', color: 'var(--palette-mare)' }, { key: 'Trash Empty/Rest', label: 'Trash, empty', glyph: 'trash' }, { key: 'Trash Full/Rest', label: 'Trash, full', glyph: 'trash', color: 'var(--text-secondary)' },
+  { key: 'Missing/Rest', label: 'Missing app', glyph: 'question', missing: true },
 ]
 </script>
 
@@ -117,7 +129,7 @@ const tiles = [
           <template #menu><SMenuItem label="Options" submenu /><SMenuItem label="Show in Finder" /><SMenuItem label="Hide" /><SMenuItem label="Quit" /></template>
         </SDockTile>
         <SDockSeparator />
-        <SDockTile label="Downloads" glyph="download" color="var(--palette-mare)" />
+        <SDockTile label="Downloads" glyph="download" color="var(--palette-mare)" badge="3" />
         <SDockTile label="Trash" glyph="trash" />
       </SDock>
       <span class="muted">hover a tile for the label, right-click for its menu · last click: {{ chosen || '–' }}</span>
@@ -126,15 +138,19 @@ const tiles = [
     <h2>Dock, compared with the kit</h2>
     <Stage glass :pad="20" class="col">
       <SidePair label="shelf" kit="Dock/Shelf/Default/Rest" stack>
-        <SDock style="width: 620px">
-          <SDockTile label="Launchpad" glyph="circle-grid-3x3" color="var(--text-tertiary)" /><SDockTile label="Mail" glyph="message-ellipsis" color="var(--accent-amalfi)" running /><SDockTile label="Reminders" glyph="checklist" color="var(--palette-terracotta)" />
-          <SDockTile label="Photos" glyph="photo" color="var(--palette-bouganville)" /><SDockTile label="Notes" glyph="doc-text" color="var(--palette-limone)" /><SDockTile label="Terminal" glyph="terminal" color="var(--text-primary)" running />
-          <SDockTile label="Settings" glyph="gear" color="var(--text-secondary)" /><SDockSeparator /><SDockTile label="Downloads" glyph="download" color="var(--palette-mare)" /><SDockTile label="Trash" glyph="trash" />
-        </SDock>
+        <SDock style="width: 620px" :items="shelfItems" />
       </SidePair>
       <SidePair label="with label" kit="Dock/Shelf/With Label/Rest" stack>
-        <div style="padding-top: 26px"><SDock style="width: 620px"><SDockTile label="Launchpad" glyph="circle-grid-3x3" color="var(--text-tertiary)" /><SDockTile label="Mail" glyph="message-ellipsis" color="var(--accent-amalfi)" running force="hover" /></SDock></div>
+        <div style="padding-top: 26px"><SDock style="width: 620px"><SDockTile label="Launchpad" glyph="circle-grid-3x3" color="var(--text-tertiary)" /><SDockTile label="Mail" glyph="message-ellipsis" color="var(--accent-amalfi)" running force="label" /></SDock></div>
       </SidePair>
+    </Stage>
+    <Stage glass :pad="20" class="col">
+      <SidePair label="label bubble" kit="Dock/Label/Rest" stack><SDockCallout><span class="lbl">Mail</span></SDockCallout></SidePair>
+      <SidePair label="tile menu" kit="Dock/Menu/Rest" stack>
+        <SDockCallout :radius="12" :inset="4"><SMenu plain :width="192"><SMenuItem label="Options" submenu /><SMenuItem label="Show in Mustache" /><SMenuItem label="Hide" force="hover" /><SMenuItem label="Quit" /></SMenu></SDockCallout>
+      </SidePair>
+      <SidePair label="running indicator" kit="Dock/Indicator/Dot/Rest" stack><span class="dot" /></SidePair>
+      <SidePair label="separator" kit="Dock/Separator/Line/Rest" stack><SDockSeparator /></SidePair>
     </Stage>
     <CompareMatrix glass :rows="tiles.map((t) => ({ key: t.key, label: t.label }))" :cols="one" :kit="(r) => `Dock/Tile/${r.key}`">
       <template #default="{ row }"><SDockTile v-bind="tiles.find((t) => t.key === row.key)" /></template>
@@ -146,5 +162,7 @@ const tiles = [
 .stack { flex-direction: column; align-items: stretch; gap: 0; flex-wrap: nowrap; }
 .col { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; overflow-x: auto; }
 .area { padding: 80px 24px 100px; }
+.lbl { display: block; min-width: 32px; text-align: center; padding: 5px 16px; font: var(--font-body); font-weight: 500; line-height: 18px; color: var(--text-primary); }
+.dot { display: block; width: 4px; height: 4px; border-radius: 2px; background: var(--text-secondary); }
 .dockarea { align-items: center; gap: 24px; padding-top: 80px; }
 </style>
