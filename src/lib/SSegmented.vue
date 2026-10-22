@@ -170,7 +170,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
   height: var(--seg-h); padding: var(--seg-pad); box-sizing: border-box; color: var(--text-primary);
 }
 .s-segmented { transition: transform var(--spring-snappy); }
-.s-segmented.is-pressing { transform: scale(1.08); }
+.s-segmented.is-pressing { transform: scale(var(--press-scale-segmented, 1.035)); }
 .s-segmented.is-disabled { opacity: 0.35; pointer-events: none; }
 .s-segmented--action { grid-auto-columns: minmax(var(--seg-w), auto); padding: 0; }
 .s-segmented--action .s-segmented__sep { width: 1px; height: var(--seg-sep-h); background: var(--line-separator); }

@@ -33,7 +33,7 @@ const GLYPH = { mini: 14, small: 16, regular: 20, large: 20 }
 .s-iconbutton > * { position: relative; z-index: 1; }
 /* held down: the button grows until the pointer is released (as on macOS) */
 .s-iconbutton { transition: transform var(--spring-snappy); }
-.s-iconbutton:is(:active, .is-pressed) { transform: scale(1.1); }
+.s-iconbutton:is(:active, .is-pressed) { transform: scale(var(--press-scale-icon, 1.05)); }
 .s-iconbutton:is(:hover, .is-hover):not(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 .s-iconbutton:is(:active, .is-pressed)::before { background: var(--surface-control-pressed); }
 .s-iconbutton:is(:focus-visible, .is-focus)::after { box-shadow: 0 0 0 3px var(--line-focus); }
