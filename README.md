@@ -1,17 +1,21 @@
 # ui-kit
 
-Tokens and components of **Silica 1.0 Amalfi**, exported from the Sketch source
-(`Silica 1.0 Amalfi UI Kit.sketch`) and browsable in a small Vite + Vue app. Built to help the Rust
-implementation: exact tokens as `.rs`, every component drawn from its kit layer tree, components you can
-hover, press and toggle with the real motion tokens, and a lab that turns a tuned spring or fade into Rust.
+**Silica 1.0 Amalfi** as a real component library plus a showcase. The components are Vue 3 SFCs on the design tokens
+(`src/lib/`): buttons, switches, checkboxes, radios, text and search fields, combo box, slider, stepper, progress,
+segmented control, menu, popover, tooltip, alert, sidebar… They are interactive (typing, dragging, keyboard), animated
+with the motion tokens, light and dark, and they reuse each other (an alert is built from buttons and a checkbox).
+Every state is shown live over the Sketch kit's own render of it, so differences are visible. Tokens and the kit's
+layer trees are exported from the Sketch source (`Silica 1.0 Amalfi UI Kit.sketch`) and also as CSS and Rust.
 
 ```
-tokens/      tokens.json, tokens.css, tokens.rs (generated); raw Sketch exports; static.json
-kit/         symbol masters of the UI Kit as JSON layer trees, one bundle per category; index.json, deps.json
-src/         the app: renderer, morph engine, views, motion maths
-rust/        silica_motion.rs (springs, beziers, tracks), animations.rs (generated)
-animations/  animations saved from the Animation Lab (JSON)
-tools/       export and generator scripts
+src/lib/       the components (S*.vue), read src/lib/README.md for the conventions
+src/showcase/  the showcase pages: docs/*Doc.vue, comparison matrix, stage, code box
+src/render/    renderer of the kit's layer trees (the "Kit renders" section and the comparison rows)
+tokens/        tokens.json, tokens.css, tokens.rs (generated); raw Sketch exports; static.json
+kit/           symbol masters of the UI Kit as JSON layer trees, one bundle per category; index.json, deps.json
+rust/          silica_motion.rs (springs, beziers, tracks), animations.rs (generated)
+animations/    animations saved from the Animation Lab (JSON)
+tools/         export and generator scripts, dump.py (a master's specs), snap.swift (macOS page screenshots)
 ```
 
 ## Run
@@ -27,26 +31,15 @@ The icon glyphs in the kit are text in the **Silica Symbols** font. `tools/sync-
 
 ## What is in the app
 
-- **Foundations**: colours (light and dark), typography, glass, spacing/radii/shadows, motion tokens.
-- **Components**: open one from the sidebar.
-  - The stage is interactive: hover, press, focus it, click to switch On/Off. The variant changes with the
-    motion token you pick (springs and fades from the tokens), tweened property by property.
-  - Controls pick Appearance, Variant, Size, Value, State; Zoom and Background help with glass.
-  - **Composition**: what the current variant is built from (nested components, linked) and which components
-    embed it. *Nested components → Outline* draws their bounds on the stage. Components are reused by
-    reference, as in Sketch: nothing is flattened in the data.
-  - **Transition**: choose a From and a To variant and Play; the table lists every property that changes
-    (the values to animate in code). Copy it as JSON, or copy the Rust driver.
-  - **All variants**: every master of the component.
-- **Animation Lab**: move a whole component with a spring or curve, copy the result as Rust or JSON.
+- **Library**: one page per component family. A playground (live component, props, code to copy), then every state
+  and size compared with the kit. *Example: Settings* is a whole screen made only of library components.
+- **Foundations**: colours, typography, glass, spacing/radii/shadows, motion tokens, Animation Lab (tune a spring or
+  curve, copy it as Rust).
+- **Kit**: the Sketch masters drawn from their layer trees: variants, composition (what a component is built from and
+  where it is used), transitions between variants with a table of the changing properties.
 
 Not in the kit repo on purpose: app screens (Apps), Brand, Widgets, and full screens (Lock Screen, Desktop). The Status
 Bar masters are kept as an internal dependency (Menu Bar and Control Center embed them) but not listed.
-Layout follows Sketch: stack layouts become flexbox, layers keep their sizing (fixed, fit, fill, relative) and pins, so
-resized instances (a button stretched to 240 pt) lay out as in the kit. `#/preview/<master name>/<zoom>` shows one master
-alone. Icons are drawn from their codepoint and cannot be selected.
-Approximations: smooth corners are plain rounded corners, glass lens blur is a backdrop blur, bitmaps (app icons) are a
-grey placeholder.
 
 ## Tokens and Rust
 
