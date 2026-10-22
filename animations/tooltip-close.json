@@ -1,0 +1,8 @@
+{
+  "name": "tooltip-close",
+  "description": "Closing transient surface: fade.instant.",
+  "target": null,
+  "delayMs": 0,
+  "driver": { "type": "bezier", "durationMs": 100, "curve": [0.2, 0, 0, 1], "preset": "fade.instant" },
+  "tracks": [{ "prop": "opacity", "from": 1, "to": 0 }]
+}

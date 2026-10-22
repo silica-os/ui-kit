@@ -1,0 +1,468 @@
+{
+ "$comment": "Not in Sketch swatches/styles: carried over from silica-desktop docs/design/amalfi (tokens.json, motion.md). Colours, typography and glass styles come from the Sketch export.",
+ "unit": "pt (1 pt = 1 logical px)",
+ "grid": {
+  "base": 4,
+  "rule": "every frame x, y, width, height is a multiple of 4; no half points; text frames on whole points"
+ },
+ "spacing": {
+  "xs": 4,
+  "s": 8,
+  "m": 12,
+  "l": 16,
+  "xl": 20,
+  "xxl": 24,
+  "padding": {
+   "regularWindow": 20,
+   "compactWindowAndPanel": 16,
+   "documentAndSettings": 24
+  }
+ },
+ "controlHeights": {
+  "mini": 20,
+  "small": 24,
+  "regular": 28,
+  "large": 32,
+  "note": "one scale for every control; toolbar items are 36 (user decision 2026-10-17, macOS capsules are 38); never resize a control inside a bar",
+  "toolbar": 36
+ },
+ "controlIcons": {
+  "mini": 14,
+  "small": 16,
+  "regular": 20,
+  "large": 20,
+  "toolbar": 20,
+  "accessory": 16,
+  "menuBar": 20,
+  "sidebar": 20,
+  "list": 20,
+  "note": "user decision 2026-10-17: Amalfi symbols draw ink = size x 20/24, so a 20 pt symbol draws ~17 pt like macOS; never smaller. Icons are set in the Silica Symbols font (silica-icons fonts/): font size = icon size"
+ },
+ "radii": {
+  "smallControl": 7,
+  "regularControl": 9,
+  "field": 9,
+  "menu": 12,
+  "popover": 16,
+  "sheetAlert": 20,
+  "window": 18,
+  "sidebarInsetPanel": 14,
+  "faroAndLauncher": 28,
+  "capsule": "height/2",
+  "cornerStyle": "smooth (continuous), smoothing 0.6, on every rounded surface"
+ },
+ "shadows": {
+  "light": {
+   "1": {
+    "color": "#0000001A",
+    "y": 1,
+    "blur": 2
+   },
+   "2": {
+    "color": "#0000001F",
+    "y": 4,
+    "blur": 12
+   },
+   "3": {
+    "color": "#0000002E",
+    "y": 12,
+    "blur": 32
+   }
+  },
+  "dark": {
+   "1": {
+    "color": "#00000033",
+    "y": 1,
+    "blur": 2
+   },
+   "2": {
+    "color": "#00000052",
+    "y": 4,
+    "blur": 12
+   },
+   "3": {
+    "color": "#0000005C",
+    "y": 12,
+    "blur": 32
+   }
+  },
+  "use": {
+   "1": "small raised controls (switch thumb, slider thumb, secondary push button)",
+   "2": "Glass/Regular objects (Dock, toolbar controls, banners, HUDs)",
+   "3": "windows, menus, popovers, Faro, sheets (Glass/Thick and windows)"
+  },
+  "onPhoto": {
+   "color": "#00000066",
+   "x": 0,
+   "y": 1,
+   "blur": 6,
+   "use": "Light appearance: every text and status item drawn straight on the wallpaper (lock screen date, name, hint, address, labels, Status Bar Lock Screen context); Dark draws none"
+  }
+ },
+ "focus": {
+  "halo": 3,
+  "color": "Line/Focus",
+  "follows": "control radius, outside the control"
+ },
+ "materials": {
+  "Glass/Regular": {
+   "backgroundBlur": 6,
+   "saturation": 1.1,
+   "tint": {
+    "light": "#FFFFFF99",
+    "dark": "#2A2B3099"
+   },
+   "rimInside": {
+    "width": 1,
+    "light": "#0000001F",
+    "dark": "#00000066"
+   },
+   "rimLight": {
+    "innerShadow": {
+     "x": 0,
+     "y": 1,
+     "blur": 1
+    },
+    "light": "#FFFFFFB3",
+    "dark": "#FFFFFF38"
+   },
+   "shadow": "shadows.2",
+   "refraction": {
+    "distortion": 0.3,
+    "depth": 0.35,
+    "chromaticAberration": 0.03
+   },
+   "specularHighlights": true,
+   "brightness": {
+    "light": 1.25,
+    "dark": 1.1
+   }
+  },
+  "Glass/Thick": {
+   "backgroundBlur": 10,
+   "saturation": 1.1,
+   "tint": {
+    "light": "#FFFFFF94",
+    "dark": "#2A2B3094"
+   },
+   "rimInside": {
+    "width": 1,
+    "light": "#0000001F",
+    "dark": "#00000066"
+   },
+   "rimLight": {
+    "innerShadow": {
+     "x": 0,
+     "y": 1,
+     "blur": 1
+    },
+    "light": "#FFFFFFB3",
+    "dark": "#FFFFFF38"
+   },
+   "shadow": "shadows.3",
+   "refraction": {
+    "distortion": 0.22,
+    "depth": 0.28,
+    "chromaticAberration": 0.015
+   },
+   "specularHighlights": true,
+   "brightness": {
+    "light": 1.12,
+    "dark": 1.05
+   }
+  },
+  "Glass/Clear": {
+   "lens": true,
+   "blur": 2,
+   "refraction": {
+    "distortion": 0.3,
+    "depth": 0.5,
+    "chromaticAberration": 0.08,
+    "magnification": 1.1
+   },
+   "specularHighlights": true,
+   "brightness": {
+    "light": 1.04,
+    "dark": 0.98
+   },
+   "tint": null,
+   "shadow": null,
+   "rimInside": {
+    "width": 1,
+    "light": "#0000001F",
+    "dark": "#00000066"
+   },
+   "rimLight": {
+    "innerShadow": {
+     "x": 0,
+     "y": 1,
+     "blur": 1
+    },
+    "light": "#FFFFFFB3",
+    "dark": "#FFFFFF38"
+   }
+  },
+  "Blur/Sidebar Title Bar": {
+   "backgroundBlur": 10,
+   "saturation": 1.0,
+   "tint": {
+    "light": "#F5F6F8CC",
+    "dark": "#232428CC"
+   },
+   "refraction": null,
+   "specularHighlights": false,
+   "rimInside": null,
+   "rimLight": null,
+   "shadow": null,
+   "use": "title bar section over a sidebar in split title bars; sidebar rows scroll under it"
+  },
+  "Glass/Lock": {
+   "backgroundBlur": 20,
+   "saturation": 1.1,
+   "tint": {
+    "light": "#FFFFFF99",
+    "dark": "#FFFFFF47"
+   },
+   "refraction": null,
+   "specularHighlights": false,
+   "rimInside": {
+    "width": 1,
+    "light": "#0000001F",
+    "dark": "#FFFFFF3D"
+   },
+   "rimLight": {
+    "innerShadow": {
+     "x": 0,
+     "y": 1,
+     "blur": 1
+    },
+    "light": "#FFFFFFB3",
+    "dark": "#FFFFFF38"
+   },
+   "shadow": null,
+   "increaseContrast": {
+    "dark": {
+     "fill": "#2A2B30F2",
+     "rimInside": "#FFFFFF99",
+     "backgroundBlur": 20,
+     "saturation": 1.0
+    },
+    "light": {
+     "fill": "#FFFFFFF2",
+     "rimInside": "#1D1E2199",
+     "backgroundBlur": 20,
+     "saturation": 1.0
+    }
+   },
+   "use": "lock screen: password field, help button, action buttons; Increase Contrast and Reduce Transparency variants are also the Status Bar plates (status-bar.md). Kit styles <App>/Glass/Lock, <App>/Glass/Lock Increase Contrast, <App>/Glass/Lock Reduce Transparency",
+   "reduceTransparency": {
+    "dark": {
+     "fill": "#5B5C5EFF",
+     "rimInside": "#FFFFFF3D",
+     "rimLight": "#FFFFFF38"
+    },
+    "light": {
+     "fill": "#FFFFFFFF",
+     "rimInside": "#0000001F",
+     "rimLight": "#FFFFFFB3"
+    },
+    "note": "the materials fallback: tint over Surface/Window, rims kept, no blur"
+   }
+  },
+  "Glass/Clock": {
+   "blurType": "glass",
+   "backgroundBlur": 8,
+   "saturation": 1.3,
+   "brightness": 1.3,
+   "refraction": {
+    "distortion": 0.5,
+    "depth": 0.6,
+    "chromaticAberration": 0.05
+   },
+   "specularHighlights": true,
+   "fill": "#FFFFFFC2",
+   "lineInside": {
+    "width": 1,
+    "color": "#FFFFFFCC"
+   },
+   "rimOutside": {
+    "width": 1,
+    "light": "#00000052",
+    "dark": "#00000052"
+   },
+   "shadow": null,
+   "reduceTransparency": {
+    "fill": "#FFFFFFEB",
+    "blur": null,
+    "lineInside": null
+   },
+   "increaseContrast": {
+    "fill": "#FFFFFFFF",
+    "blur": null,
+    "lineInside": null,
+    "rimOutside": {
+     "width": 2,
+     "color": "#00000066"
+    }
+   },
+   "use": "lock screen clock digits only (Lock Clock); clipped to the glyphs"
+  },
+  "Scrim/Lock Light": {
+   "type": "linear gradient, top to bottom",
+   "stops": [
+    [
+     0,
+     "#00000033"
+    ],
+    [
+     0.3,
+     "#00000000"
+    ],
+    [
+     0.6,
+     "#00000000"
+    ],
+    [
+     1,
+     "#00000059"
+    ]
+   ],
+   "use": "Light appearance lock screen, over the dimmed wallpaper, under everything else (provisional legibility aid)"
+  }
+ },
+ "states": {
+  "hoverOverlay": {
+   "light": "#FFFFFF29",
+   "dark": "#FFFFFF1F"
+  },
+  "pressOverlay": {
+   "light": "#00000024",
+   "dark": "#00000040"
+  },
+  "disabled": "whole control at 35 % opacity, no hover/press; a select-one segmented control keeps its selection visible (dimmed with the rest)"
+ },
+ "windowControls": {
+  "note": "measured values from docs/spec/windows.md, kept on purpose (user decision)",
+  "dot": 16,
+  "firstCentreX": 26,
+  "pitch": 23,
+  "close": {
+   "fill": [
+    "#FE6E66",
+    "#F58B83"
+   ],
+   "rim": "#DD4D47 0.5"
+  },
+  "minimise": {
+   "fill": [
+    "#FCB82E",
+    "#FED344"
+   ],
+   "rim": "#D08D0B 0.5"
+  },
+  "zoom": {
+   "fill": [
+    "#62D02E",
+    "#99D979"
+   ],
+   "rim": "#519E32 0.5"
+  }
+ },
+ "switch": {
+  "thumbInset": 2,
+  "pressedStretch": 4,
+  "note": "thumb inset 2 pt on every side at every size; pressed thumb stretches 4 pt toward the middle (user decision 2026-10-16)",
+  "lens": {
+   "mini": "thumb + 8",
+   "small": "thumb + 8",
+   "regular": "thumb + 12"
+  }
+ },
+ "motion": {
+  "springs": {
+   "snappy": {
+    "response": 0.25,
+    "dampingRatio": 0.9,
+    "stiffness": 631.7,
+    "damping": 45.2,
+    "use": "hover/press, lens grow, switch thumb, checkbox"
+   },
+   "panel": {
+    "response": 0.35,
+    "dampingRatio": 0.82,
+    "stiffness": 322.3,
+    "damping": 29.4,
+    "use": "Faro results growth, menus and popovers height, sheets"
+   },
+   "window": {
+    "response": 0.4,
+    "dampingRatio": 0.88,
+    "stiffness": 246.7,
+    "damping": 27.6,
+    "use": "window open/close scale, minimise, Mission Control layouts"
+   },
+   "morph": {
+    "response": 0.5,
+    "dampingRatio": 0.7,
+    "stiffness": 157.9,
+    "damping": 17.6,
+    "use": "shape morphs: Faro buttons, Launcher <-> Faro, Control Center detail"
+   },
+   "bouncy": {
+    "response": 0.6,
+    "dampingRatio": 0.5,
+    "stiffness": 109.7,
+    "damping": 10.5,
+    "use": "Dock launch bounce, attention bounce"
+   }
+  },
+  "fades": {
+   "instant": {
+    "duration": 100,
+    "curve": [
+     0.2,
+     0,
+     0,
+     1
+    ],
+    "use": "closing transient surfaces"
+   },
+   "quick": {
+    "duration": 150,
+    "curve": [
+     0.2,
+     0,
+     0,
+     1
+    ],
+    "use": "content swaps, hover overlays"
+   },
+   "standard": {
+    "duration": 250,
+    "curve": [
+     0.4,
+     0,
+     0.2,
+     1
+    ],
+    "use": "notifications in/out, appearance changes"
+   },
+   "slow": {
+    "duration": 400,
+    "curve": [
+     0.4,
+     0,
+     0.2,
+     1
+    ],
+    "use": "wallpaper, display changes"
+   }
+  },
+  "delays": {
+   "hoverIntent": 60,
+   "tooltipFirst": 700,
+   "tooltipMoving": 0
+  },
+  "reducedMotion": "springs become fade.quick cross-fades, no overshoot, no scale; bounces off"
+ }
+}

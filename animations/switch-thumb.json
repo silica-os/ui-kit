@@ -1,0 +1,8 @@
+{
+  "name": "switch-thumb",
+  "description": "Switch thumb slides on toggle: spring.snappy. Distance scales with the switch size, here a 10 pt travel as an example.",
+  "target": "Toggles/Switch/On/Regular/Rest/Light",
+  "delayMs": 0,
+  "driver": { "type": "spring", "response": 0.25, "dampingRatio": 0.9, "preset": "spring.snappy" },
+  "tracks": [{ "prop": "x", "from": -10, "to": 0 }]
+}

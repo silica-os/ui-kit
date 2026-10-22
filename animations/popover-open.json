@@ -1,0 +1,8 @@
+{
+  "name": "popover-open",
+  "description": "Assumption (not a measured animation): scale and fade in with spring.panel.",
+  "target": "Popovers/Content/Form/Rest/Light",
+  "delayMs": 0,
+  "driver": { "type": "spring", "response": 0.35, "dampingRatio": 0.82, "preset": "spring.panel" },
+  "tracks": [{ "prop": "scale", "from": 0.94, "to": 1 }, { "prop": "opacity", "from": 0, "to": 1 }]
+}
