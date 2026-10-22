@@ -48,10 +48,12 @@ const gap = computed(() => (props.arrow ? 0 : 8))
 <template>
   <span class="s-tooltip-wrap" :aria-describedby="shown ? id : undefined" @pointerenter="enter" @pointerleave="leave" @focusin="enter" @focusout="leave" @pointerdown="leave" @keydown.esc="leave">
     <slot />
-    <SCallout v-if="shown && (text || $slots.content)" :id="id" class="s-tooltip" :class="`s-tooltip--${placement}`" :edge="edge" :radius="8" :style="{ '--s-tip-gap': gap + 'px' }" role="tooltip">
-      <span class="s-tooltip__text"><slot name="content">{{ text }}</slot></span>
-      <span v-if="shortcut" class="s-tooltip__shortcut">{{ shortcut }}</span>
-    </SCallout>
+    <Transition name="s-tip">
+      <SCallout v-if="shown && (text || $slots.content)" :id="id" class="s-tooltip" :class="`s-tooltip--${placement}`" :edge="edge" :radius="8" :style="{ '--s-tip-gap': gap + 'px' }" role="tooltip">
+        <span class="s-tooltip__text"><slot name="content">{{ text }}</slot></span>
+        <span v-if="shortcut" class="s-tooltip__shortcut">{{ shortcut }}</span>
+      </SCallout>
+    </Transition>
   </span>
 </template>
 
@@ -59,13 +61,15 @@ const gap = computed(() => (props.arrow ? 0 : 8))
 .s-tooltip-wrap { position: relative; display: inline-flex; }
 .s-tooltip {
   --s-callout-pad: 4px 8px; position: absolute; z-index: 30; width: max-content; max-width: 224px;
-  font: var(--font-callout); font-weight: 500; color: var(--text-primary); pointer-events: none; animation: s-tooltip-in var(--fade-quick);
+  font: var(--font-callout); color: var(--text-primary); pointer-events: none;
 }
+/* fade.quick in and out; nothing animates on first render (Transition has no `appear`) */
+.s-tip-enter-active, .s-tip-leave-active { transition: opacity var(--fade-quick); }
+.s-tip-enter-from, .s-tip-leave-to { opacity: 0; }
 .s-tooltip .s-callout__body { display: flex; gap: 8px; }
 .s-tooltip__shortcut { color: var(--text-secondary); flex: none; }
 .s-tooltip--above { bottom: calc(100% + var(--s-tip-gap, 8px)); left: 50%; transform: translateX(-50%); }
 .s-tooltip--below { top: calc(100% + var(--s-tip-gap, 8px)); left: 50%; transform: translateX(-50%); }
 .s-tooltip--leading { right: calc(100% + var(--s-tip-gap, 8px)); top: 50%; transform: translateY(-50%); }
 .s-tooltip--trailing { left: calc(100% + var(--s-tip-gap, 8px)); top: 50%; transform: translateY(-50%); }
-@keyframes s-tooltip-in { from { opacity: 0; } to { opacity: 1; } }
 </style>

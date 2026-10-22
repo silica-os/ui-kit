@@ -59,7 +59,7 @@ const popRows = [{ key: 'Text', label: 'Text' }, { key: 'Form', label: 'Form' },
 // ---- tooltips
 const tipRows = [{ key: 'One Line', label: 'One line' }, { key: 'Shortcut', label: 'Shortcut' }, { key: 'Two Lines', label: 'Two lines' }]
 const tipText = { 'One Line': 'Add to favourites', Shortcut: 'Duplicate', 'Two Lines': 'Shows the recipe in a new window so you can keep this one open.' }
-const placeRows = [{ key: 'Above', label: 'Above', w: 120, h: 60, t: [46, 32] }, { key: 'Below', label: 'Below', w: 120, h: 60, t: [46, 0] }, { key: 'Leading', label: 'Leading', w: 152, h: 28, t: [124, 0] }, { key: 'Trailing', label: 'Trailing', w: 152, h: 28, t: [0, 0] }]
+const placeRows = [{ key: 'Above', label: 'Above', w: 120, h: 60, t: [46, 32] }, { key: 'Below', label: 'Below', w: 120, h: 64, t: [46, 0] }, { key: 'Leading', label: 'Leading', w: 152, h: 28, t: [124, 0] }, { key: 'Trailing', label: 'Trailing', w: 152, h: 28, t: [0, 0] }]
 const tipDemo = ref(0)
 
 const code = computed(() => `<SPopover v-model:open="open" placement="${placement.value}">
@@ -129,7 +129,7 @@ const code = computed(() => `<SPopover v-model:open="open" placement="${placemen
     <h2>Popovers, compared with the kit</h2>
     <CompareMatrix glass :rows="popRows" :cols="popCols" :kit="(r, c) => `Popovers/Popover/${r.key}/${c.key}`">
       <template #default="{ row, col }">
-        <SPopover :placement="col.place" :width="row.key === 'List' ? 204 : 264" :padding="row.key === 'List' ? 8 : 16" :arrow="col.place !== 'detached'">
+        <SPopover :placement="col.place" :width="row.key === 'List' ? 204 : row.key === 'Form' ? 260 : 264" :padding="row.key === 'List' ? 8 : 16" :arrow="col.place !== 'detached'">
           <div v-if="row.key === 'Text'" class="pop-text"><b>About this ingredient</b><span>Olive oil keeps the crust tender and adds a peppery note. Use a mild, fruity one for sweet bakes.</span><SLink>Learn more</SLink></div>
           <div v-else-if="row.key === 'Form'" class="pop-form"><b>New collection</b><STextField v-model="name" /><div class="pop-buttons"><SButton size="small">Cancel</SButton><SButton variant="primary" size="small">Create</SButton></div></div>
           <SMenu v-else plain class="pop-list"><SMenuItem header label="Open in" /><SMenuItem icon="clock" label="Recents" /><SMenuItem icon="download" label="Downloads" force="hover" /><SMenuItem icon="photo" label="Pictures" /></SMenu>

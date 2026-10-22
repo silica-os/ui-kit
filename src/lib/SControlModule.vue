@@ -33,7 +33,7 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
 </script>
 
 <template>
-  <SThinGlass class="s-cmod" :class="[`s-cmod--${props.kind}`, { 'is-on': on }, force && `is-${force}`]" :radius="radius">
+  <SThinGlass class="s-cmod" :class="[`s-cmod--${props.kind}`, { 'is-on': on, 's-cmod--noout': kind === 'slider' && !output }, force && `is-${force}`]" :radius="radius">
     <template v-if="kind === 'toggle'">
       <button type="button" class="s-control s-cmod__disc" role="switch" :aria-checked="on" :aria-label="title" @click="emit('update:modelValue', !on)"><SIcon :name="glyph" :size="24" /></button>
       <button type="button" class="s-control s-cmod__text" @click="emit('detail')">
@@ -102,6 +102,7 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
 .s-cmod__title--top { position: absolute; left: 16px; top: 8px; width: 200px; }
 .s-cmod__sliderrow { position: absolute; left: 16px; top: 34px; display: flex; align-items: center; gap: 4px; height: 20px; }
 .s-cmod__sliderrow .s-slider { --s-slider-w: 172px; gap: 0; }
+.s-cmod--noout .s-cmod__sliderrow .s-slider { --s-slider-w: 220px; } /* no output button: the slider takes its room (kit: 220 pt) */
 .s-cmod__g { color: var(--text-secondary); }
 .s-cmod__output { position: absolute; right: 12px; top: 20px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 14px; background: var(--text-tertiary); color: #fff; }
 
@@ -112,7 +113,7 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
 .s-cmod__art { position: absolute; left: 12px; top: 12px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px; background: var(--palette-terracotta); color: #fff; }
 .s-cmod__title--np { position: absolute; left: 12px; top: 64px; width: 116px; }
 .s-cmod__sub--np { position: absolute; left: 12px; top: 84px; width: 116px; }
-.s-cmod__transport { position: absolute; left: 0; right: 0; top: 104px; display: flex; justify-content: space-around; padding: 0 20px; }
+.s-cmod__transport { position: absolute; left: 0; right: 0; top: 104px; display: flex; justify-content: space-between; padding: 0 20px; }
 .s-cmod__t { display: grid; place-items: center; width: 20px; height: 20px; }
 
 /* pill */
@@ -120,5 +121,6 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
 .s-cmod__pill:focus-visible { box-shadow: 0 0 0 3px var(--line-focus); }
 .s-cmod__app { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 4px; background: var(--palette-lavanda); color: #fff; }
 .s-cmod--pill:has(.s-cmod__app) { min-width: 160px; }
-.s-cmod--pill .s-cmod__pilltext { padding: 0 4px; }
+.s-cmod--pill:has(.s-cmod__app) .s-cmod__pill { justify-content: flex-start; } /* kit: tile at 8, text left-aligned at 32 */
+.s-cmod--pill .s-cmod__pilltext { padding: 0; }
 </style>

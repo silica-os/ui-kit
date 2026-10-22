@@ -125,7 +125,7 @@ const numStates = fieldStates(['Rest', 'Focused', 'Disabled'])
     </CompareMatrix>
     <CompareMatrix :rows="[{ key: 'Switch', label: 'Switch' }, { key: 'Popup', label: 'Popup' }]" :cols="[{ key: 'x', label: 'Row' }]" :kit="(r) => `Forms/Row/${r.key}/Rest`">
       <template #default="{ row }">
-        <SFormRow label="Label" style="width: 328px"><span v-if="row.key === 'Switch'" class="swrow"><span>Sync across devices</span><SSwitch :model-value="true" /></span><SPopUpButton v-else model-value="Lemon" :options="['Lemon']" /></SFormRow>
+        <SFormRow label="Label" :style="{ width: row.key === 'Switch' ? '328px' : '248px' }"><span v-if="row.key === 'Switch'" class="swrow"><span>Sync across devices</span><SSwitch :model-value="true" /></span><SPopUpButton v-else model-value="Lemon" :options="['Lemon']" /></SFormRow>
       </template>
     </CompareMatrix>
 

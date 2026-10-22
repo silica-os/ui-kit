@@ -172,16 +172,16 @@ const tabCols = [{ key: 'Rest', label: 'Rest' }, { key: 'Hover', label: 'Hover',
     <h3>Document, panel, utility, sheet</h3>
     <Stage :pad="24" class="col scroll">
       <SidePair label="Document" kit="Windows/Window/Document/Active">
-      <SWindow title="Lemon cake.recipe" document :width="540" :height="400"><div class="cnt doc"><h1>Lemon cake</h1><p>{{ lorem }}</p><SButton class="done" variant="primary">Done</SButton></div></SWindow>
+      <SWindow title="Lemon cake.recipe" document :width="540" :height="400"><div class="cnt page"><h1>Lemon cake</h1><p>{{ lorem }}</p><SGroupBox title="Notifications" class="opts"><SCheckbox model-value>Show banners</SCheckbox><SCheckbox model-value>Play sound</SCheckbox><SCheckbox>Show on lock screen</SCheckbox></SGroupBox><SButton class="done" variant="primary">Done</SButton></div></SWindow>
       </SidePair>
       <SidePair label="Sheet attached" kit="Windows/Window/Sheet Attached/Active">
       <SWindow title="Lemon cake.recipe" document :width="540" :height="400">
-        <div class="cnt doc"><h1>Lemon cake</h1><p>{{ lorem }}</p></div>
-        <template #sheet><SAlert title="Save changes to “Lemon cake”?" message="Your edits will be lost if you close without saving." :buttons="[{ label: 'Save' }, { label: 'Cancel' }]"><template #icon><span class="tile" /></template></SAlert></template>
+        <div class="cnt page"><h1>Lemon cake</h1><p>{{ lorem }}</p><SGroupBox title="Notifications" class="opts"><SCheckbox model-value>Show banners</SCheckbox><SCheckbox model-value>Play sound</SCheckbox><SCheckbox>Show on lock screen</SCheckbox></SGroupBox><SButton class="done" variant="primary">Done</SButton></div>
+        <template #sheet><SAlert title="Empty the outbox?" message="Messages waiting to be sent will be sent now." suppress="Do not ask again" :buttons="[{ label: 'Send' }, { label: 'Cancel' }]"><template #icon><span class="tile" /></template></SAlert></template>
       </SWindow>
       </SidePair>
       <SidePair label="Panel" kit="Windows/Window/Panel/Active">
-      <SWindow title="Style" :width="300" :height="380"><div class="cnt panel"><SSegmented v-model="pm" :items="[{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three' }]" style="width: 224px" /><SGroupBox><STextField model-value="Amalfi coast" /><SCheckbox model-value>Remember this name</SCheckbox></SGroupBox><SGroupBox title="Browsing"><SCheckbox mixed>Select all</SCheckbox><SCheckbox model-value>Show hidden files</SCheckbox><SCheckbox>Open folders in tabs</SCheckbox></SGroupBox></div></SWindow>
+      <SWindow title="Style" :width="300" :height="380"><div class="cnt panel"><SSegmented v-model="pm" :items="[{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three' }]" style="width: 224px" /><SGroupBox style="width: 224px"><STextField model-value="Amalfi coast" /><SCheckbox model-value>Remember this name</SCheckbox></SGroupBox><div class="chlist"><span>Browsing</span><SCheckbox mixed>Select all</SCheckbox><SCheckbox model-value>Show hidden files</SCheckbox><SCheckbox>Open folders in tabs</SCheckbox></div></div></SWindow>
       </SidePair>
       <SidePair label="Utility" kit="Windows/Window/Utility/Active">
       <SWindow kind="utility" title="Quick find" :width="260" :height="196"><div class="cnt util"><SSearchField /><SCheckbox model-value>Match case</SCheckbox><SCheckbox>Whole words</SCheckbox><SButton class="find" variant="primary" size="small">Find</SButton></div></SWindow>
@@ -291,15 +291,20 @@ const tabCols = [{ key: 'Rest', label: 'Rest' }, { key: 'Hover', label: 'Hover',
 .bar760 { width: 760px; }
 .hug { width: max-content; }
 .cnt { padding: 24px; }
-.cnt.doc { padding: 28px; }
+.cnt.page { padding: 28px; }
 .cnt.cmp { padding: 24px 16px; }
 .cnt h1 { margin: 0 0 12px; font: var(--font-title-1); color: var(--text-primary); }
 .cnt p { margin: 0 0 16px; font: var(--font-body); color: var(--text-secondary); max-width: none; }
-.cnt.panel { display: flex; flex-direction: column; gap: 16px; padding: 16px 36px; }
-.cnt.util { display: flex; flex-direction: column; gap: 12px; padding: 4px 30px; }
-.cnt.util :deep(.find) { align-self: flex-end; }
+.cnt.panel { display: flex; flex-direction: column; gap: 20px; padding: 16px 40px 16px 36px; }
+.cnt.panel :deep(.s-segmented) { margin-left: 4px; }
+.chlist { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 10px 8px 8px; margin-left: 4px; font: var(--font-headline); }
+.cnt.util { display: flex; flex-direction: column; gap: 8px; padding: 4px 30px; }
+.cnt.util :deep(.s-check) { margin-left: 2px; }
+.cnt.util :deep(.s-check:first-of-type) { margin-top: 12px; }
+.cnt.util :deep(.find) { align-self: flex-end; margin-top: 4px; }
 .cnt.dim h1, .cnt.dim p { color: var(--text-tertiary); }
-.cnt.doc :deep(.done) { position: absolute; right: 32px; bottom: 24px; }
+.cnt.page :deep(.done) { position: absolute; right: 32px; bottom: 24px; }
+.cnt.page :deep(.opts) { width: 192px; margin-top: 36px; }
 .insp { padding: 20px 16px; display: flex; flex-direction: column; gap: 12px; font: var(--font-headline); }
 .li { display: flex; flex-direction: column; gap: 4px; padding: 12px 24px; border-bottom: 1px solid var(--line-separator); font: var(--font-headline); }
 .li span { font: var(--font-callout); color: var(--text-tertiary); }

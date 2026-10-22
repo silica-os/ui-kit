@@ -34,7 +34,7 @@ const P = 64 // room around the shape for the drop shadow
 .s-dock-callout__glass {
   position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  backdrop-filter: blur(18px) saturate(1.7); -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick);
 }
 .s-dock-callout__rim { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; fill: none; }
 .s-dock-callout__rim .rim { stroke: var(--glass-rim-dark); stroke-width: 2; }

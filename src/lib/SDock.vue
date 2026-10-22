@@ -24,6 +24,4 @@ const emit = defineEmits(['select'])
 
 <style>
 .s-dock { display: inline-flex; align-items: flex-start; height: 80px; padding: 0 8px; box-sizing: border-box; }
-[data-theme='dark'] .s-dock.s-glass--thin::before { backdrop-filter: blur(5px) saturate(1.4); -webkit-backdrop-filter: blur(5px) saturate(1.4); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme]) .s-dock.s-glass--thin::before { backdrop-filter: blur(5px) saturate(1.4); -webkit-backdrop-filter: blur(5px) saturate(1.4); } }
 </style>

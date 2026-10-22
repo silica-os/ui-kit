@@ -129,4 +129,9 @@ function onKey(e) {
 .s-slider--vertical .s-slider__thumb { left: 0; top: auto; bottom: calc(var(--p) * (100% - 20px)); }
 .s-slider--vertical .s-slider__body.is-dragging .s-slider__thumb { margin: 0 0 -4px -8px; }
 .s-slider--vertical .s-slider__tick { display: none; }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-slider__thumb { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
 </style>

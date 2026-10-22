@@ -73,4 +73,5 @@ const hasTitleProp = computed(() => props.title !== '')
 
 /* inactive window: the glyphs of the toolbar buttons and the titles grey out; the glass pieces stay */
 .s-titlebar.is-inactive :is(.s-iconbutton, .s-segmented--action .s-segment) { color: var(--text-tertiary); }
+.s-titlebar .s-iconbutton { transition: transform var(--spring-snappy), color var(--fade-quick); }
 </style>

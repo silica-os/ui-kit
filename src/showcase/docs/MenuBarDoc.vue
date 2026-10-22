@@ -141,7 +141,7 @@ const tiles = [
         <SDock style="width: 620px" :items="shelfItems" />
       </SidePair>
       <SidePair label="with label" kit="Dock/Shelf/With Label/Rest" stack>
-        <div style="padding-top: 26px"><SDock style="width: 620px"><SDockTile label="Launchpad" glyph="circle-grid-3x3" color="var(--text-tertiary)" /><SDockTile label="Mail" glyph="message-ellipsis" color="var(--accent-amalfi)" running force="label" /></SDock></div>
+        <div style="display: flex; padding-top: 26px; width: 620px"><SDock style="width: 620px" :items="shelfItems.map((i) => (i.label === 'Mail' ? { ...i, force: 'label' } : i))" /></div>
       </SidePair>
     </Stage>
     <Stage glass :pad="20" class="col">
@@ -162,7 +162,7 @@ const tiles = [
 .stack { flex-direction: column; align-items: stretch; gap: 0; flex-wrap: nowrap; }
 .col { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; overflow-x: auto; }
 .area { padding: 80px 24px 100px; }
-.lbl { display: block; min-width: 32px; text-align: center; padding: 5px 16px; font: var(--font-body); font-weight: 500; line-height: 18px; color: var(--text-primary); }
+.lbl { display: block; min-width: 64px; text-align: center; padding: 5px 16px; font: var(--font-body); line-height: 18px; color: var(--text-primary); }
 .dot { display: block; width: 4px; height: 4px; border-radius: 2px; background: var(--text-secondary); }
 .dockarea { align-items: center; gap: 24px; padding-top: 80px; }
 </style>

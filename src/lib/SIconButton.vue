@@ -37,4 +37,10 @@ const GLYPH = { mini: 14, small: 16, regular: 20, large: 20 }
 .s-iconbutton:is(:hover, .is-hover):not(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 .s-iconbutton:is(:active, .is-pressed)::before { background: var(--surface-control-pressed); }
 .s-iconbutton:is(:focus-visible, .is-focus)::after { box-shadow: 0 0 0 3px var(--line-focus); }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-iconbutton { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
+@media (prefers-reduced-motion: reduce) { .s-iconbutton:is(:active, .is-pressed) { transform: none; } }
 </style>

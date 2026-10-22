@@ -85,7 +85,7 @@ const comboRows = [
     </CompareMatrix>
     <h3>Open</h3>
     <CompareMatrix :rows="[{ key: 'Open', label: 'Open' }]" :cols="[{ key: 'regular', label: 'regular' }]" :kit="() => 'Fields/Combo Box/Open/Rest'">
-      <template #default><div class="openbox"><SComboBox model-value="Lemon" :options="fruits" open /></div></template>
+      <template #default><div class="openbox"><SComboBox model-value="Lemon" :options="fruits" open :highlight="2" /></div></template>
     </CompareMatrix>
   </DocPage>
 </template>

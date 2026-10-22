@@ -43,9 +43,14 @@ function toggle() {
 .s-dgroup__title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .s-dgroup .s-triangle { pointer-events: none; }
 .s-dgroup.is-open .s-triangle { transform: none; }
-.s-dgroup__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--fade-standard); }
+.s-dgroup__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--spring-snappy); }
 .s-dgroup.is-open > .s-dgroup__body { grid-template-rows: 1fr; }
 .s-dgroup__clip { overflow: hidden; min-height: 0; }
 .s-dgroup__content { padding: 4px 0 4px 32px; font: var(--font-callout); color: var(--text-secondary); }
 .s-dgroup__content:empty { padding: 0; }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-dgroup__body { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
 </style>

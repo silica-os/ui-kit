@@ -27,6 +27,14 @@ export function resolveColor(el, css) {
   return rgbToHex(+m[0], +m[1], +m[2], m[3] === undefined ? 1 : +m[3])
 }
 
+/** Calls `cb` whenever the page theme flips (data-theme on <html>); returns the function that stops listening. */
+export function watchTheme(cb) {
+  if (typeof MutationObserver === 'undefined') return () => {}
+  const mo = new MutationObserver(cb)
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+  return () => mo.disconnect()
+}
+
 export function rgbToHsv(r, g, b) {
   r /= 255; g /= 255; b /= 255
   const max = Math.max(r, g, b)

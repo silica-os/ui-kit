@@ -10,7 +10,7 @@ defineProps({ href: String, disabled: Boolean, force: { type: String, default: '
 </template>
 
 <style>
-.s-link { position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 4px; border: 0; background: none; border-radius: 7px; color: var(--accent-amalfi); font: var(--font-body); cursor: pointer; text-decoration: none; }
+.s-link { position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 4px; border: 0; background: none; border-radius: 7px; color: var(--accent-amalfi); font: var(--font-body); cursor: pointer; text-decoration: none; transition: background var(--fade-quick), box-shadow var(--fade-quick); }
 .s-link:is(:active, .is-pressed) { background: var(--accent-amalfi-soft); }
 .s-link:is(:focus-visible, .is-focus) { box-shadow: 0 0 0 3px var(--line-focus); }
 </style>

@@ -65,7 +65,7 @@ function onEnter(e) { if (!props.disabled) e.currentTarget.querySelector(':scope
 }
 .s-menu__item:disabled { opacity: 0.35; }
 .s-menu__check { display: inline-flex; width: 12px; height: 12px; flex: none; align-items: center; justify-content: center; }
-.s-menu__lead { display: inline-flex; flex: none; width: 20px; height: 20px; margin-right: 4px; }
+.s-menu__lead { display: inline-flex; flex: none; width: 20px; height: 20px; }
 .s-menu__app { display: inline-flex; flex: none; margin-left: 0; }
 .s-menu__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .s-menu__shortcut { flex: none; color: var(--text-secondary); text-align: right; padding-left: 12px; }

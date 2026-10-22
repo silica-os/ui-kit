@@ -52,14 +52,15 @@ async function pipette() {
 .s-colorwell:is(:hover, .is-hover):not(.is-disabled)::after { background: var(--accent-amalfi-soft); }
 .s-colorwell:has(.s-colorwell__btn:focus-visible)::after, .s-colorwell.is-focus::after { box-shadow: 0 0 0 3px var(--line-focus); }
 .s-colorwell.is-disabled { opacity: 0.35; }
-.s-colorwell__btn { display: inline-flex; align-items: center; gap: 4px; height: 100%; padding: 0 8px 0 4px; border: 0; background: none; color: var(--text-primary); font: var(--font-body); cursor: pointer; outline: none; border-radius: 9px; }
+.s-colorwell .s-control:disabled { opacity: 1; } /* the wrapper already dims everything once */
+.s-colorwell__btn { display: inline-flex; align-items: center; gap: 4px; height: 100%; padding: 0 4px; border: 0; background: none; color: var(--text-primary); font: var(--font-body); cursor: pointer; outline: none; border-radius: 9px; }
 .s-colorwell__colour { flex: none; width: 44px; height: 20px; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--line-border); }
 .s-colorwell__chevron { color: var(--text-secondary); }
 .s-colorwell--expanded { width: 188px; }
 .s-colorwell--expanded .s-colorwell__btn { flex: 1; gap: 8px; min-width: 0; padding-right: 0; }
 .s-colorwell--expanded .s-colorwell__colour { width: 28px; }
 .s-colorwell__name { flex: 1; min-width: 0; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.s-colorwell__eye { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-right: 0; padding: 0; border: 0; background: none; color: var(--text-secondary); cursor: pointer; border-radius: 9px; }
+.s-colorwell__eye { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-right: 4px; padding: 0; border: 0; background: none; color: var(--text-secondary); cursor: pointer; border-radius: 9px; }
 .s-colorwell--minimal { height: 24px; border-radius: 8px; }
 .s-colorwell--minimal .s-colorwell__btn { padding: 0 4px; }
 .s-colorwell--minimal .s-colorwell__colour { width: 36px; height: 16px; border-radius: 5px; }

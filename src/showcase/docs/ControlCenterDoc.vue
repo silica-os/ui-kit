@@ -43,8 +43,8 @@ const mods = [
   { key: 'Module/Toggle/On Hover', label: 'Toggle hover', p: { kind: 'toggle', glyph: 'wifi', title: 'Wi-Fi', subtitle: 'Silica Net', modelValue: true, detail: true, force: 'hover' } },
   { key: 'Module/Tile/On', label: 'Tile on', p: { kind: 'tile', glyph: 'moon', modelValue: true } },
   { key: 'Module/Tile/Off', label: 'Tile off', p: { kind: 'tile', glyph: 'moon' } },
-  { key: 'Module/Slider/Sound', label: 'Slider, sound', p: { kind: 'slider', title: 'Sound', minGlyph: 'volume-0', maxGlyph: 'volume-2', output: 'headphones', modelValue: 50 } },
-  { key: 'Module/Slider/Display', label: 'Slider, display', p: { kind: 'slider', title: 'Display', minGlyph: 'sun-min', maxGlyph: 'sun', modelValue: 50 } },
+  { key: 'Module/Slider/Sound', label: 'Slider, sound', p: { kind: 'slider', title: 'Sound', minGlyph: 'volume-0', maxGlyph: 'volume-2', output: 'headphones', modelValue: 51 } },
+  { key: 'Module/Slider/Display', label: 'Slider, display', p: { kind: 'slider', title: 'Display', minGlyph: 'sun-min', maxGlyph: 'sun', modelValue: 60 } },
   { key: 'Module/Now Playing/Playing', label: 'Now playing', p: { kind: 'playing', title: 'Lemon Song', subtitle: 'The Zest Band', modelValue: true, tint: 'var(--palette-terracotta)' } },
   { key: 'Module/Edit Button', label: 'Edit button', p: { kind: 'pill', title: 'Edit Controls' } },
   { key: 'Module/Privacy Pill', label: 'Privacy pill', p: { kind: 'pill', title: 'Recorder', glyph: 'mic' } },
@@ -105,13 +105,13 @@ const rowsKit = [
         <SControlPanel>
           <SControlModule kind="toggle" glyph="wifi" title="Wi-Fi" subtitle="Silica Net" :model-value="true" />
           <SControlModule kind="playing" title="Lemon Song" subtitle="The Zest Band" tint="var(--palette-terracotta)" :model-value="true" />
-          <SControlModule kind="toggle" glyph="bluetooth" title="Bluetooth" subtitle="On" :model-value="true" />
+          <SControlModule kind="toggle" glyph="bluetooth" title="Bluetooth" subtitle="Headphones" :model-value="true" />
           <SControlModule kind="toggle" glyph="share-nearby" title="Nearby" subtitle="Off" />
-          <SControlModule kind="tile" glyph="display-2" /><SControlModule kind="tile" glyph="screen-cast" />
-          <SControlModule kind="tile" glyph="moon-stars" /><SControlModule kind="tile" glyph="screen-share" />
+          <SControlModule kind="tile" glyph="window-stack" /><SControlModule kind="tile" glyph="screen-cast" />
+          <SControlModule kind="tile" glyph="moon" /><SControlModule kind="tile" glyph="camera" />
           <SControlModule kind="toggle" glyph="moon" title="Focus" subtitle="Off" />
-          <SControlModule kind="slider" title="Display" min-glyph="sun-min" max-glyph="sun" :model-value="50" />
-          <SControlModule kind="slider" title="Sound" min-glyph="volume-0" max-glyph="volume-2" output="headphones" :model-value="50" />
+          <SControlModule kind="slider" title="Display" min-glyph="sun-min" max-glyph="sun" :model-value="60" />
+          <SControlModule kind="slider" title="Sound" min-glyph="volume-0" max-glyph="volume-2" output="headphones" :model-value="51" />
         </SControlPanel>
       </SidePair>
     </Stage>
@@ -136,7 +136,7 @@ const rowsKit = [
       </SidePair>
       <SidePair label="Sound" kit="Control Center/Detail/Sound">
         <SControlDetail title="Sound">
-          <SControlRow kind="slider" min-glyph="volume-0" max-glyph="volume-2" :model-value="50" /><hr />
+          <SControlRow kind="slider" min-glyph="volume-0" max-glyph="volume-2" :model-value="60" /><hr />
           <SControlRow kind="section" label="Output" />
           <SControlRow kind="item" glyph="speaker" label="Speakers" active /><SControlRow kind="item" glyph="headphones" label="Headphones" />
           <hr /><SControlRow kind="footer" label="Sound Settings…" />

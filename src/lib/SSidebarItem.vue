@@ -52,6 +52,8 @@ function onClick(e) { if (props.value !== undefined) sb?.select(props.value); em
 .s-sidebar__row.is-selected { background: var(--accent-amalfi-soft); font: var(--font-sidebar-emphasis); }
 .s-sidebar__row.is-selected.is-inactive { background: var(--surface-control-pressed); color: var(--text-secondary); }
 .s-sidebar__row.is-selected.is-inactive .s-sidebar__icon { color: var(--text-secondary); }
+:where([data-theme='dark']) .s-sidebar__row.is-selected.is-inactive { background: var(--surface-control); } /* the kit uses Control (not Pressed) in dark */
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) .s-sidebar__row.is-selected.is-inactive { background: var(--surface-control); } }
 .s-sidebar__row:is(:focus-visible, .is-focus) { box-shadow: inset 0 0 0 2px var(--line-focus); }
 .s-sidebar__row:disabled { opacity: 0.35; }
 .s-sidebar__row:disabled .s-sidebar__icon { color: var(--text-secondary); }

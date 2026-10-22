@@ -142,9 +142,12 @@ defineExpose({ el: view, scrollTo: (...a) => view.value?.scrollTo(...a) })
 
 .s-scroll__bar { position: absolute; z-index: 2; touch-action: none; user-select: none; -webkit-user-select: none; }
 .s-scroll__bar--y { right: 0; top: 0; } .s-scroll__bar--x { left: 0; bottom: 0; }
-.s-scroll__thumb { position: absolute; display: block; border-radius: 4px; background: var(--text-tertiary); transition: background var(--fade-quick), inset var(--fade-quick); }
+.s-scroll__thumb { position: absolute; display: block; border-radius: 4px; background: var(--text-tertiary); transition: background var(--fade-quick); }
 .s-scroll__bar--y .s-scroll__thumb { top: 0; }
 .s-scroll__bar--x .s-scroll__thumb { left: 0; }
+/* only the cross-axis geometry (thin <-> expanded) springs; the thumb's length and offset follow the scroll position 1:1 */
+.s-scroll__bar--y .s-scroll__thumb { transition: background var(--fade-quick), left var(--spring-snappy), width var(--spring-snappy), border-radius var(--spring-snappy); }
+.s-scroll__bar--x .s-scroll__thumb { transition: background var(--fade-quick), top var(--spring-snappy), height var(--spring-snappy), border-radius var(--spring-snappy); }
 
 /* legacy: a 16 pt track, an 8 pt thumb inset 4 */
 .s-scroll--legacy .s-scroll__bar--y { width: 16px; } .s-scroll--legacy .s-scroll__bar--x { height: 16px; }
@@ -157,8 +160,8 @@ defineExpose({ el: view, scrollTo: (...a) => view.value?.scrollTo(...a) })
 .s-scroll__corner { position: absolute; right: 0; bottom: 0; z-index: 2; width: 16px; height: 16px; background: var(--surface-sunken); box-shadow: inset 0 0 0 1px var(--line-separator); }
 
 /* overlay: 12 pt bars on the edge, hidden until needed; thin 4 pt thumb, an 8 pt thumb in a track when pointed at */
-.s-scroll--overlay .s-scroll__bar { opacity: 0; transition: opacity var(--fade-slow); }
-.s-scroll--overlay.is-visible .s-scroll__bar { opacity: 1; transition-duration: var(--fade-quick); }
+.s-scroll--overlay .s-scroll__bar { opacity: 0; transition: opacity var(--fade-slow), background var(--fade-quick), box-shadow var(--fade-quick); }
+.s-scroll--overlay.is-visible .s-scroll__bar { opacity: 1; transition: opacity var(--fade-quick), background var(--fade-quick), box-shadow var(--fade-quick); }
 .s-scroll--overlay .s-scroll__bar--y { width: 12px; } .s-scroll--overlay .s-scroll__bar--x { height: 12px; }
 .s-scroll--overlay .s-scroll__bar--y .s-scroll__thumb { left: 4px; width: 4px; border-radius: 2px; }
 .s-scroll--overlay .s-scroll__bar--x .s-scroll__thumb { top: 4px; height: 4px; border-radius: 2px; }
@@ -167,4 +170,9 @@ defineExpose({ el: view, scrollTo: (...a) => view.value?.scrollTo(...a) })
 .s-scroll--overlay .s-scroll__bar--x:is(.is-expanded, .is-dragging) .s-scroll__thumb { top: 2px; height: 8px; border-radius: 4px; }
 .s-scroll--overlay .s-scroll__bar.is-expanded .s-scroll__thumb { background: var(--text-secondary); }
 .s-scroll--overlay .s-scroll__bar.is-dragging .s-scroll__thumb { background: var(--text-primary); }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-scroll__bar--y .s-scroll__thumb, .s-scroll__bar--x .s-scroll__thumb { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
 </style>

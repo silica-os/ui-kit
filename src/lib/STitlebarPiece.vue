@@ -46,9 +46,17 @@ const nav = [{ value: 'back', icon: 'chevron-left' }, { value: 'forward', icon: 
 <style>
 .s-tbpiece { display: flex; align-items: center; flex: none; height: 100%; padding: 0 4px; gap: 4px; }
 .s-tbpiece--search { flex: 0 1 auto; }
+.s-tbpiece--primary { padding-right: 16px; } /* kit Piece/Mail Send: 4 pt left, 16 pt right (it ends the bar) */
 
 /* unified bars use the 36 pt toolbar size, one step above the kit's large control */
 .s-titlebar--unified .s-tbpiece .s-iconbutton { --s-d: var(--control-toolbar); }
+/* toolbar buttons are glass in the kit (Titlebars/Piece: tint, rim, 0 4 12 shadow, blur), in both themes */
+.s-tbpiece .s-iconbutton::before {
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow, #ffffff40), var(--elevation-2);
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
+}
+.s-tbpiece .s-iconbutton:is(:active, .is-pressed)::before { background: linear-gradient(var(--state-press-overlay), var(--state-press-overlay)), linear-gradient(var(--glass-tint), var(--glass-tint)); }
 .s-tbpiece__seg { --seg-h: 36px; --seg-item-h: 28px; --seg-w: 36px; --s-glass-r: 18px; }
 .s-tbpiece__seg--text { --seg-w: 88px; }
 .s-tbpiece .s-segmented--action { --s-glass-r: 18px; }

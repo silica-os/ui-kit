@@ -86,10 +86,10 @@ const glassStyle = computed(() => ({ clipPath: d.value ? `path('${d.value}')` : 
 .s-callout__glass {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  backdrop-filter: blur(18px) saturate(1.7); -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick);
 }
-.s-callout--thin .s-callout__glass { background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03; backdrop-filter: blur(10px) saturate(1.6); -webkit-backdrop-filter: blur(10px) saturate(1.6); }
+.s-callout--thin .s-callout__glass { background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03; backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular); }
 .s-callout__border { stroke: var(--glass-rim-dark); }
 .s-callout__light { stroke: var(--glass-rim-light); }
-.s-callout__glow { stroke: #ffffff40; }
+.s-callout__glow { stroke: var(--s-glow, #ffffff40); }
 </style>

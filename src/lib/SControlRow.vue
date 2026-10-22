@@ -46,12 +46,13 @@ const emit = defineEmits(['click', 'update:modelValue', 'update:open'])
 </template>
 
 <style>
-.s-crow { display: flex; align-items: center; box-sizing: border-box; width: 100%; padding: 0; margin: 0; border: 0; background: none; color: var(--text-primary); font: var(--font-body); text-align: left; cursor: default; }
+.s-crow { display: flex; align-items: center; box-sizing: border-box; width: 100%; padding: 0; margin: 0; border: 0; background: none; color: var(--text-primary); font: var(--font-body); text-align: left; cursor: default; transition: background var(--fade-quick), color var(--fade-quick); }
 .s-crow--item, .s-crow--network { height: 32px; gap: 12px; border-radius: 8px; }
+.s-crow--network { padding-right: 8px; } /* kit: signal glyph 8 pt from the edge, the lock 8 pt before it */
 .s-crow__disc { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 14px; background: var(--text-tertiary); color: #fff; transition: background var(--fade-quick); }
 .s-crow.is-active .s-crow__disc { background: var(--accent-amalfi); }
 .s-crow__label { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.s-crow__lock { color: var(--text-secondary); margin-right: 8px; }
+.s-crow__lock { color: var(--text-secondary); margin-right: -4px; }
 .s-crow__signal { color: var(--text-primary); margin-right: 0; }
 .s-crow--item:is(:hover, .is-hover) .s-crow__label, .s-crow--network:is(:hover, .is-hover) .s-crow__label { color: var(--text-primary); }
 .s-crow--item:is(:hover, .is-hover), .s-crow--network:is(:hover, .is-hover) { background: var(--accent-amalfi-soft); }
@@ -59,7 +60,11 @@ const emit = defineEmits(['click', 'update:modelValue', 'update:open'])
 .s-crow--slider { height: 32px; gap: 8px; }
 .s-crow--slider .s-slider { --s-slider-w: 220px; gap: 0; }
 .s-crow__g { color: var(--text-secondary); flex: none; }
-.s-crow--section { height: 20px; justify-content: space-between; font: var(--font-label); color: var(--text-tertiary); align-items: center; padding-top: 0; }
+.s-crow--slider .s-crow__g:last-child { margin-left: -4px; } /* the kit leaves 4 pt, not 8, before the large glyph */
+.s-crow--slider .s-slider__thumb { opacity: 0; transition: opacity var(--fade-quick); }
+.s-crow--slider .s-slider__body:is(:hover, :focus-visible, .is-dragging) .s-slider__thumb { opacity: 1; }
+.s-crow--section > .s-icon { color: var(--text-secondary); }
+.s-crow--section { height: 20px; justify-content: space-between; font: var(--font-label); color: var(--text-tertiary); align-items: flex-start; padding-top: 2px; }
 .s-crow--footer { height: 24px; border-radius: 6px; }
 .s-crow--footer:is(:hover, :focus-visible) { color: var(--accent-amalfi); }
 </style>

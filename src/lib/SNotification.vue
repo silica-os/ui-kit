@@ -43,7 +43,7 @@ const emit = defineEmits(['action', 'close', 'click'])
 <style>
 .s-notification { position: relative; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; width: 360px; padding: 12px; color: var(--text-primary); font: var(--font-body); }
 .s-notification--panel { width: 340px; background: var(--surface-raised); border-radius: 16px; box-shadow: var(--elevation-1); }
-.s-notification__main { display: flex; gap: 8px; align-items: flex-start; min-width: 0; }
+.s-notification__main { display: flex; gap: 8px; align-items: flex-start; min-width: 0; min-height: 52px; } /* the kit's content block is 52 pt even with a one-line text */
 .s-notification__icon { flex: none; width: 36px; height: 36px; }
 .s-notification__icon > img { width: 100%; height: 100%; display: block; }
 .s-notification__ph { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; background: var(--text-tertiary); color: #fff; box-shadow: inset 0 0 0 1px #00000014, inset 0 1px 0 #ffffff40; }
@@ -57,4 +57,16 @@ const emit = defineEmits(['action', 'close', 'click'])
   background: var(--surface-control); color: var(--text-secondary); box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-1); opacity: 0; transition: opacity var(--fade-quick);
 }
 .s-notification:is(:hover, :focus-within, .is-hover) > .s-notification__close { opacity: 1; }
+
+/* Enter / leave, used with <Transition name="s-notification"> or <TransitionGroup> (nothing animates on first render).
+   Measured (notifications.md): in = slide down + fade.standard (~210 ms), out = fade ~190 ms. */
+.s-notification-enter-active { transition: opacity var(--fade-standard), transform var(--fade-standard); }
+.s-notification-leave-active { transition: opacity var(--fade-instant), transform var(--fade-instant); }
+.s-notification-enter-from { opacity: 0; transform: translateY(-16px); }
+.s-notification-leave-to { opacity: 0; transform: translateY(-8px); }
+.s-notification-move { transition: transform var(--spring-panel); }
+@media (prefers-reduced-motion: reduce) {
+  .s-notification-enter-active, .s-notification-leave-active, .s-notification-move { transition: opacity var(--fade-quick); }
+  .s-notification-enter-from, .s-notification-leave-to { transform: none; }
+}
 </style>

@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import SSwatchChip from './SSwatchChip.vue'
-import { resolveColor } from './color.js'
+import { resolveColor, watchTheme } from './color.js'
 
 /**
  * A row of colour chips (Wells/Swatch Row). `swatches` is [{ name, color }] (colour as hex or var(--token)); v-model is the chosen colour as hex.
@@ -17,7 +17,9 @@ const emit = defineEmits(['update:modelValue', 'pick'])
 const root = ref(null)
 const resolved = ref([])
 function resolve() { resolved.value = props.swatches.map((s) => resolveColor(root.value, s.color)) }
-onMounted(resolve)
+let stop = () => {}
+onMounted(() => { resolve(); stop = watchTheme(resolve) }) // token colours change with the theme
+onBeforeUnmount(() => stop())
 watch(() => props.swatches, resolve)
 const isSel = (i) => (props.selected >= 0 ? props.selected === i : !!props.modelValue && resolved.value[i]?.toUpperCase() === props.modelValue.toUpperCase())
 function pick(s, i) {

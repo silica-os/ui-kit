@@ -88,6 +88,9 @@ defineExpose({ focus: () => input.value?.focus(), blur: () => input.value?.blur(
   backdrop-filter: blur(10px) saturate(1.6) brightness(1.12); -webkit-backdrop-filter: blur(10px) saturate(1.6) brightness(1.12);
 }
 .s-field--glass:is(:focus-within, .is-focus) { box-shadow: 0 0 0 3px var(--line-focus); }
+/* opacity on the field would hide the backdrop from the glass (it becomes the backdrop root): dim the glass and the content separately */
+.s-field--glass.s-field--disabled { opacity: 1; }
+.s-field--glass.s-field--disabled::before, .s-field--glass.s-field--disabled > *, .s-field.s-field--glass.s-field--disabled > .s-field__input.s-field__input:disabled { opacity: 0.35; }
 
 .s-field .s-field__input.s-field__input {
   flex: 1 1 0; min-width: 0; height: 100%; margin: 0; padding: 0; border: 0; background: none; outline: none; appearance: none; -webkit-appearance: none;

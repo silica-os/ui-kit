@@ -13,6 +13,6 @@ defineProps({
 <style>
 .s-glass.s-glass--thin::before {
   background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
-  backdrop-filter: blur(4px) saturate(1.5); -webkit-backdrop-filter: blur(4px) saturate(1.5);
+  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
 }
 </style>

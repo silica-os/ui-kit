@@ -18,6 +18,9 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1)
 const p = reactive({ size: 'regular', disabled: false })
 const fruit = ref('Lemon')
 const fruits = ['Orange', 'Lemon', 'Olive', 'Fig']
+// the Open masters show the generic Simple menu: Olive highlighted; the pull-down one has a checked row
+const openFruits = fruits.map((f) => ({ label: f, value: f, force: f === 'Olive' ? 'hover' : '' }))
+const openActions = [{ label: 'New window', value: 'new' }, { label: 'Lemon', value: 'lem', checked: true }, { label: 'Rename', value: 'ren' }, { label: 'Delete', value: 'del' }]
 const actions = [{ label: 'Duplicate', value: 'dup' }, { label: 'Rename', value: 'ren' }, { label: 'Delete', value: 'del' }]
 const last = ref('')
 const items = ref(['One', 'Two'])
@@ -73,9 +76,9 @@ const noSize = [{ key: 'one', label: '' }]
     <h2>Open</h2>
     <CompareMatrix :rows="[{ key: 'Pop-up', label: 'Pop-up' }, { key: 'Pull-down', label: 'Pull-down' }]" :cols="[{ key: 'x', label: 'regular' }]" :kit="(r) => `Buttons/${r.key}/Open/Rest`">
       <template #default="{ row }">
-        <div class="openbox">
-          <SPopUpButton v-if="row.key === 'Pop-up'" model-value="Lemon" :options="fruits" open />
-          <SPullDownButton v-else :options="actions" open />
+        <div class="openbox" :class="row.key === 'Pop-up' ? 'openbox--popup' : 'openbox--pulldown'">
+          <SPopUpButton v-if="row.key === 'Pop-up'" model-value="Lemon" :options="openFruits" open />
+          <SPullDownButton v-else :options="openActions" open />
         </div>
       </template>
     </CompareMatrix>
@@ -97,5 +100,8 @@ const noSize = [{ key: 'one', label: '' }]
 .row { display: flex; gap: 12px; align-items: center; }
 .ctrl { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 .chk { display: flex; gap: 6px; align-items: center; }
-.openbox { height: 150px; }
+.openbox { position: relative; }
+/* the kit's Open masters: 136 x 104 with the button at (12, 26), and 129 x 135 with the button at (5, 0) */
+.openbox--popup { width: 136px; height: 104px; padding: 26px 0 0 12px; }
+.openbox--pulldown { width: 129px; height: 135px; padding-left: 5px; }
 </style>

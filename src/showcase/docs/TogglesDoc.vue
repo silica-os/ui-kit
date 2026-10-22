@@ -58,7 +58,13 @@ const switchStates = [...states.slice(0, 1), states[1], states[2], states[3], st
     <h2>Switch, compared with the kit</h2>
     <div class="seg bar"><button v-for="s in ['mini', 'small', 'regular']" :key="s" :class="{ on: size === s }" @click="size = s">{{ s }}</button></div>
     <CompareMatrix :rows="rowsOnOff" :cols="[...switchStates, { key: 'Dragging', label: 'Dragging', force: 'drag' }]" :kit="(r, c) => `Toggles/Switch/${r.key}/${cap(size)}/${c.key}`">
-      <template #default="{ row, col }"><SSwitch :model-value="row.key === 'On'" :size="size" :force="col.force === 'drag' ? '' : col.force" :disabled="col.disabled" /></template>
+      <template #default="{ row, col }">
+        <!-- the kit's Dragging masters are the track plus 4 pt either side and as tall as the lens -->
+        <span v-if="col.force === 'drag'" class="dragbox" :style="{ width: ({ mini: 32, small: 40, regular: 48 })[size] + 'px', height: ({ mini: 20, small: 24, regular: 32 })[size] + 'px' }">
+          <SSwitch :model-value="row.key === 'On'" :size="size" force="drag" />
+        </span>
+        <SSwitch v-else :model-value="row.key === 'On'" :size="size" :force="col.force" :disabled="col.disabled" />
+      </template>
     </CompareMatrix>
 
     <h2>Checkbox, compared with the kit</h2>
@@ -74,6 +80,7 @@ const switchStates = [...states.slice(0, 1), states[1], states[2], states[3], st
 </template>
 
 <style scoped>
+.dragbox { display: inline-grid; place-items: center; }
 .col { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; min-width: 180px; }
 .bar { margin-bottom: 12px; }
 </style>

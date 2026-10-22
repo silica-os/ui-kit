@@ -41,5 +41,13 @@ function onEnter(e) { if (e.target.matches('input:not([type=checkbox]):not([type
 }
 .s-dialog--panel { gap: 12px; padding: 22px 20px 20px; }
 .s-dialog__title { margin: 0; font: var(--font-title-3); color: var(--text-primary); }
-.s-dialog__body { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.s-dialog__body { display: flex; flex-direction: column; gap: 20px; min-height: 0; } /* the kit's stack gap: 20 (form), 12 (panel) */
+.s-dialog--panel .s-dialog__body { gap: 12px; }
+
+/* In / out with <Transition name="s-dialog"> (dialogs.md: fades in while moving down ~20 pt, no scaling; fades out in place). Nothing animates on first render. */
+.s-dialog-enter-active { transition: opacity var(--fade-standard), translate var(--spring-panel); }
+.s-dialog-leave-active { transition: opacity var(--fade-instant); }
+.s-dialog-enter-from { opacity: 0; translate: 0 -20px; }
+.s-dialog-leave-to { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .s-dialog-enter-active { transition: opacity var(--fade-quick); } .s-dialog-enter-from { translate: none; } }
 </style>

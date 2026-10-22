@@ -13,7 +13,11 @@ import SNotificationCentre from '../../lib/SNotificationCentre.vue'
 import SButton from '../../lib/SButton.vue'
 import STextField from '../../lib/STextField.vue'
 import SCheckbox from '../../lib/SCheckbox.vue'
+import SAlert from '../../lib/SAlert.vue'
 import SGroupBox from '../../lib/SGroupBox.vue'
+import SFormSection from '../../lib/SFormSection.vue'
+import SFormRow from '../../lib/SFormRow.vue'
+import SPopUpButton from '../../lib/SPopUpButton.vue'
 import SWindow from '../../lib/SWindow.vue'
 import DocPage from '../DocPage.vue'
 import Stage from '../Stage.vue'
@@ -56,12 +60,12 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
   <DocPage title="Dialog and Notification" lead="SDialog is the raised 20 pt dialog (title, body, SDialogFooter with the primary button last) that also serves as a sheet in an SWindow; SFileBrowser is the places and files pane of the open and save panels. SNotification is the glass banner (or the card inside SNotificationCentre), SNotificationStack groups them.">
     <h2>Playground: dialog</h2>
     <Stage :pad="32" class="center">
-      <SDialog v-if="dlgOpen" title="Share recipe" primary="Share" secondary="Cancel" @primary="chosen = `share ${name}`; dlgOpen = false" @secondary="chosen = 'cancel'; dlgOpen = false" @close="dlgOpen = false" autofocus>
+      <Transition name="s-dialog" mode="out-in"><SDialog v-if="dlgOpen" title="Share recipe" primary="Share" secondary="Cancel" @primary="chosen = `share ${name}`; dlgOpen = false" @secondary="chosen = 'cancel'; dlgOpen = false" @close="dlgOpen = false" autofocus>
         <STextField v-model="name" placeholder="Recipe name" />
         <SGroupBox title="Options"><SCheckbox v-model="bool.a">Allow editing</SCheckbox><SCheckbox v-model="bool.b">Notify when opened</SCheckbox></SGroupBox>
         <template #leading><SButton variant="secondary">Copy link</SButton></template>
       </SDialog>
-      <div v-else class="muted">{{ chosen }} <SButton size="small" @click="dlgOpen = true">Show again</SButton></div>
+      <div v-else class="muted">{{ chosen }} <SButton size="small" @click="dlgOpen = true">Show again</SButton></div></Transition>
     </Stage>
     <Code :code="code" />
 
@@ -83,13 +87,23 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
       </SidePair>
       <SidePair label="Generic" kit="Dialogs/Dialog/Generic/Rest">
         <SDialog title="Share recipe" primary="Share" secondary="Cancel">
-          <SGroupBox title="Profile"><STextField model-value="Lemon cake" /><SCheckbox model-value>Allow editing</SCheckbox></SGroupBox>
-          <SGroupBox title="Preferences"><SCheckbox model-value>Notify me</SCheckbox><SCheckbox>Add to favourites</SCheckbox></SGroupBox>
+          <SFormSection title="Profile">
+            <SFormRow label="Name"><STextField model-value="Lemon cake" /></SFormRow>
+            <SFormRow label="Email"><STextField model-value="lemon@silica.example" /></SFormRow>
+            <SFormRow label="Region"><SPopUpButton model-value="Campania" :options="['Campania', 'Liguria', 'Sicilia']" /></SFormRow>
+          </SFormSection>
+          <SFormSection title="Preferences">
+            <SFormRow label="Options"><SCheckbox model-value>Notify me</SCheckbox></SFormRow>
+            <SFormRow label="Sign in"><SCheckbox>Keep me signed in</SCheckbox></SFormRow>
+          </SFormSection>
         </SDialog>
       </SidePair>
       <SidePair label="Sheet attached" kit="Windows/Window/Sheet Attached/Active">
         <SWindow title="Lemon cake.recipe" document :width="540" :height="400">
-          <template #sheet><SDialog :width="280" size="panel" title="Save changes?" primary="Save" secondary="Cancel"><span class="muted">Your edits will be lost if you close without saving.</span></SDialog></template>
+          <div style="padding: 28px"><h1 style="margin: 0 0 12px; font: var(--font-title-1)">Lemon cake</h1><p style="margin: 0 0 36px; font: var(--font-body); color: var(--text-secondary)">Whisk the eggs with sugar until pale, fold in the flour, then the lemon zest and juice. Bake for forty minutes and let it cool before slicing.</p>
+            <SGroupBox title="Notifications" style="width: 192px"><SCheckbox model-value>Show banners</SCheckbox><SCheckbox model-value>Play sound</SCheckbox><SCheckbox>Show on lock screen</SCheckbox></SGroupBox></div>
+          <SButton variant="primary" style="position: absolute; right: 32px; bottom: 24px">Done</SButton>
+          <template #sheet><SAlert title="Empty the outbox?" message="Messages waiting to be sent will be sent now." suppress="Do not ask again" :buttons="[{ label: 'Send' }, { label: 'Cancel' }]"><template #icon><span style="display: block; width: 56px; height: 56px; border-radius: 13px; background: var(--palette-limone); box-shadow: inset 0 0 0 1px #0000001f" /></template></SAlert></template>
         </SWindow>
       </SidePair>
     </Stage>
@@ -98,7 +112,7 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
     <Stage glass :pad="24" class="col">
       <SidePair label="Banner" kit="Notifications/Banner/Basic/Rest"><SNotification v-bind="nBase" /></SidePair>
       <SidePair label="Banner with actions" kit="Notifications/Banner/With Actions/Rest"><SNotification v-bind="nBase" :actions="acts" /></SidePair>
-      <SidePair label="Banner, pointer over (close button)" kit="Notifications/Banner/Basic/Rest"><div style="padding: 8px"><SNotification v-bind="nBase" force="hover" /></div></SidePair>
+      <SidePair label="Banner, pointer over (close button)" kit="Notifications/Banner/Basic/Rest"><SNotification v-bind="nBase" force="hover" style="margin: 8px" /></SidePair>
       <SidePair label="Panel" kit="Notifications/Banner/Panel/Rest"><SNotification variant="panel" v-bind="nBase" :closable="false" /></SidePair>
       <SidePair label="Panel with actions" kit="Notifications/Banner/Panel With Actions/Rest"><SNotification variant="panel" v-bind="nBase" :actions="acts" :closable="false" /></SidePair>
       <SidePair label="Stack" kit="Notifications/Stack/Grouped/Rest"><SNotificationStack :items="items" /></SidePair>

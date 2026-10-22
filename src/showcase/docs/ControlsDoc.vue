@@ -40,7 +40,8 @@ const stepCols = ['mini', 'small', 'regular', 'large'].map((s) => ({ key: s, lab
 
 const sizeCols = ['small', 'regular', 'large'].map((s) => ({ key: s, label: s }))
 const detRows = [{ key: '25', label: '25%', v: 25 }, { key: '60', label: '60%', v: 60 }, { key: '100', label: '100%', v: 100 }, { key: 'Disabled', label: 'Disabled', v: 60, disabled: true }]
-const indRows = [{ key: 'Phase 1', label: 'Phase 1' }, { key: 'Phase 2', label: 'Phase 2' }, { key: 'Phase 3', label: 'Phase 3' }, { key: 'Disabled', label: 'Disabled', disabled: true }]
+// the kit freezes the sliding segment at 0, 64 and 132 pt of a 200 pt bar (segment 72 pt wide, clipped by the end): 0.265 / 0.5 / 0.75 of the sweep
+const indRows = [{ key: 'Phase 1', label: 'Phase 1', phase: 0.2647 }, { key: 'Phase 2', label: 'Phase 2', phase: 0.5 }, { key: 'Phase 3', label: 'Phase 3', phase: 0.75 }, { key: 'Disabled', label: 'Disabled', disabled: true, phase: 0.2647 }]
 const spinRows = [{ key: 'Rest', label: 'Rest' }, { key: 'Disabled', label: 'Disabled', disabled: true }]
 </script>
 
@@ -76,6 +77,7 @@ const spinRows = [{ key: 'Rest', label: 'Rest' }, { key: 'Disabled', label: 'Dis
         <SSlider
           v-if="row.key !== 'Dragging' || col.key === 'Plain'" :model-value="60" :ticks="col.key === 'Ticks'" :min-icon="col.key === 'Glyphs' ? 'volume-0' : ''"
           :max-icon="col.key === 'Glyphs' ? 'volume-2' : ''" :force="row.force" :disabled="row.disabled"
+          :style="row.key === 'Dragging' ? { height: '28px' } : null"
         />
       </template>
     </CompareMatrix>
@@ -95,7 +97,7 @@ const spinRows = [{ key: 'Rest', label: 'Rest' }, { key: 'Disabled', label: 'Dis
     </CompareMatrix>
     <h3>Indeterminate (live is animated, the kit shows three frames)</h3>
     <CompareMatrix :rows="indRows" :cols="sizeCols" :kit="(r, c) => `Progress/Bar/Indeterminate/${cap(c.key)}/${r.key}`">
-      <template #default="{ row, col }"><SProgress :size="col.key" :disabled="row.disabled" /></template>
+      <template #default="{ row, col }"><SProgress :size="col.key" :disabled="row.disabled" :phase="row.phase" /></template>
     </CompareMatrix>
 
     <h2>Circular, compared with the kit</h2>
@@ -105,7 +107,7 @@ const spinRows = [{ key: 'Rest', label: 'Rest' }, { key: 'Disabled', label: 'Dis
 
     <h2>Spinner, compared with the kit</h2>
     <CompareMatrix :rows="spinRows" :cols="sizeCols" :kit="(r, c) => `Progress/Spinner/${cap(c.key)}/${r.key}`">
-      <template #default="{ row, col }"><SProgress kind="spinner" :size="col.key" :disabled="row.disabled" /></template>
+      <template #default="{ row, col }"><SProgress kind="spinner" :size="col.key" :disabled="row.disabled" paused /></template>
     </CompareMatrix>
   </DocPage>
 </template>

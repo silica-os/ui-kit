@@ -53,12 +53,12 @@ const row = [
 
     <h2>Color well, compared with the kit</h2>
     <CompareMatrix :rows="wellStates" :cols="variants" :kit="(r, c) => `Wells/Color Well/${cap(c.key)}/${r.key}`">
-      <template #default="{ row, col }"><SColorWell model-value="#0E77E6" :variant="col.key" :name="col.key === 'expanded' ? 'Amalfi blue' : ''" :force="row.force" :disabled="row.disabled" /></template>
+      <template #default="{ row, col }"><SColorWell model-value="var(--accent-amalfi)" :variant="col.key" :name="col.key === 'expanded' ? 'Amalfi blue' : ''" :force="row.force" :disabled="row.disabled" /></template>
     </CompareMatrix>
 
     <h2>Color panel, compared with the kit</h2>
     <CompareMatrix :rows="[{ key: 'one', label: 'Swatch grid' }]" :cols="[{ key: 'x', label: 'Panel' }]" glass :kit="() => 'Wells/Color Panel/Swatch Grid/Rest'">
-      <template #default><SPopover :arrow="false" :padding="12"><SColorPanel model-value="#0E77E6" swatches-only /></SPopover></template>
+      <template #default><SPopover :arrow="false" :padding="12"><SColorPanel model-value="var(--accent-amalfi)" swatches-only /></SPopover></template>
     </CompareMatrix>
     <h3>Full panel</h3>
     <Stage glass :pad="24"><SPopover :arrow="false" :padding="12"><SColorPanel v-model="color" /></SPopover></Stage>

@@ -20,7 +20,7 @@ defineEmits(['add', 'remove'])
 .s-gradient__half { flex: 1; display: grid; place-items: center; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; transition: background var(--fade-quick); outline: none; }
 .s-gradient__half:first-child { border-radius: 7px 0 0 7px; } .s-gradient__half:last-child { border-radius: 0 7px 7px 0; }
 .s-gradient__half:is(:hover):not(:disabled), .s-gradient.is-hover .s-gradient__half { background: var(--accent-amalfi-soft); }
-.s-gradient__half:is(:active):not(:disabled), .s-gradient.is-pressed .s-gradient__half { background: var(--surface-control-pressed); }
+.s-gradient__half:is(:active):not(:disabled) { background: var(--surface-control-pressed); }
 .s-gradient.is-pressed { background: var(--surface-control-pressed); }
 .s-gradient.is-disabled { opacity: 0.35; pointer-events: none; }
 .s-gradient__half:disabled { opacity: 0.35; }

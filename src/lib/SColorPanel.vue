@@ -1,9 +1,9 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import SSwatchRow from './SSwatchRow.vue'
 import STextField from './STextField.vue'
 import SSlider from './SSlider.vue'
-import { hsvToHex, parseHex, rgbToHex, rgbToHsv } from './color.js'
+import { hsvToHex, parseHex, resolveColor, rgbToHex, rgbToHsv, watchTheme } from './color.js'
 
 /**
  * Colour panel content (Wells/Color Panel): the 24 theme swatches and, unless `swatches-only`, a saturation/brightness pad, a hue slider
@@ -27,7 +27,7 @@ const hex = ref(props.modelValue)
 const pad = ref(null)
 const draggingPad = ref(false)
 function sync(v) {
-  const c = parseHex(v)
+  const c = parseHex(v) || (/^(var|rgb|hsl)\(/.test(String(v).trim()) ? parseHex(resolveColor(null, v)) : null) // a var(--token) colour is resolved in the current theme
   if (!c) return
   const next = rgbToHsv(c[0], c[1], c[2])
   // keep the hue when the colour has none (black, white, grey)
@@ -35,6 +35,9 @@ function sync(v) {
   hex.value = rgbToHex(c[0], c[1], c[2])
 }
 sync(props.modelValue)
+let stopTheme = () => {}
+onMounted(() => { stopTheme = watchTheme(() => { if (!parseHex(props.modelValue)) sync(props.modelValue) }) })
+onBeforeUnmount(() => stopTheme())
 watch(() => props.modelValue, (v) => { if (v?.toUpperCase().slice(0, 7) !== hex.value) sync(v) })
 
 function set(h, s, v) {

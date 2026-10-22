@@ -38,12 +38,14 @@ const pad = computed(() => (typeof props.padding === 'number' ? props.padding + 
 <template>
   <span v-if="$slots.trigger" ref="root" class="s-popover-anchor">
     <slot name="trigger" />
-    <SCallout
-      v-if="open" class="s-popover s-popover--anchored" :class="[`s-popover--${pos}`, `s-popover--align-${alignOf}`, { 's-popover--arrow': arrow }]"
-      :edge="arrow ? edge : 'none'" :align="alignOf" :radius="16" role="dialog" :style="{ '--s-callout-pad': pad, minWidth: width ? width + 'px' : null }"
-    >
-      <slot />
-    </SCallout>
+    <Transition name="s-popover">
+      <SCallout
+        v-if="open" class="s-popover s-popover--anchored" :class="[`s-popover--${pos}`, `s-popover--align-${alignOf}`, { 's-popover--arrow': arrow }]"
+        :edge="arrow ? edge : 'none'" :align="alignOf" :radius="16" role="dialog" :style="{ '--s-callout-pad': pad, minWidth: width ? width + 'px' : null }"
+      >
+        <slot />
+      </SCallout>
+    </Transition>
   </span>
   <SCallout
     v-else class="s-popover" :edge="arrow && placement !== 'detached' ? edge : 'none'" :align="alignOf" :radius="16"
@@ -68,4 +70,15 @@ const pad = computed(() => (typeof props.padding === 'number' ? props.padding + 
 .s-popover--leading.s-popover--align-center, .s-popover--trailing.s-popover--align-center { top: 50%; transform: translateY(-50%); }
 .s-popover--leading.s-popover--align-start, .s-popover--trailing.s-popover--align-start { top: 0; }
 .s-popover--leading.s-popover--align-end, .s-popover--trailing.s-popover--align-end { bottom: 0; }
+
+/* open / close (motion.md, assumption: popover open is unmeasured): fade + scale 0.96 -> 1 from the arrow with spring.panel; closes with fade.instant.
+   `scale` (not transform) so it composes with the centring transform above. Nothing animates on first render. */
+.s-popover-enter-active { transition: opacity var(--fade-instant), scale var(--spring-panel); }
+.s-popover-leave-active { transition: opacity var(--fade-instant), scale var(--fade-instant); }
+.s-popover-enter-from, .s-popover-leave-to { opacity: 0; scale: 0.96; }
+.s-popover--bottom { transform-origin: 50% 0; } .s-popover--top { transform-origin: 50% 100%; }
+.s-popover--leading { transform-origin: 100% 50%; } .s-popover--trailing { transform-origin: 0 50%; }
+.s-popover--bottom.s-popover--align-start { transform-origin: 24px 0; } .s-popover--top.s-popover--align-start { transform-origin: 24px 100%; }
+.s-popover--bottom.s-popover--align-end { transform-origin: calc(100% - 24px) 0; } .s-popover--top.s-popover--align-end { transform-origin: calc(100% - 24px) 100%; }
+@media (prefers-reduced-motion: reduce) { .s-popover-enter-active, .s-popover-leave-active { transition: opacity var(--fade-quick); } .s-popover-enter-from, .s-popover-leave-to { scale: 1; } }
 </style>

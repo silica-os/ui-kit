@@ -18,10 +18,13 @@ defineProps({ title: { type: String, default: '' } })
 
 <style>
 .s-cdetail { box-sizing: border-box; width: 312px; padding: 12px 16px 8px; color: var(--text-primary); font: var(--font-body); }
-.s-cdetail__head { display: flex; align-items: center; justify-content: space-between; height: 24px; margin-bottom: 12px; }
+.s-cdetail__head { display: flex; align-items: flex-start; justify-content: space-between; height: 24px; margin-bottom: 12px; }
 .s-cdetail__title { margin: 0; font: var(--font-title-3); }
 .s-cdetail__rule, .s-cdetail__body hr { height: 1px; margin: 0; border: 0; background: var(--line-separator); }
 .s-cdetail__body { display: flex; flex-direction: column; }
-.s-cdetail__body hr { margin: 4px 0; }
-.s-cdetail__rule { margin: 0 0 4px; }
+/* the kit's rhythm: a rule sits 4 pt under a row of text (8 pt under a slider or an item list) and 3 pt above the next row */
+.s-cdetail__body hr { margin: 4px 0 3px; }
+.s-cdetail__rule { margin: 0 0 3px; }
+.s-cdetail__body > .s-crow--slider:first-child { margin-top: 4px; }
+.s-cdetail__body > :is(.s-crow--slider, .s-crow--item) + hr { margin-top: 8px; }
 </style>

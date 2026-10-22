@@ -15,8 +15,8 @@ const kinds = ['text', 'icon', 'icon + label']
 const modes = ['one', 'any', 'action']
 const cap = (s) => s[0].toUpperCase() + s.slice(1)
 
-const textItems = (n) => ['Day', 'Week', 'Month', 'Year', 'All', 'Custom'].slice(0, n).map((l) => ({ value: l.toLowerCase(), label: l }))
-const iconNames = ['sidebar', 'folder', 'gear', 'share', 'plus', 'trash']
+const textItems = (n) => ['One', 'Two', 'Three', 'Four', 'Five', 'Six'].slice(0, n).map((l) => ({ value: l.toLowerCase(), label: l }))
+const iconNames = ['sidebar', 'gear', 'share', 'plus', 'folder', 'trash']
 const iconItems = (n) => iconNames.slice(0, n).map((i) => ({ value: i, icon: i }))
 const stackItems = (n) => [['General', 'gear'], ['Folders', 'folder'], ['Sharing', 'share'], ['Layout', 'sidebar'], ['New', 'plus'], ['Bin', 'trash']].slice(0, n).map(([l, i]) => ({ value: l.toLowerCase(), label: l, icon: i }))
 const itemsFor = (kind, n) => (kind === 'text' ? textItems(n) : kind === 'icon' ? iconItems(n) : stackItems(n))

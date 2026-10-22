@@ -21,4 +21,9 @@ defineEmits(['update:expanded'])
 .s-triangle:is(:active, .is-pressed):not(:disabled) { background: var(--surface-control-pressed); color: var(--text-primary); }
 .s-triangle:is(:focus-visible, .is-focus) { box-shadow: 0 0 0 3px var(--line-focus); }
 .s-triangle:disabled { opacity: 0.35; }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-triangle__glyph { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
 </style>

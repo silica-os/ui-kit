@@ -17,10 +17,12 @@ const props = defineProps({
   force: { type: String, default: '' },
   /** Render the list open (for documentation). */
   open: Boolean,
+  /** index of the highlighted option while the list is open (documentation: the kit shows one) */
+  highlight: { type: Number, default: -1 },
 })
 const emit = defineEmits(['update:modelValue'])
 const isOpen = ref(props.open)
-const active = ref(-1)
+const active = ref(props.highlight)
 const root = ref(null)
 const field = ref(null)
 const uid = `s-combo-${Math.random().toString(36).slice(2, 8)}`
@@ -100,5 +102,5 @@ function onFocusOut(e) {
   cursor: default; user-select: none; -webkit-user-select: none;
 }
 .s-combo__item.is-active { background: var(--accent-amalfi); color: var(--text-on-accent); }
-.s-combo__check { display: inline-grid; place-items: center; width: 12px; height: 12px; margin-right: 4px; flex: none; }
+.s-combo__check { display: inline-grid; place-items: center; width: 12px; height: 12px; flex: none; }
 </style>

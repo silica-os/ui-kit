@@ -78,10 +78,8 @@ const barVariant = computed(() => (props.kind === 'utility' ? 'title' : props.to
       </div>
     </div>
 
-    <template v-if="$slots.sheet">
-      <div class="s-window__scrim" />
-      <div class="s-window__sheet"><slot name="sheet" /></div>
-    </template>
+    <Transition name="s-veil"><div v-if="$slots.sheet" class="s-window__scrim" /></Transition>
+    <Transition name="s-sheet"><div v-if="$slots.sheet" class="s-window__sheet"><slot name="sheet" /></div></Transition>
   </section>
 </template>
 
@@ -128,6 +126,15 @@ const barVariant = computed(() => (props.kind === 'utility' ? 'title' : props.to
 .s-window__bar--utility .s-titlebar__center { align-items: center; }
 
 /* attached sheet */
-.s-window__scrim { position: absolute; left: 0; right: 0; bottom: 0; top: 48px; background: var(--text-primary); opacity: 0.16; z-index: 10; border-radius: 0 0 var(--radius-window) var(--radius-window); }
+.s-window__scrim { position: absolute; left: 0; right: 0; bottom: 0; top: 48px; background: var(--brand-ink); opacity: 0.16; /* the kit's scrim is ink in both themes */ z-index: 10; border-radius: 0 0 var(--radius-window) var(--radius-window); }
 .s-window__sheet { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); z-index: 11; }
+
+/* sheet in / out (dialogs.md, appearing and closing): the veil fades, the card fades in moving down 20 pt, no scaling; it fades out in place */
+.s-veil-enter-active, .s-veil-leave-active { transition: opacity var(--fade-standard); }
+.s-veil-enter-from, .s-veil-leave-to { opacity: 0; }
+.s-sheet-enter-active { transition: opacity var(--fade-standard), translate var(--spring-panel); }
+.s-sheet-leave-active { transition: opacity var(--fade-instant); }
+.s-sheet-enter-from { opacity: 0; translate: 0 -20px; }
+.s-sheet-leave-to { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .s-sheet-enter-active { transition: opacity var(--fade-quick); } .s-sheet-enter-from { translate: none; } }
 </style>

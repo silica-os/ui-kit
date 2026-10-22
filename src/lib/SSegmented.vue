@@ -29,7 +29,7 @@ const sizes = {
   mini: { h: 20, item: 12, font: 'var(--font-caption)', icon: 14, aw: 40, ai: 20, sep: 12 },
   small: { h: 24, item: 16, font: 'var(--font-label)', icon: 16, aw: 44, ai: 24, sep: 12 },
   regular: { h: 28, item: 20, font: 'var(--font-body)', icon: 20, aw: 52, ai: 28, sep: 16 },
-  large: { h: 32, item: 24, font: 'var(--font-body)', icon: 20, aw: 56, ai: 36, sep: 16 },
+  large: { h: 32, item: 24, font: 'var(--font-body)', icon: 20, aw: 56, ai: 36.5, sep: 16 },
 }
 const isStacked = computed(() => props.stacked ?? props.items.some((i) => i.icon && i.label))
 const m = computed(() => {
@@ -171,12 +171,17 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 }
 .s-segmented { transition: transform var(--spring-snappy); }
 .s-segmented.is-pressing { transform: scale(var(--press-scale-segmented, 1.035)); }
-.s-segmented.is-disabled { opacity: 0.35; pointer-events: none; }
+.s-segmented.is-disabled { pointer-events: none; }
+/* dim the glass and the items separately: opacity on the control itself would make it the backdrop root and hide what is behind the glass */
+.s-segmented.is-disabled::before, .s-segmented.is-disabled > * { opacity: 0.35; }
 .s-segmented--action { grid-auto-columns: minmax(var(--seg-w), auto); padding: 0; }
-.s-segmented--action .s-segmented__sep { width: 1px; height: var(--seg-sep-h); background: var(--line-separator); }
+/* the kit's separator is drawn over the seam between two items and takes no room of its own */
+.s-segmented--action .s-segmented__sep { position: relative; width: 0; height: var(--seg-sep-h); }
+.s-segmented--action .s-segmented__sep::after { content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 100%; background: var(--line-separator); }
 .s-segmented--action { grid-auto-columns: auto; }
 .s-segmented--action .s-segment { min-width: var(--seg-w); height: var(--seg-h); }
 .s-segmented--action .s-segment { padding: 0 8px; }
+.s-segmented--action .s-segment.is-icon { padding: 0; }
 
 .s-segmented__thumb {
   position: absolute; top: var(--seg-pad); height: var(--seg-item-h); box-sizing: border-box; border-radius: calc(var(--seg-item-h) / 2); pointer-events: none;
@@ -191,4 +196,10 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
   backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
 }
 .s-segmented--any .s-segmented__thumb { display: none; }
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-segmented, .s-segmented__thumb.is-animated, .s-segmented__thumb.is-lens { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
+}
+@media (prefers-reduced-motion: reduce) { .s-segmented.is-pressing { transform: none; } }
 </style>

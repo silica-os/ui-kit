@@ -18,7 +18,7 @@ defineProps({
 </template>
 
 <style>
-.s-status .s-mbitem__label { font: var(--font-body-emphasis); font-weight: 600; }
+.s-status .s-mbitem__label { font: var(--font-body-emphasis); }
 .s-status .s-mbitem { min-width: 36px; }
 .s-status .s-mbitem:not(:has(.s-icon)) { min-width: 120px; }
 .s-status .s-mbitem:has(.s-mbitem__label):has(.s-icon) .s-mbitem__label { min-width: 32px; text-align: right; }

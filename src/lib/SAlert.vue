@@ -57,8 +57,9 @@ const id = useId()
 }
 .s-alert__title { font: var(--font-title-3); width: 100%; margin-bottom: 8px; }
 .s-alert__message { font: var(--font-callout); color: var(--text-secondary); width: 100%; margin-bottom: 20px; }
-.s-alert__suppress { margin: -4px 0 20px; }
+.s-alert__suppress { width: 168px; margin: -4px 0 20px; } /* the kit sizes the suppression row to 168 pt, label left-aligned */
 .s-alert__accessory { width: 100%; margin: -4px 0 20px; }
+.s-alert__accessory .s-field { width: 100%; }
 .s-alert__buttons { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 .s-alert__buttons .s-button { width: 100%; }
 </style>

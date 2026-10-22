@@ -89,7 +89,7 @@ const hCols = [{ key: 'Rest', label: 'Rest' }]
     <h2>Panel, compared with the kit</h2>
     <CompareMatrix :rows="[{ key: 'Active', label: 'Active' }]" :cols="hCols" :kit="() => 'Sidebars/Panel/Active'">
       <template #default>
-        <SSidebar model-value="recents" style="height: 460px">
+        <SSidebar model-value="recents" style="height: 460px; min-height: 0">
           <SSidebarGroup title="Favourites">
             <SSidebarItem value="recents" icon="clock" label="Recents" />
             <SSidebarItem value="documents" icon="folder" label="Documents" badge="12" />

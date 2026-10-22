@@ -24,9 +24,12 @@ let moved = false
 const dim = computed(() => SIZES[props.size])
 const left = computed(() => (props.modelValue ? dim.value.w - dim.value.t - INSET : INSET))
 const stretch = computed(() => (props.force === 'pressed' ? 4 : 0))
+// `force="drag"` shows the lens on the resting thumb (documentation)
+const lens = computed(() => dragging.value || props.force === 'drag')
 const thumbStyle = computed(() => {
   const d = dim.value
   if (dragging.value) return { left: lensX.value - d.lens / 2 + 'px' }
+  if (lens.value) return { left: left.value + d.t / 2 - d.lens / 2 + 'px' }
   return { left: left.value - (props.modelValue ? stretch.value : 0) + 'px', width: `calc(var(--t) + ${stretch.value}px)` }
 })
 const on = computed(() => (dragging.value ? lensX.value > dim.value.w / 2 : props.modelValue))
@@ -63,12 +66,12 @@ function onClick() {
 <template>
   <button
     ref="root" type="button" role="switch" :aria-checked="modelValue" :disabled="disabled"
-    class="s-control s-switch" :class="[`s-switch--${size}`, force && `is-${force}`, { 's-switch--on': on, 'is-dragging': dragging }]"
+    class="s-control s-switch" :class="[`s-switch--${size}`, force && `is-${force}`, { 's-switch--on': on, 'is-dragging': lens }]"
     :style="{ '--w': dim.w + 'px', '--h': dim.h + 'px', '--t': dim.t + 'px', '--lens': dim.lens + 'px' }"
     @pointerdown="onDown" @pointermove="onMove" @pointerup="onUp" @click="onClick"
   >
     <span class="s-switch__track" />
-    <span class="s-switch__thumb" :class="{ 'is-lens': dragging }" :style="thumbStyle" />
+    <span class="s-switch__thumb" :class="{ 'is-lens': lens }" :style="thumbStyle" />
   </button>
 </template>
 
@@ -102,5 +105,10 @@ function onClick() {
   backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
   transition: top var(--spring-snappy), width var(--spring-snappy), height var(--spring-snappy), border-radius var(--spring-snappy),
     background-color var(--spring-snappy), box-shadow var(--spring-snappy), backdrop-filter var(--spring-snappy);
+}
+
+/* reduced motion: springs become the short fade (same as --fade-quick), no overshoot or scale */
+@media (prefers-reduced-motion: reduce) {
+  .s-switch__thumb, .s-switch__thumb.is-lens { transition-duration: 150ms !important; transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important; }
 }
 </style>

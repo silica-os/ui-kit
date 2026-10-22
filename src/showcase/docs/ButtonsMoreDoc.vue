@@ -9,11 +9,12 @@ import SDisclosureButton from '../../lib/SDisclosureButton.vue'
 import SLink from '../../lib/SLink.vue'
 import SGroupBox from '../../lib/SGroupBox.vue'
 import SCheckbox from '../../lib/SCheckbox.vue'
+import STextField from '../../lib/STextField.vue'
+import SSwitch from '../../lib/SSwitch.vue'
 import DocPage from '../DocPage.vue'
 import Stage from '../Stage.vue'
 import Code from '../Code.vue'
 import CompareMatrix from '../CompareMatrix.vue'
-import KitRef from '../KitRef.vue'
 
 const expanded = ref(false)
 const a = ref(true)
@@ -25,6 +26,7 @@ const states = [
 const sizes = ['mini', 'small', 'regular', 'large'].map((s) => ({ key: s, label: s }))
 const cap = (s) => s[0].toUpperCase() + s.slice(1)
 const shape = ref('round')
+const boxRows = [{ key: 'Titled/Rest', label: 'Titled' }, { key: 'Titled/Disabled', label: 'Titled, disabled', disabled: true }, { key: 'Untitled/Rest', label: 'Untitled' }, { key: 'Nested/Rest', label: 'Nested' }]
 </script>
 
 <template>
@@ -57,15 +59,25 @@ const shape = ref('round')
     </CompareMatrix>
 
     <h2>Group box, compared with the kit</h2>
-    <div class="two">
-      <Stage :pad="28"><SGroupBox title="Notifications" style="width: 192px"><SCheckbox v-model="b">Show banners</SCheckbox><SCheckbox v-model="a">Play sound</SCheckbox><SCheckbox>Lock screen</SCheckbox></SGroupBox></Stage>
-      <Stage :pad="28"><KitRef name="Group Boxes/Box/Titled/Rest" /></Stage>
-    </div>
+    <CompareMatrix :rows="boxRows" :cols="[{ key: 'x', label: 'Box' }]" :kit="(r) => `Group Boxes/Box/${r.key}`">
+      <template #default="{ row }">
+        <SGroupBox v-if="row.key.startsWith('Titled')" title="Notifications" :disabled="row.disabled" style="width: 192px">
+          <SCheckbox :model-value="true">Show banners</SCheckbox><SCheckbox :model-value="true">Play sound</SCheckbox><SCheckbox :model-value="false">Show on lock screen</SCheckbox>
+        </SGroupBox>
+        <SGroupBox v-else-if="row.key.startsWith('Untitled')" style="width: 224px">
+          <STextField model-value="Amalfi coast" /><SCheckbox :model-value="true">Remember this name</SCheckbox>
+        </SGroupBox>
+        <SGroupBox v-else title="Recipe sharing" style="width: 280px">
+          <span class="swrow"><span>Enable sync</span><SSwitch :model-value="true" /></span>
+          <SGroupBox style="width: 224px; align-self: flex-start"><STextField model-value="Amalfi coast" /><SCheckbox :model-value="true">Remember this name</SCheckbox></SGroupBox>
+        </SGroupBox>
+      </template>
+    </CompareMatrix>
   </DocPage>
 </template>
 
 <style scoped>
 .bar { margin-bottom: 12px; }
 .gap { height: 16px; }
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.swrow { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; width: 256px; height: 32px; padding: 0 12px; }
 </style>

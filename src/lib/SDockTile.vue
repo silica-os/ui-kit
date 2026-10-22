@@ -27,7 +27,7 @@ const menuOpen = ref(false)
 const bounce = ref(false)
 const menuShown = computed(() => (menuOpen.value || props.force === 'menu'))
 let t
-function onClick(e) { bounce.value = false; requestAnimationFrame(() => { bounce.value = true; clearTimeout(t); t = setTimeout(() => (bounce.value = false), 1100) }); emit('click', e) }
+function onClick(e) { bounce.value = false; requestAnimationFrame(() => { bounce.value = true; clearTimeout(t); t = setTimeout(() => (bounce.value = false), 720) }); emit('click', e) }
 function openMenu(e) { e.preventDefault(); menuOpen.value = true; setTimeout(() => document.addEventListener('pointerdown', onDoc)) }
 function onDoc(e) { if (!root.value?.contains(e.target)) { menuOpen.value = false; document.removeEventListener('pointerdown', onDoc) } }
 onBeforeUnmount(() => { document.removeEventListener('pointerdown', onDoc); clearTimeout(t) })
@@ -54,8 +54,10 @@ const bg = computed(() => props.color ? `linear-gradient(180deg, color-mix(in sr
 .s-dock-tile__btn:focus-visible { box-shadow: 0 0 0 3px var(--line-focus); }
 .s-dock-tile:is(:hover, .is-hover) .s-dock-tile__btn { transform: scale(1.1); }
 .s-dock-tile__btn:active { filter: brightness(0.82); transition: transform var(--spring-snappy), filter var(--fade-instant); }
-.s-dock-tile.is-bounce .s-dock-tile__btn { animation: s-dock-bounce 1.05s cubic-bezier(0.3, 0, 0.4, 1) 1; }
-@keyframes s-dock-bounce { 0%, 100% { translate: 0 0 } 18% { translate: 0 -16px } 36% { translate: 0 0 } 54% { translate: 0 -9px } 72% { translate: 0 0 } 86% { translate: 0 -3px } }
+/* launch bounce, measured (dock.md): one hop of ~705 ms, 17 pt high (18 with magnification), the rise decelerating and the fall a quadratic ease-in, no squash */
+.s-dock-tile.is-bounce .s-dock-tile__btn { animation: s-dock-bounce 705ms 1; }
+@keyframes s-dock-bounce { 0% { translate: 0 0; animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1) } 50% { translate: 0 -17px; animation-timing-function: cubic-bezier(0.11, 0, 0.5, 0) } 100% { translate: 0 0 } }
+@media (prefers-reduced-motion: reduce) { .s-dock-tile.is-bounce .s-dock-tile__btn { animation: none; } }
 .s-dock-tile__icon { position: relative; display: block; width: 100%; height: 100%; }
 .s-dock-tile__icon > img { width: 100%; height: 100%; display: block; }
 /* placeholder of a bitmap app icon: 60 pt squircle (r 14) */
@@ -66,7 +68,7 @@ const bg = computed(() => props.color ? `linear-gradient(180deg, color-mix(in sr
 }
 .s-dock-tile__ph .s-icon { filter: drop-shadow(0 1px 1px #0000002e); }
 .is-missing .s-dock-tile__ph {
-  width: 48px; height: 48px; margin: 6px; border-radius: 12px; box-shadow: none;
+  padding-bottom: 4px; /* the kit's glyph sits 2 pt above the centre */ width: 48px; height: 48px; margin: 6px; border-radius: 12px; box-shadow: none;
   background: color-mix(in srgb, var(--text-tertiary) 24%, transparent); border: 1px solid color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-tertiary);
 }
 .is-missing .s-dock-tile__ph .s-icon { filter: none; }
@@ -76,9 +78,9 @@ const bg = computed(() => props.color ? `linear-gradient(180deg, color-mix(in sr
 }
 .s-dock-tile__dot { position: absolute; left: 30px; top: 72px; width: 4px; height: 4px; border-radius: 2px; background: var(--text-secondary); }
 /* label bubble: kit Dock/Label, its arrow tip sits 8 pt below the top of the tile */
-.s-dock-tile__label, .s-dock-tile__menu { position: absolute; left: 50%; bottom: calc(100% - 8px); translate: -50% 0; z-index: 5; pointer-events: none; opacity: 0; transition: opacity var(--fade-quick), translate var(--spring-snappy); }
-.s-dock-tile__text { display: block; min-width: 32px; padding: 5px 16px; white-space: nowrap; font: var(--font-body); font-weight: 500; line-height: 18px; text-align: center; color: var(--text-primary); }
-.s-dock-tile:is(:hover, :focus-within, .is-hover, .is-label):not(.is-menu) .s-dock-tile__label { opacity: 1; transition-delay: 120ms, 0s; }
+.s-dock-tile__label, .s-dock-tile__menu { position: absolute; left: 50%; bottom: calc(100% - 8px); translate: -50% 0; z-index: 5; pointer-events: none; opacity: 0; transition: opacity var(--fade-standard) 40ms, translate var(--spring-snappy); } /* leaves with a ~250 ms fade starting ~40 ms late (dock.md) */
+.s-dock-tile__text { display: block; min-width: 64px; /* the kit's label is never narrower than a tile */ padding: 5px 16px; white-space: nowrap; font: var(--font-body); line-height: 18px; text-align: center; color: var(--text-primary); }
+.s-dock-tile:is(:hover, :focus-within, .is-hover, .is-label):not(.is-menu) .s-dock-tile__label { opacity: 1; transition: opacity var(--fade-instant), translate var(--spring-snappy); } /* appears at once, a quick fade */
 .s-dock-tile:is(:hover, :focus-within, .is-hover) .s-dock-tile__label { translate: -50% -5px; }
 .s-dock-tile__menu { z-index: 20; opacity: 1; pointer-events: auto; }
 .s-dock-tile__menu .s-menu { min-width: 192px; padding: 0; }

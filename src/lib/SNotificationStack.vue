@@ -19,7 +19,9 @@ function set(v) { inner.value = v; emit('update:expanded', v) }
 <template>
   <div class="s-nstack" :class="{ 'is-expanded': expanded || inner }">
     <template v-if="expanded || inner">
-      <SNotification v-for="(n, i) in items" :key="n.id ?? i" v-bind="n" @action="emit('action', n.id ?? i, $event)" @close="emit('close', n.id ?? i)" />
+      <TransitionGroup name="s-notification" tag="div" class="s-nstack__list">
+        <SNotification v-for="(n, i) in items" :key="n.id ?? i" v-bind="n" @action="emit('action', n.id ?? i, $event)" @close="emit('close', n.id ?? i)" />
+      </TransitionGroup>
       <button type="button" class="s-control s-nstack__fold" @click="set(false)">Show less</button>
     </template>
     <template v-else-if="items.length">
@@ -33,9 +35,12 @@ function set(v) { inner.value = v; emit('update:expanded', v) }
 <style>
 .s-nstack { position: relative; width: 360px; display: flex; flex-direction: column; gap: 8px; }
 .s-nstack:not(.is-expanded) { padding-bottom: 20px; }
+.s-nstack__list { position: relative; display: flex; flex-direction: column; gap: 8px; }
+.s-nstack__list > .s-notification-leave-active { position: absolute; left: 0; right: 0; }
 .s-nstack__front { position: relative; z-index: 3; }
 .s-nstack__plate { position: absolute; height: 76px; }
 .s-nstack__plate--1 { left: 16px; right: 16px; top: 10px; z-index: 2; }
 .s-nstack__plate--2 { left: 32px; right: 32px; top: 20px; z-index: 1; }
-.s-nstack__fold { align-self: center; padding: 2px 10px; border: 0; background: none; color: var(--text-secondary); font: var(--font-label); cursor: default; }
+.s-nstack__fold { align-self: center; padding: 2px 10px; border: 0; background: none; color: var(--text-secondary); font: var(--font-label); cursor: default; transition: color var(--fade-quick); }
+.s-nstack__fold:is(:hover, :focus-visible) { color: var(--text-primary); }
 </style>
