@@ -1,6 +1,10 @@
 import { getMaster, masterNameBySymbolId } from '../kit.js'
+import codepoints from '../../tokens/symbol-codepoints.json'
 
 const cache = new Map()
+const EMPTY = { opacity: 1, fills: [], borders: [], shadows: [], innerShadows: [], blurs: [], corners: { radii: [] } }
+/** Resizing rules of a layer inside its parent (see tools/export-masters.js). */
+const flags = (n) => ({ hs: n.hs, vs: n.vs, hp: n.hp, vp: n.vp, ignore: n.ignore })
 const falsy = (v) => v === '0' || v === 'false'
 
 function overridesOf(node, ovs) {
@@ -17,7 +21,9 @@ function flattenNode(n, ovs) {
   const own = overridesOf(n, ovs)
   if (falsy(own.isVisible)) return null
   if (n.type === 'Text') {
-    return { ...n, text: own.stringValue ?? n.text, font: { ...n.font, color: own.textColor || n.font.color } }
+    let text = own.stringValue ?? n.text
+    if (n.font.family === 'Silica Symbols' && codepoints[text]) text = String.fromCodePoint(parseInt(codepoints[text], 16))
+    return { ...n, text, font: { ...n.font, color: own.textColor || n.font.color } }
   }
   if (n.type === 'ShapePath') {
     const f0 = own['color:fill-0']
@@ -37,12 +43,11 @@ function flattenNode(n, ovs) {
     let name = n.master
     if (own.symbolID) name = masterNameBySymbolId(own.symbolID) || name
     const master = name && getMaster(name)
-    const empty = { opacity: 1, fills: [], borders: [], shadows: [], innerShadows: [], blurs: [], corners: { radii: [] } }
-    if (!master) return { type: 'Group', name: n.name, frame: n.frame, style: empty, children: [] }
+    if (!master) return { type: 'Group', name: n.name, frame: n.frame, style: EMPTY, children: [], ...flags(n) }
     const nested = [...n.overrides, ...ovs.filter((o) => o.path.startsWith(n.id + '/')).map((o) => ({ ...o, path: o.path.slice(n.id.length + 1) }))]
     return {
-      type: 'Group', name: n.name, component: name, frame: n.frame, style: empty, transform: n.transform,
-      scale: [n.frame.w / master.frame.w, n.frame.h / master.frame.h],
+      type: 'Group', name: n.name, component: name, frame: n.frame, orig: master.frame, stack: master.stack, style: master.style,
+      transform: n.transform, ...flags(n),
       children: flattenList(master.children, nested),
     }
   }
@@ -54,7 +59,8 @@ export function flattenMaster(name) {
   if (cache.has(name)) return cache.get(name)
   const m = getMaster(name)
   if (!m) return null
-  const tree = { type: 'Group', name, frame: { x: 0, y: 0, w: m.frame.w, h: m.frame.h }, style: m.style, children: flattenList(m.children, []) }
+  const frame = { x: 0, y: 0, w: m.frame.w, h: m.frame.h }
+  const tree = { type: 'Group', name, frame, orig: frame, stack: m.stack, style: m.style, children: flattenList(m.children, []) }
   cache.set(name, tree)
   return tree
 }

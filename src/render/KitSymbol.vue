@@ -1,13 +1,13 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ensureMaster, getMaster } from '../kit.js'
-import { boxStyle, radius } from './style.js'
-import KitNode from './KitNode.vue'
+import { flattenMaster } from './flatten.js'
+import FlatStage from './FlatStage.vue'
 
 const props = defineProps({
   name: { type: String, required: true },
   scale: { type: Number, default: 1 },
-  /** Draws the checkerboard behind the symbol (glass and translucent fills read better). */
+  /** 'auto' picks a light or dark panel from the symbol name; anything else is a CSS background. */
   backdrop: { type: String, default: 'auto' },
   padding: { type: Number, default: 24 },
 })
@@ -31,27 +31,13 @@ watch(
   { immediate: true },
 )
 
-const master = computed(() => (ready.value ? getMaster(props.name) : null))
-const bg = computed(() => {
-  if (props.backdrop !== 'auto') return props.backdrop
-  return props.name.endsWith('/Dark') ? '#1b1c1f' : '#f1f2f4'
-})
-const rootCss = computed(() => ({
-  position: 'relative',
-  width: master.value.frame.w + 'px',
-  height: master.value.frame.h + 'px',
-  ...boxStyle(master.value),
-  borderRadius: radius(master.value.style.corners, master.value.frame.w, master.value.frame.h),
-}))
+const tree = computed(() => (ready.value ? flattenMaster(props.name) : null))
+const bg = computed(() => (props.backdrop !== 'auto' ? props.backdrop : props.name.endsWith('/Dark') ? '#1b1c1f' : '#f1f2f4'))
 </script>
 
 <template>
   <div class="kit-symbol" :style="{ background: bg, padding: padding + 'px' }">
-    <div v-if="master" :style="{ width: master.frame.w * scale + 'px', height: master.frame.h * scale + 'px' }">
-      <div :style="{ ...rootCss, transform: `scale(${scale})`, transformOrigin: '0 0' }">
-        <KitNode v-for="(c, i) in master.children" :key="i" :node="c" :parent="master" :overrides="[]" />
-      </div>
-    </div>
+    <FlatStage v-if="tree" :tree="tree" :scale="scale" />
     <span v-else class="kit-symbol-error">{{ error || 'Loading…' }}</span>
   </div>
 </template>

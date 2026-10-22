@@ -1,5 +1,6 @@
 // Export the Amalfi UI Kit masters as JSON layer trees (the silica-design exporter plus layer ids,
-// which instance overrides refer to). Usage in run_code:
+// which instance overrides refer to, and the resizing rules: sizing 0 Fixed, 1 Fit, 2 Fill, 3 Relative;
+// pins 0 None, 1 Min, 4 Max, 5 All; ignore = the layer sits outside its parent's stack). Usage in run_code:
 //   require('/path/to/storybook/tools/export-masters.js')({ start: 0, count: 500, png: false, out: '/tmp' })
 const sketch = require('sketch');
 
@@ -148,6 +149,11 @@ function serLayer(l) {
   const o = serLayerRaw(l);
   if (o) {
     o.id = l.id;
+    o.hs = l.horizontalSizing
+    o.vs = l.verticalSizing
+    o.hp = l.horizontalPins
+    o.vp = l.verticalPins
+    if (l.ignoresStackLayout) o.ignore = true
     if (l.type === 'SymbolInstance') o.symbolId = l.symbolId;
   }
   return o;

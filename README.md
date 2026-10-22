@@ -42,8 +42,11 @@ The icon glyphs in the kit are text in the **Silica Symbols** font. `tools/sync-
 
 Not in the kit repo on purpose: app screens (Apps), Brand, Widgets, and full screens (Lock Screen, Desktop). The Status
 Bar masters are kept as an internal dependency (Menu Bar and Control Center embed them) but not listed.
-Approximations: smooth corners are plain rounded corners, glass lens blur is a backdrop blur, bitmaps are
-placeholders.
+Layout follows Sketch: stack layouts become flexbox, layers keep their sizing (fixed, fit, fill, relative) and pins, so
+resized instances (a button stretched to 240 pt) lay out as in the kit. `#/preview/<master name>/<zoom>` shows one master
+alone. Icons are drawn from their codepoint and cannot be selected.
+Approximations: smooth corners are plain rounded corners, glass lens blur is a backdrop blur, bitmaps (app icons) are a
+grey placeholder.
 
 ## Tokens and Rust
 

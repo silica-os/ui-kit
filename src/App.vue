@@ -7,6 +7,7 @@ import CategoryView from './views/CategoryView.vue'
 import ComponentView from './views/ComponentView.vue'
 import TokenPage from './views/TokenPage.vue'
 import LabView from './views/LabView.vue'
+import PreviewView from './views/PreviewView.vue'
 
 const view = computed(() => {
   const [a, b, c] = route.value.parts
@@ -14,13 +15,14 @@ const view = computed(() => {
   if (a === 'components' && b && c) return { is: ComponentView, key: `${b}/${c}`, props: { category: b, comp: c } }
   if (a === 'components' && b) return { is: CategoryView, key: b, props: { category: b } }
   if (a === 'lab') return { is: LabView }
+  if (a === 'preview') return { is: PreviewView, key: route.value.path, props: { name: route.value.parts.slice(1, -1).join('/'), scale: Number(route.value.parts[route.value.parts.length - 1]) || 3 } }
   return { is: TokenPage, key: a, props: { page: a } }
 })
 </script>
 
 <template>
   <div class="shell">
-    <Sidebar />
+    <Sidebar v-if="route.parts[0] !== 'preview'" />
     <main><component :is="view.is" :key="view.key" v-bind="view.props" /></main>
   </div>
 </template>

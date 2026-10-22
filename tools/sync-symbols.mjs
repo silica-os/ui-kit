@@ -1,4 +1,6 @@
-// Copies the Silica Symbols fonts (the kit's icon glyphs are text in that font) into public/fonts.
+// Copies the Silica Symbols fonts (the kit's icon glyphs are text in that font) into public/fonts and their
+// codepoints into tokens/symbol-codepoints.json (browsers measure the ligature text "chevron-left" as 0 wide,
+// so the renderer draws the single codepoint instead).
 // Source: SYMBOLS_DIR, else ../symbols, else a shallow clone of silica-os/symbols in .cache/symbols.
 import { cpSync, existsSync, mkdirSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
@@ -18,4 +20,5 @@ mkdirSync(join(root, 'public/fonts'), { recursive: true })
 for (const w of ['Light', 'Regular', 'Semibold']) {
   cpSync(join(src, 'fonts', `SilicaSymbols-${w}.woff2`), join(root, 'public/fonts', `SilicaSymbols-${w}.woff2`))
 }
-console.log('fonts synced from', src)
+cpSync(join(src, 'fonts/codepoints.json'), join(root, 'tokens/symbol-codepoints.json'))
+console.log('fonts and codepoints synced from', src)
