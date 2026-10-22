@@ -2,7 +2,7 @@
 import STextField from './STextField.vue'
 import SButton from './SButton.vue'
 
-/** A text field with a small push button inside its trailing edge (Fields/Inline Button), e.g. a path with "Choose…". Emits `action` on the button. */
+/** A text field with a small borderless push button inside its trailing edge (Fields/Inline Button), e.g. a path with "Browse". Emits `action` on the button. */
 defineOptions({ inheritAttrs: false })
 defineProps({ modelValue: { type: String, default: '' }, button: { type: String, default: 'Browse' }, disabled: Boolean, force: { type: String, default: '' } })
 defineEmits(['update:modelValue', 'action'])
@@ -10,7 +10,7 @@ defineEmits(['update:modelValue', 'action'])
 
 <template>
   <STextField v-bind="$attrs" class="s-inlinefield" :model-value="modelValue" :disabled="disabled" :force="force" @update:model-value="$emit('update:modelValue', $event)">
-    <template #trailing><SButton size="small" :disabled="disabled" @pointerdown.prevent @click="$emit('action')">{{ button }}</SButton></template>
+    <template #trailing><SButton variant="borderless" size="small" :disabled="disabled" @pointerdown.prevent @click="$emit('action')">{{ button }}</SButton></template>
   </STextField>
 </template>
 

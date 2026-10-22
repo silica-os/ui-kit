@@ -6,7 +6,7 @@ export const meta = { title: 'Dialog and Notification', order: 120 }
 import { computed, reactive, ref } from 'vue'
 import SDialog from '../../lib/SDialog.vue'
 import SDialogFooter from '../../lib/SDialogFooter.vue'
-import SFileBrowser from '../../lib/SFileBrowser.vue'
+import SFilePanel from '../../lib/SFilePanel.vue'
 import SNotification from '../../lib/SNotification.vue'
 import SNotificationStack from '../../lib/SNotificationStack.vue'
 import SNotificationCentre from '../../lib/SNotificationCentre.vue'
@@ -15,7 +15,6 @@ import STextField from '../../lib/STextField.vue'
 import SCheckbox from '../../lib/SCheckbox.vue'
 import SAlert from '../../lib/SAlert.vue'
 import SGroupBox from '../../lib/SGroupBox.vue'
-import SFormSection from '../../lib/SFormSection.vue'
 import SFormRow from '../../lib/SFormRow.vue'
 import SPopUpButton from '../../lib/SPopUpButton.vue'
 import SWindow from '../../lib/SWindow.vue'
@@ -29,18 +28,27 @@ const name = ref('Lemon cake')
 const bool = reactive({ a: true, b: false })
 const place = ref('documents')
 const file = ref('lemon')
+const where = ref('Documents')
+const view = ref('icons')
+const query = ref('')
 const dlgOpen = ref(true)
 const code = computed(() => `<SDialog title="Share recipe" primary="Share" secondary="Cancel" @primary="…" @secondary="…" @close="…">
-  <STextField v-model="name" />
-  <SCheckbox v-model="allow">Allow editing</SCheckbox>
-  <template #leading><SButton>New Folder</SButton></template>
+  <SFormRow label="Name:"><STextField v-model="name" /></SFormRow>
+  <hr class="s-dialog__rule" />
+  <div class="s-dialog__group">
+    <SFormRow label="Options:"><SCheckbox v-model="allow">Allow editing</SCheckbox></SFormRow>
+    <SFormRow><SCheckbox v-model="notify">Notify when opened</SCheckbox></SFormRow>
+  </div>
 </SDialog>
+
+<SFilePanel mode="save" v-model:name="name" v-model:location="where" :locations="[…]" :places="[…]" :files="[…]" v-model="file" @primary="…" @secondary="…" />
 
 <SNotification title="Recipes" message="Two new recipes…" time="now" color="…" glyph="…"
   :actions="[{ value: 'reply', label: 'Reply' }]" @action="…" @close="…" />`)
 
-const places = [{ value: 'recents', label: 'Recents', icon: 'clock' }, { value: 'documents', label: 'Documents', icon: 'folder' }, { value: 'downloads', label: 'Downloads', icon: 'download' }]
-const files = [{ value: 'lemon', label: 'Lemon cake.recipe', icon: 'doc' }, { value: 'focaccia', label: 'Focaccia.recipe', icon: 'doc' }, { value: 'limoncello', label: 'Limoncello notes.txt', icon: 'doc-text' }]
+const places = [{ value: 'documents', label: 'Documents', icon: 'doc' }, { value: 'downloads', label: 'Downloads', icon: 'download', badge: 3 }, { value: 'pictures', label: 'Pictures', icon: 'photo' }]
+const locations = ['Documents', 'Downloads', 'Pictures']
+const files = [{ value: 'lemon', label: 'Lemon cake.recipe', icon: 'doc', date: 'Today, 09:41' }, { value: 'focaccia', label: 'Focaccia.recipe', icon: 'doc', date: 'Yesterday' }, { value: 'limoncello', label: 'Limoncello notes.txt', icon: 'doc', date: '12 Oct 2026' }]
 const msg = 'Two new recipes were added to Lemon cake. Tap to open them.'
 const acts = [{ value: 'reply', label: 'Reply' }, { value: 'mute', label: 'Mute' }]
 const items = ref([
@@ -57,13 +65,16 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
 </script>
 
 <template>
-  <DocPage title="Dialog and Notification" lead="SDialog is the raised 20 pt dialog (title, body, SDialogFooter with the primary button last) that also serves as a sheet in an SWindow; SFileBrowser is the places and files pane of the open and save panels. SNotification is the glass banner (or the card inside SNotificationCentre), SNotificationStack groups them.">
+  <DocPage title="Dialog and Notification" lead="SDialog is the raised 20 pt dialog (title, form rows, SDialogFooter with the primary button last) that also serves as a sheet in an SWindow; SFilePanel is the Finder-style open and save panel (toolbar, SFileBrowser, buttons). SNotification is the glass banner (or the card inside SNotificationCentre), SNotificationStack groups them.">
     <h2>Playground: dialog</h2>
     <Stage :pad="32" class="center">
       <Transition name="s-dialog" mode="out-in"><SDialog v-if="dlgOpen" title="Share recipe" primary="Share" secondary="Cancel" @primary="chosen = `share ${name}`; dlgOpen = false" @secondary="chosen = 'cancel'; dlgOpen = false" @close="dlgOpen = false" autofocus>
-        <STextField v-model="name" placeholder="Recipe name" />
-        <SGroupBox title="Options"><SCheckbox v-model="bool.a">Allow editing</SCheckbox><SCheckbox v-model="bool.b">Notify when opened</SCheckbox></SGroupBox>
-        <template #leading><SButton variant="secondary">Copy link</SButton></template>
+        <SFormRow label="Name:"><STextField v-model="name" placeholder="Recipe name" /></SFormRow>
+        <hr class="s-dialog__rule" />
+        <div class="s-dialog__group">
+          <SFormRow label="Options:"><SCheckbox v-model="bool.a">Allow editing</SCheckbox></SFormRow>
+          <SFormRow><SCheckbox v-model="bool.b">Notify when opened</SCheckbox></SFormRow>
+        </div>
       </SDialog>
       <div v-else class="muted">{{ chosen }} <SButton size="small" @click="dlgOpen = true">Show again</SButton></div></Transition>
     </Stage>
@@ -72,30 +83,21 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
     <h2>Dialogs, compared with the kit</h2>
     <Stage :pad="24" class="col">
       <SidePair label="Open panel" kit="Dialogs/Dialog/Open Panel/Rest" stack>
-        <SDialog size="panel" title="Open recipe" :width="600" primary="Open" secondary="Cancel">
-          <SButton variant="secondary" class="popup">Documents</SButton>
-          <SFileBrowser v-model:place="place" v-model="file" :places="places" :files="files" />
-        </SDialog>
+        <SFilePanel mode="open" v-model:location="where" :locations="locations" v-model:place="place" v-model="file" v-model:view="view" v-model:search="query" :places="places" :files="files" />
       </SidePair>
       <SidePair label="Save panel" kit="Dialogs/Dialog/Save Panel/Rest" stack>
-        <SDialog size="panel" title="Save as" :width="600" primary="Save" secondary="Cancel">
-          <STextField v-model="name" style="width: 348px" />
-          <SButton variant="secondary" class="popup" style="width: 264px">Documents</SButton>
-          <SFileBrowser v-model:place="place" v-model="file" :places="places" :files="files" />
-          <template #leading><SButton variant="secondary">New Folder</SButton></template>
-        </SDialog>
+        <SFilePanel mode="save" v-model:name="name" v-model:location="where" :locations="locations" v-model:place="place" v-model="file" v-model:view="view" v-model:search="query" :places="places" :files="files" />
       </SidePair>
       <SidePair label="Generic" kit="Dialogs/Dialog/Generic/Rest">
-        <SDialog title="Share recipe" primary="Share" secondary="Cancel">
-          <SFormSection title="Profile">
-            <SFormRow label="Name"><STextField model-value="Lemon cake" /></SFormRow>
-            <SFormRow label="Email"><STextField model-value="lemon@silica.example" /></SFormRow>
-            <SFormRow label="Region"><SPopUpButton model-value="Campania" :options="['Campania', 'Liguria', 'Sicilia']" /></SFormRow>
-          </SFormSection>
-          <SFormSection title="Preferences">
-            <SFormRow label="Options"><SCheckbox model-value>Notify me</SCheckbox></SFormRow>
-            <SFormRow label="Sign in"><SCheckbox>Keep me signed in</SCheckbox></SFormRow>
-          </SFormSection>
+        <SDialog title="Share recipe" primary="Save" secondary="Cancel">
+          <SFormRow label="Name:"><STextField model-value="Marta Esposito" /></SFormRow>
+          <SFormRow label="Email:"><STextField model-value="marta@example.it" /></SFormRow>
+          <SFormRow label="Region:"><SPopUpButton model-value="Lemon" :options="['Lemon', 'Orange', 'Olive']" /></SFormRow>
+          <hr class="s-dialog__rule" />
+          <div class="s-dialog__group">
+            <SFormRow label="Options:"><SCheckbox model-value>Send me updates</SCheckbox></SFormRow>
+            <SFormRow><SCheckbox model-value>Keep me signed in</SCheckbox></SFormRow>
+          </div>
         </SDialog>
       </SidePair>
       <SidePair label="Sheet attached" kit="Windows/Window/Sheet Attached/Active">
@@ -125,5 +127,4 @@ const nBase = { title: 'Recipes', message: msg, color: 'var(--accent-amalfi)', g
 <style scoped>
 .center { justify-content: center; min-height: 260px; }
 .col { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; overflow-x: auto; gap: 8px; }
-.popup { width: 272px; justify-content: space-between; }
 </style>
