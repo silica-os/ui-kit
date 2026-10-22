@@ -32,7 +32,7 @@ const shape = ref('round')
     <h2>Try them</h2>
     <Stage :pad="28">
       <SIconButton icon="plus" label="Add" /><SIconButton icon="gear" shape="square" label="Settings" />
-      <SLink href="#/lib/buttonsmore">Learn more</SLink>
+      <SLink href="#/lib/buttons">Learn more</SLink>
       <SDisclosureButton v-model:expanded="expanded" /><span class="muted">{{ expanded ? 'expanded' : 'collapsed' }}</span>
       <SGroupBox title="Notifications" style="width: 220px"><SCheckbox v-model="a">Show banners</SCheckbox><SCheckbox v-model="b">Play sound</SCheckbox></SGroupBox>
     </Stage>

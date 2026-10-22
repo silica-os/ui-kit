@@ -1,6 +1,6 @@
 <script setup>
 import { groupsByCategory, symbols } from '../kit.js'
-import { library } from '../showcase/registry.js'
+import { pages } from '../showcase/pages.js'
 import { href } from '../router.js'
 import tokens from '../../tokens/tokens.json'
 
@@ -13,7 +13,7 @@ const cats = [...groupsByCategory].map(([cat, groups]) => ({ cat, n: groups.leng
     <p class="lead muted">The Amalfi 1.0 component library, built to be used: real Vue components on the design tokens, each one compared side by side with the Sketch kit it comes from.</p>
 
     <div class="grid">
-      <a class="card tile" :href="href('lib', library[0].key)"><b>Library</b><span class="muted">{{ library.length }} pages of live components: use them, press them, type in them, drag them. Light and dark.</span></a>
+      <a class="card tile" :href="href('lib', pages[0].slug)"><b>Library</b><span class="muted">{{ pages.length }} pages, named and ordered like the Sketch kit: use the live components, press them, type in them, drag them. Light and dark.</span></a>
       <a class="card tile" :href="href('colors')"><b>Tokens</b><span class="muted">{{ Object.keys(tokens.colors.light).length }} colours, {{ Object.keys(tokens.typography).length }} text styles, glass, spacing, radii, shadows. Also as CSS and Rust.</span></a>
       <a class="card tile" :href="href('motion')"><b>Motion</b><span class="muted">Spring and fade tokens with their curves and settle times.</span></a>
       <a class="card tile" :href="href('components', 'Buttons')"><b>Kit renders</b><span class="muted">{{ symbols.length }} masters drawn from the Sketch layer trees, with their variants, composition and transitions.</span></a>

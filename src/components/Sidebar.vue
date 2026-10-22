@@ -2,13 +2,17 @@
 import { computed, ref } from 'vue'
 import { groupsByCategory } from '../kit.js'
 import { href, route } from '../router.js'
-import { library } from '../showcase/registry.js'
+import { pages } from '../showcase/pages.js'
 
 const q = ref('')
 const open = ref(new Set())
 const foundations = [
   ['colors', 'Colors'], ['typography', 'Typography'], ['glass', 'Glass'], ['layout', 'Spacing, radii, shadows'], ['motion', 'Motion'], ['lab', 'Animation Lab'],
 ]
+const libraryPages = computed(() => {
+  const query = q.value.trim().toLowerCase()
+  return query ? pages.filter((p) => p.name.toLowerCase().includes(query)) : pages
+})
 const cats = computed(() => {
   const query = q.value.trim().toLowerCase()
   const out = []
@@ -30,10 +34,11 @@ const active = (...parts) => route.value.path === '/' + parts.join('/')
 <template>
   <aside class="side">
     <a class="brand" :href="href()"><b>Silica</b> UI Kit <small>Amalfi 1.0</small></a>
-    <input v-model="q" type="search" placeholder="Search components" />
+    <input v-model="q" type="search" placeholder="Search pages and components" />
     <nav>
-      <div class="label">Library <small>live components</small></div>
-      <a v-for="e in library" :key="e.key" :href="href('lib', e.key)" :class="{ on: active('lib', e.key) }">{{ e.title }}</a>
+      <div class="label">Library <small>pages of the Sketch kit</small></div>
+      <a v-for="p in libraryPages" :key="p.slug" :href="href('lib', p.slug)" :class="{ on: active('lib', p.slug) }">{{ p.name }}</a>
+      <div v-if="!libraryPages.length" class="muted none">No library page matches.</div>
       <div class="label">Foundations</div>
       <a v-for="[k, name] in foundations" :key="k" :href="href(k)" :class="{ on: active(k) }">{{ name }}</a>
       <div class="label">Kit <small>Sketch renders</small></div>
@@ -58,5 +63,6 @@ a, .cat { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border
 a:hover, .cat:hover { background: var(--bg); }
 a.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 .cat span { width: 10px; color: var(--muted); font-size: 10px; } .cat small { margin-left: auto; color: var(--muted); }
+.none { padding: 4px 8px; font-size: 12px; }
 .items { display: flex; flex-direction: column; margin: 1px 0 4px 16px; border-left: 1px solid var(--line); padding-left: 6px; }
 </style>
