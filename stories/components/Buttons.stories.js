@@ -211,32 +211,3 @@ export const PushAll = {
     template: '<KitGallery :names="names()" :scale="args.scale" />',
   }),
 }
-
-const ToolbarVariants = {"Icon + Label / Disabled":{"Dark":"Buttons/Toolbar/Icon + Label/Disabled/Dark","Light":"Buttons/Toolbar/Icon + Label/Disabled/Light"},"Icon + Label / Focused":{"Dark":"Buttons/Toolbar/Icon + Label/Focused/Dark","Light":"Buttons/Toolbar/Icon + Label/Focused/Light"},"Icon + Label / Hover":{"Dark":"Buttons/Toolbar/Icon + Label/Hover/Dark","Light":"Buttons/Toolbar/Icon + Label/Hover/Light"},"Icon + Label / Pressed":{"Dark":"Buttons/Toolbar/Icon + Label/Pressed/Dark","Light":"Buttons/Toolbar/Icon + Label/Pressed/Light"},"Icon + Label / Rest":{"Dark":"Buttons/Toolbar/Icon + Label/Rest/Dark","Light":"Buttons/Toolbar/Icon + Label/Rest/Light"},"Icon Small / Disabled":{"Dark":"Buttons/Toolbar/Icon Small/Disabled/Dark","Light":"Buttons/Toolbar/Icon Small/Disabled/Light"},"Icon Small / Rest":{"Dark":"Buttons/Toolbar/Icon Small/Rest/Dark","Light":"Buttons/Toolbar/Icon Small/Rest/Light"},"Icon / Disabled":{"Dark":"Buttons/Toolbar/Icon/Disabled/Dark","Light":"Buttons/Toolbar/Icon/Disabled/Light"},"Icon / Focused":{"Dark":"Buttons/Toolbar/Icon/Focused/Dark","Light":"Buttons/Toolbar/Icon/Focused/Light"},"Icon / Hover":{"Dark":"Buttons/Toolbar/Icon/Hover/Dark","Light":"Buttons/Toolbar/Icon/Hover/Light"},"Icon / Pressed":{"Dark":"Buttons/Toolbar/Icon/Pressed/Dark","Light":"Buttons/Toolbar/Icon/Pressed/Light"},"Icon / Rest":{"Dark":"Buttons/Toolbar/Icon/Rest/Dark","Light":"Buttons/Toolbar/Icon/Rest/Light"}}
-export const Toolbar = {
-  name: "Toolbar",
-  args: { variant: "Icon + Label / Disabled", appearance: "Light", scale: 1 },
-  argTypes: {
-    variant: { control: 'select', options: ["Icon + Label / Disabled","Icon + Label / Focused","Icon + Label / Hover","Icon + Label / Pressed","Icon + Label / Rest","Icon / Disabled","Icon / Focused","Icon / Hover","Icon / Pressed","Icon / Rest","Icon Small / Disabled","Icon Small / Rest"] },
-    appearance: { control: 'inline-radio', options: ["Light","Dark"] },
-    scale: { control: { type: 'range', min: 0.5, max: 3, step: 0.25 } },
-  },
-  render: (args) => ({
-    components: { KitSymbol },
-    setup: () => ({ args, name: () => pick(ToolbarVariants, args.variant, args.appearance) }),
-    template: '<KitSymbol :name="name()" :scale="args.scale" />',
-  }),
-}
-export const ToolbarAll = {
-  name: "Toolbar · all variants",
-  args: { appearance: "Light", scale: 1 },
-  argTypes: {
-    appearance: { control: 'inline-radio', options: ["Light","Dark"] },
-    scale: { control: { type: 'range', min: 0.5, max: 3, step: 0.25 } },
-  },
-  render: (args) => ({
-    components: { KitGallery },
-    setup: () => ({ args, names: () => Object.values(ToolbarVariants).map((v) => v[args.appearance] || Object.values(v)[0]) }),
-    template: '<KitGallery :names="names()" :scale="args.scale" />',
-  }),
-}
