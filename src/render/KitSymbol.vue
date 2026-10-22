@@ -9,6 +9,7 @@ const props = defineProps({
   scale: { type: Number, default: 1 },
   /** Draws the checkerboard behind the symbol (glass and translucent fills read better). */
   backdrop: { type: String, default: 'auto' },
+  padding: { type: Number, default: 24 },
 })
 
 const ready = ref(false)
@@ -45,7 +46,7 @@ const rootCss = computed(() => ({
 </script>
 
 <template>
-  <div class="kit-symbol" :style="{ background: bg }">
+  <div class="kit-symbol" :style="{ background: bg, padding: padding + 'px' }">
     <div v-if="master" :style="{ width: master.frame.w * scale + 'px', height: master.frame.h * scale + 'px' }">
       <div :style="{ ...rootCss, transform: `scale(${scale})`, transformOrigin: '0 0' }">
         <KitNode v-for="(c, i) in master.children" :key="i" :node="c" :parent="master" :overrides="[]" />
@@ -56,6 +57,6 @@ const rootCss = computed(() => ({
 </template>
 
 <style scoped>
-.kit-symbol { display: inline-block; padding: 24px; border-radius: 8px; vertical-align: top; }
+.kit-symbol { display: inline-block; border-radius: 8px; vertical-align: top; }
 .kit-symbol-error { font: 12px system-ui; color: #888; }
 </style>

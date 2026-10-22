@@ -1,22 +1,19 @@
 {
   "name": "silica-ui-kit",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "sync": "node tools/sync-symbols.mjs",
     "tokens": "python3 tools/build-tokens.py",
-    "stories": "node tools/gen-stories.mjs",
     "predev": "npm run sync",
-    "dev": "storybook dev -p 6006",
+    "dev": "vite",
     "prebuild": "npm run sync",
-    "build": "storybook build -o dist"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "^10.6.3",
-    "@storybook/vue3-vite": "^10.6.3",
     "@vitejs/plugin-vue": "^6.0.10",
-    "storybook": "^10.6.3",
     "vite": "^8.3.5",
     "vue": "^3.5.44"
   },

@@ -1,12 +1,15 @@
 import index from '../kit/index.json'
+import deps from '../kit/deps.json'
 
 const loaders = import.meta.glob('../kit/*.json', { import: 'default' })
 
-export const symbols = index.symbols
+const all = index.symbols
+/** Public symbols; internal ones (embedded by other components) stay loadable but are not listed. */
+export const symbols = all.filter((s) => !s.internal)
 export const categories = [...new Set(symbols.map((s) => s.category))]
 
-const byName = new Map(symbols.map((s) => [s.name, s]))
-const nameBySymbolId = new Map(symbols.map((s) => [s.symbolId, s.name]))
+const byName = new Map(all.map((s) => [s.name, s]))
+const nameBySymbolId = new Map(all.map((s) => [s.symbolId, s.name]))
 const registry = new Map()
 const loading = new Map()
 
@@ -49,3 +52,32 @@ export function parts(name) {
   const appearance = ['Light', 'Dark'].includes(p[p.length - 1]) ? p.pop() : null
   return { group: p.slice(0, 2).join('/'), variant: p.slice(2).join(' / '), appearance }
 }
+
+const APPEARANCES = ['Light', 'Dark']
+
+/** Component groups: { category, key: "Buttons/Push", label: "Push", masters: [{ name, rest: [...], appearance }] }. */
+export const groups = (() => {
+  const map = new Map()
+  for (const s of symbols) {
+    const p = s.name.split('/')
+    const appearance = APPEARANCES.includes(p[p.length - 1]) ? p.pop() : null
+    const key = p.length > 2 ? p.slice(0, 2).join('/') : p.join('/')
+    const rest = p.length > 2 ? p.slice(2) : []
+    if (!map.has(key)) map.set(key, { category: s.category, key, label: p.length > 2 ? p[1] : p[0], masters: [] })
+    map.get(key).masters.push({ name: s.name, rest, appearance })
+  }
+  return [...map.values()]
+})()
+
+export const groupsByCategory = (() => {
+  const m = new Map()
+  for (const g of groups) {
+    if (!m.has(g.category)) m.set(g.category, [])
+    m.get(g.category).push(g)
+  }
+  return m
+})()
+
+export const groupByKey = new Map(groups.map((g) => [g.key, g]))
+
+export const depsOf = (key) => deps[key] || { uses: {}, usedBy: {} }
