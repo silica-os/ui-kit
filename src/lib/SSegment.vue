@@ -58,6 +58,7 @@ function onClick(e) { if (seg.action || seg.multiple || e.detail === 0) seg.sele
 .s-segmented--action .s-segment::before { content: ''; position: absolute; inset: var(--seg-action-inset) 4px; border-radius: inherit; background: none; transition: background var(--fade-quick); }
 .s-segmented--action .s-segment:is(:hover, .is-hover)::before { background: var(--line-separator); }
 .s-segmented--action .s-segment:is(:active, .is-pressed)::before { background: var(--line-border); inset: 0 4px; }
+.s-segmented--action .s-segment.is-icon:is(:active, .is-pressed)::before { inset: 0; }
 .s-segmented--action .s-segment:is(:hover, .is-hover):not(:active, .is-pressed) { background: none; }
 .s-segmented--action .s-segment > * { position: relative; }
 .s-segmented--action .s-segment:disabled { opacity: 0.35; }

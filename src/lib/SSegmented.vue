@@ -58,8 +58,15 @@ function select(v) {
 // the item under the lens when the pointer is released becomes the selection
 const pressedValue = ref(null)
 let dragging = false
+// the whole control grows while any item is held down, until the pointer is released (as on macOS)
+const pressing = ref(false)
+function endPress() { pressing.value = false; window.removeEventListener('pointerup', endPress); window.removeEventListener('pointercancel', endPress) }
 function down(v, e) {
-  if (props.disabled || props.action || props.multiple) return
+  if (props.disabled) return
+  pressing.value = true
+  window.addEventListener('pointerup', endPress)
+  window.addEventListener('pointercancel', endPress)
+  if (props.action || props.multiple) return
   dragging = true
   pressedValue.value = v
   try { rootEl().setPointerCapture?.(e.pointerId) } catch { /* synthetic pointer */ }
@@ -127,7 +134,7 @@ function measure() {
 }
 let ro
 onMounted(() => { measure(); ro = new ResizeObserver(measure); ro.observe(rootEl()); document.fonts?.ready.then(measure) })
-onBeforeUnmount(() => ro?.disconnect())
+onBeforeUnmount(() => { ro?.disconnect(); endPress() })
 watch(() => [props.modelValue, props.items, props.size, props.multiple, props.force], () => nextTick(measure), { deep: true })
 const animate = ref(false)
 onMounted(() => requestAnimationFrame(() => (animate.value = true)))
@@ -136,7 +143,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 <template>
   <SGlassPanel
     ref="root" class="s-segmented" :radius="radius" :style="style"
-    :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled }]"
+    :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled, 'is-pressing': pressing || force === 'pressed' }]"
     :role="action ? 'group' : multiple ? 'group' : 'radiogroup'"
     @pointermove="move" @pointerup="up" @pointercancel="up"
   >
@@ -162,6 +169,8 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
   display: inline-grid; grid-auto-flow: column; grid-auto-columns: minmax(var(--seg-w), 1fr); align-items: center; vertical-align: middle;
   height: var(--seg-h); padding: var(--seg-pad); box-sizing: border-box; color: var(--text-primary);
 }
+.s-segmented { transition: transform var(--spring-snappy); }
+.s-segmented.is-pressing { transform: scale(1.08); }
 .s-segmented.is-disabled { opacity: 0.35; pointer-events: none; }
 .s-segmented--action { grid-auto-columns: minmax(var(--seg-w), auto); padding: 0; }
 .s-segmented--action .s-segmented__sep { width: 1px; height: var(--seg-sep-h); background: var(--line-separator); }
