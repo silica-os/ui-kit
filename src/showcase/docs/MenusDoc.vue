@@ -16,6 +16,7 @@ import STextField from '../../lib/STextField.vue'
 import DocPage from '../DocPage.vue'
 import Stage from '../Stage.vue'
 import Code from '../Code.vue'
+import KitRef from '../KitRef.vue'
 import CompareMatrix from '../CompareMatrix.vue'
 import kitIndex from '../../../kit/index.json'
 import { theme } from '../theme.js'
@@ -50,6 +51,9 @@ const menuCol = [{ key: 'Rest', label: 'Live over kit' }]
 
 // ---- popovers
 const popCols = [{ key: 'Bottom Center', label: 'Bottom Center', place: 'bottom-center' }, { key: 'Detached', label: 'Detached', place: 'detached' }]
+const sideRows = ['Top', 'Bottom', 'Leading', 'Trailing'].map((k) => ({ key: k, label: `${k} edge`, w: k === 'Leading' || k === 'Trailing' ? 272 : 264 }))
+const alignCols = ['Start', 'Center', 'End'].map((k) => ({ key: k, label: k }))
+const zoomCases = [{ kit: 'Popovers/Popover/Text/Bottom Start', place: 'bottom-start', w: 264, h: 140 }, { kit: 'Popovers/Popover/Text/Leading Center', place: 'leading-center', w: 272, h: 132 }]
 const popRows = [{ key: 'Text', label: 'Text' }, { key: 'Form', label: 'Form' }, { key: 'List', label: 'List' }]
 
 // ---- tooltips
@@ -133,6 +137,23 @@ const code = computed(() => `<SPopover v-model:open="open" placement="${placemen
       </template>
     </CompareMatrix>
 
+    <h3 class="sub">Arrow on every edge (one outline: body and arrow are a single path)</h3>
+    <CompareMatrix glass :rows="sideRows" :cols="alignCols" :kit="(r, c) => `Popovers/Popover/Text/${r.key} ${c.key}`">
+      <template #default="{ row, col }">
+        <SPopover :placement="`${row.key.toLowerCase()}-${col.key.toLowerCase()}`" :width="row.w">
+          <div class="pop-text"><b>About this ingredient</b><span>Olive oil keeps the crust tender and adds a peppery note. Use a mild, fruity one for sweet bakes.</span><SLink>Learn more</SLink></div>
+        </SPopover>
+      </template>
+    </CompareMatrix>
+
+    <h3 class="sub">Outline at 3x: live (left) and kit (right), Bottom Start and Leading Center</h3>
+    <Stage glass :pad="20" class="zoom3">
+      <div v-for="z in zoomCases" :key="z.kit" class="zoom-pair">
+        <div class="zoom-live" :style="{ width: z.w * 3 + 'px', height: z.h * 3 + 'px' }"><div class="zoom-in"><SPopover :placement="z.place" :width="z.w"><div class="pop-text"><b>About this ingredient</b><span>Olive oil keeps the crust tender and adds a peppery note.</span></div></SPopover></div></div>
+        <KitRef :name="z.kit" :scale="3" />
+      </div>
+    </Stage>
+
     <h2>Tooltips, compared with the kit</h2>
     <CompareMatrix glass :rows="tipRows" :cols="[{ key: 'Rest', label: 'Rest' }]" :kit="(r) => `Tooltips/Tooltip/${r.key}/Rest`">
       <template #default="{ row }"><STooltip :text="tipText[row.key]" :shortcut="row.key === 'Shortcut' ? '⌘D' : ''" show class="static-tip"><span /></STooltip></template>
@@ -159,6 +180,10 @@ const code = computed(() => `<SPopover v-model:open="open" placement="${placemen
 .pop-form > :nth-child(2) { width: 100%; }
 .pop-buttons { display: flex; justify-content: flex-end; gap: 8px; }
 .pop-list { width: 188px; }
+.sub { font: var(--font-headline); margin: 24px 0 8px; }
+.zoom3 { display: flex; flex-wrap: wrap; gap: 24px; }
+.zoom-pair { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+.zoom-in { transform: scale(3); transform-origin: 0 0; width: max-content; }
 .place { position: relative; }
 .place .target { position: absolute; }
 .static-tip :deep(.s-tooltip) { position: static; transform: none; animation: none; }
