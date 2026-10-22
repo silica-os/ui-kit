@@ -1,8 +1,9 @@
 # ui-kit
 
 **Silica 1.0 Amalfi** as a real component library plus a showcase. The components are Vue 3 SFCs on the design tokens
-(`src/lib/`): buttons, switches, checkboxes, radios, text and search fields, combo box, slider, stepper, progress,
-segmented control, menu, popover, tooltip, alert, sidebar… They are interactive (typing, dragging, keyboard), animated
+(`src/lib/`): buttons, switches, checkboxes, radios, text/search/secure/number/token fields, combo and pop-up buttons, slider, dial,
+stepper, progress, segmented control, menu, popover, tooltip, alert, dialog, sidebar, scroll area, color and image wells,
+forms, window and title bar, menu bar, dock, notifications, Control Center… They are interactive (typing, dragging, keyboard), animated
 with the motion tokens, light and dark, and they reuse each other (an alert is built from buttons and a checkbox).
 Every state is shown live over the Sketch kit's own render of it, so differences are visible. Tokens and the kit's
 layer trees are exported from the Sketch source (`Silica 1.0 Amalfi UI Kit.sketch`) and also as CSS and Rust.
