@@ -9,6 +9,7 @@ import { href } from '../router.js'
 import tokens from '../../tokens/tokens.json'
 import FlatStage from '../render/FlatStage.vue'
 import KitSymbol from '../render/KitSymbol.vue'
+import { stageBackground, treeHasBlur } from '../render/style.js'
 
 const props = defineProps({ category: String, comp: String })
 const group = computed(() => groupByKey.get(`${props.category}/${props.comp}`) || groupByKey.get(props.comp))
@@ -62,7 +63,8 @@ function init() {
   sel.value = { ...first.facets }
   appearance.value = appearances.value.includes('Light') || !appearances.value.length ? 'Light' : appearances.value[0]
   const w = symbols.find((x) => x.name === first.name)?.w || 100
-  scale.value = w >= 600 ? 1 : w >= 300 ? 1.5 : 2
+  const preferred = w >= 600 ? 1 : w >= 300 ? 1.5 : 2
+  scale.value = Math.max(0.5, Math.floor(Math.min(preferred, 680 / w) * 4) / 4)
 }
 
 function pick(label, v) {
@@ -132,9 +134,11 @@ const hint = computed(() => {
 })
 
 const stageBg = computed(() => {
-  if (bg.value === 'checker') return 'repeating-conic-gradient(#8882 0 25%, #0000 0 50%) 0 0 / 20px 20px, ' + (appearance.value === 'Dark' ? '#1b1c1f' : '#f1f2f4')
-  if (bg.value === 'photo') return appearance.value === 'Dark' ? 'linear-gradient(135deg, #2a1650, #0b2a55 50%, #064b4a)' : 'linear-gradient(135deg, #ffb347, #e5338a 35%, #0e77e6 70%, #34a853)'
-  return appearance.value === 'Dark' ? '#1b1c1f' : '#f1f2f4'
+  const dark = appearance.value === 'Dark'
+  const glass = !!shown.value && treeHasBlur(shown.value)
+  if (bg.value === 'checker') return 'repeating-conic-gradient(#8882 0 25%, #0000 0 50%) 0 0 / 20px 20px, ' + (dark ? '#1b1c1f' : '#f1f2f4')
+  if (bg.value === 'glass') return stageBackground(dark, true)
+  return stageBackground(dark, glass)
 })
 
 // transition test
@@ -275,7 +279,7 @@ const gallery = computed(() => (showAll.value ? options.value : options.value.sl
         </div>
         <div class="field">
           <label>Background</label>
-          <div class="seg"><button v-for="b in ['auto', 'checker', 'photo']" :key="b" :class="{ on: bg === b }" @click="bg = b">{{ b }}</button></div>
+          <div class="seg"><button v-for="b in ['auto', 'checker', 'glass']" :key="b" :class="{ on: bg === b }" @click="bg = b">{{ b }}</button></div>
         </div>
       </aside>
     </div>

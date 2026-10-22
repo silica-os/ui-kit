@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { ensureMaster, getMaster } from '../kit.js'
 import { flattenMaster } from './flatten.js'
 import FlatStage from './FlatStage.vue'
+import { stageBackground, treeHasBlur } from './style.js'
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -32,7 +33,7 @@ watch(
 )
 
 const tree = computed(() => (ready.value ? flattenMaster(props.name) : null))
-const bg = computed(() => (props.backdrop !== 'auto' ? props.backdrop : props.name.endsWith('/Dark') ? '#1b1c1f' : '#f1f2f4'))
+const bg = computed(() => (props.backdrop !== 'auto' ? props.backdrop : stageBackground(props.name.endsWith('/Dark'), !!tree.value && treeHasBlur(tree.value))))
 </script>
 
 <template>

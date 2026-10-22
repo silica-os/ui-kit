@@ -43,8 +43,10 @@ export function boxStyle(node, ov = {}) {
   if (shadows.length) css.boxShadow = shadows.join(', ')
   const blur = st.blurs[0]
   if (blur) {
-    const sat = blur.saturation != null && blur.saturation !== 1 ? ` saturate(${blur.saturation})` : ''
-    css.backdropFilter = css.WebkitBackdropFilter = `blur(${blur.type === 'Background' ? blur.radius : blur.radius / 2}px)${sat}`
+    const f = [`blur(${blur.radius}px)`]
+    if (blur.saturation != null && blur.saturation !== 1) f.push(`saturate(${blur.saturation})`)
+    if (blur.brightness != null && blur.brightness !== 1) f.push(`brightness(${blur.brightness})`)
+    css.backdropFilter = css.WebkitBackdropFilter = f.join(' ')
   }
   return css
 }
@@ -66,3 +68,16 @@ export function textStyle(node, ov = {}) {
 }
 
 export const justify = (v) => ({ top: 'flex-start', 0: 'flex-start', center: 'center', 1: 'center', bottom: 'flex-end', 2: 'flex-end' })[v] || 'flex-start'
+
+export function treeHasBlur(node) {
+  if (node.type === 'Cross') return treeHasBlur(node.a) || treeHasBlur(node.b)
+  return (node.style && node.style.blurs.length > 0) || (node.children || []).some(treeHasBlur)
+}
+
+/** Stage background: flat, or a colourful striped backdrop when the component has blurred (glass) layers. */
+export function stageBackground(dark, glass) {
+  if (!glass) return dark ? '#1b1c1f' : '#f1f2f4'
+  const stripes = dark ? 'repeating-linear-gradient(45deg, #0004 0 12px, #fff1 12px 24px)' : 'repeating-linear-gradient(45deg, #0000000d 0 12px, #ffffff40 12px 24px)'
+  const grad = dark ? 'linear-gradient(135deg, #3a1d6e, #0b2a55 50%, #064b4a)' : 'linear-gradient(135deg, #ffd29c, #f7a6cb 40%, #8ec2f5 70%, #9fe0b5)'
+  return `${stripes}, ${grad}`
+}
