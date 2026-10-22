@@ -40,7 +40,7 @@ The icon glyphs in the kit are text in the **Silica Symbols** font. `tools/sync-
   - **All variants**: every master of the component.
 - **Animation Lab**: move a whole component with a spring or curve, copy the result as Rust or JSON.
 
-Not in the kit repo on purpose: app screens (Apps), Brand, and full screens (Lock Screen, Desktop). The Status
+Not in the kit repo on purpose: app screens (Apps), Brand, Widgets, and full screens (Lock Screen, Desktop). The Status
 Bar masters are kept as an internal dependency (Menu Bar and Control Center embed them) but not listed.
 Approximations: smooth corners are plain rounded corners, glass lens blur is a backdrop blur, bitmaps are
 placeholders.

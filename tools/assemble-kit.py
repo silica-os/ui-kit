@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Not part of the UI kit repo: app screens, brand art, full screens. Status Bar stays as an internal
 # dependency (Menu Bar and Control Center embed it) and is hidden from the app.
-EXCLUDE = {"Apps", "Brand", "Lock Screen", "Desktop"}
+EXCLUDE = {"Apps", "Brand", "Lock Screen", "Desktop", "Widgets"}
 INTERNAL = {"Status Bar"}
 
 stage, label = Path(sys.argv[1]), sys.argv[2]
