@@ -1,4 +1,4 @@
-# storybook
+# ui-kit
 
 Tokens and components of **Silica 1.0 Amalfi**, exported from the Sketch source
 (`Silica 1.0 Amalfi UI Kit.sketch`) and shown in a Storybook. Built to help the Rust implementation:
