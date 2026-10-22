@@ -17,6 +17,8 @@ const props = defineProps({
 const seg = inject('s-segmented')
 const selected = computed(() => !seg.action && seg.isSelected(props.value))
 const iconSize = computed(() => seg.iconSize.value)
+// a single-select control selects on pointer release (see SSegmented); a click with no pointer (keyboard) selects here
+function onClick(e) { if (seg.action || seg.multiple || e.detail === 0) seg.select(props.value) }
 </script>
 
 <template>
@@ -24,8 +26,7 @@ const iconSize = computed(() => seg.iconSize.value)
     type="button" class="s-control s-segment" :class="[{ 'is-selected': selected, 'is-icon': icon && !label && !$slots.default }, force && `is-${force}`]"
     :role="seg.action ? undefined : seg.multiple ? 'checkbox' : 'radio'" :aria-checked="seg.action ? undefined : selected"
     :tabindex="seg.action || seg.isTabStop(value) ? 0 : -1" :disabled="disabled" :data-value="value" :aria-label="icon && !label ? String(value) : undefined"
-    @click="seg.select(value)" @keydown="seg.onKey($event, value)"
-    @pointerdown="seg.press(value, true)" @pointerup="seg.press(value, false)" @pointerleave="seg.press(value, false)"
+    @click="onClick" @keydown="seg.onKey($event, value)" @pointerdown="seg.down(value, $event)"
   >
     <SIcon v-if="icon" :name="icon" :size="iconSize" class="s-segment__icon" />
     <span v-if="label || $slots.default" class="s-segment__label"><slot>{{ label }}</slot></span>
@@ -34,7 +35,7 @@ const iconSize = computed(() => seg.iconSize.value)
 
 <style>
 .s-segment {
-  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0;
+  position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0;
   height: var(--seg-item-h); padding: 0 6px; margin: 0; border: 0; background: none; cursor: pointer; white-space: nowrap;
   border-radius: calc(var(--seg-item-h) / 2); color: var(--text-primary); font: var(--seg-font);
 }
