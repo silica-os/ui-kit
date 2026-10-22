@@ -1,0 +1,12 @@
+/* Silica UI: shared base for the components in this folder. Colours, type and measures come from
+   tokens/tokens.css (generated from the Sketch kit): never hard-code a colour here. */
+.s-root, .s-root * { box-sizing: border-box; }
+.s-root { font: var(--font-body); color: var(--text-primary); }
+
+/* every interactive control: no text selection, one focus halo */
+.s-control { user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; outline: none; }
+.s-control:disabled, .s-control[aria-disabled='true'] { opacity: 0.35; cursor: default; pointer-events: none; }
+
+@font-face { font-family: 'Silica Symbols'; font-weight: 300; src: url('/fonts/SilicaSymbols-Light.woff2') format('woff2'); }
+@font-face { font-family: 'Silica Symbols'; font-weight: 400; src: url('/fonts/SilicaSymbols-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Silica Symbols'; font-weight: 600; src: url('/fonts/SilicaSymbols-Semibold.woff2') format('woff2'); }

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { groupsByCategory } from '../kit.js'
 import { href, route } from '../router.js'
+import { library } from '../showcase/registry.js'
 
 const q = ref('')
 const open = ref(new Set())
@@ -31,9 +32,11 @@ const active = (...parts) => route.value.path === '/' + parts.join('/')
     <a class="brand" :href="href()"><b>Silica</b> UI Kit <small>Amalfi 1.0</small></a>
     <input v-model="q" type="search" placeholder="Search components" />
     <nav>
+      <div class="label">Library <small>live components</small></div>
+      <a v-for="e in library" :key="e.key" :href="href('lib', e.key)" :class="{ on: active('lib', e.key) }">{{ e.title }}</a>
       <div class="label">Foundations</div>
       <a v-for="[k, name] in foundations" :key="k" :href="href(k)" :class="{ on: active(k) }">{{ name }}</a>
-      <div class="label">Components</div>
+      <div class="label">Kit <small>Sketch renders</small></div>
       <div v-for="{ cat, groups } in cats" :key="cat">
         <button class="cat" @click="toggle(cat)"><span>{{ isOpen(cat) ? '▾' : '▸' }}</span> {{ cat }} <small>{{ groups.length }}</small></button>
         <div v-if="isOpen(cat)" class="items">
@@ -49,6 +52,7 @@ const active = (...parts) => route.value.path === '/' + parts.join('/')
 .brand { color: var(--text); font-size: 15px; padding: 0 8px; } .brand small { color: var(--muted); margin-left: 4px; }
 input { width: 100%; }
 nav { display: flex; flex-direction: column; gap: 1px; }
+.label small { text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 4px; }
 .label { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); padding: 14px 8px 4px; }
 a, .cat { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 7px; color: var(--text); border: 0; background: transparent; text-align: left; width: 100%; }
 a:hover, .cat:hover { background: var(--bg); }
