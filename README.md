@@ -56,7 +56,7 @@ The maths is the same as `src/motion.js` (springs as damped oscillators, mass 1,
 With the UI Kit open in Sketch (MCP enabled), read-only:
 
 1. Tokens: export swatches, text styles and glass layer styles into `tokens/sketch-*.json`
-   (see `tokens/README` notes in `tools/build-tokens.py`), then `python3 tools/build-tokens.py`.
+   (`tools/export-tokens.js`, `tools/grab.py`), then `python3 tools/build-tokens.py`.
 2. Masters: run `tools/export-masters.js` in batches of 500 (`start` 0 … 3000), convert with
    `silica-design/tools/ingest.sh <scratch> b<start>`, then `python3 tools/assemble-kit.py <scratch>/stage <date>`.
 3. `node tools/gen-stories.mjs`.
