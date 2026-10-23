@@ -43,3 +43,7 @@ that exists as a token, or a shadow). Light/dark comes from `data-theme` on `<ht
    `/tmp/snap "http://localhost:6108/#/lib/<name>" out.png 1300 1500 5 ["<js to run first>" <seconds>]`.
    Do not drive the user's Safari. Compare the two rows, fix, repeat; check Light and Dark (theme toggle on the page:
    run `localStorage.setItem('silica-ui-theme','dark')` as the js argument and reload, or click the Dark button).
+
+## Corners
+
+`smoothPath.js` draws rounded outlines with the kit's continuous corners (`radii.cornerStyle: smooth, smoothing 0.6`): `smoothRectPath(w, h, r, smoothing = 0.6)` for a rectangle and `smoothPolygonPath([[x, y, r], …], smoothing)` for any polygon (SVG path, also valid as `clip-path: path('…')`). Each rounded point is a reduced circular arc plus two cubic Béziers with tangent length `(1 + smoothing) · r / tan(θ/2)`, at any angle; neighbouring points share their edge and lose smoothing before radius when it is short. `calloutPath` (popovers, tooltips, the Dock callouts) is built on it. The other components still use plain `border-radius`; use `smoothRectPath` where a surface has to match the kit exactly.
