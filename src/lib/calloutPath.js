@@ -35,19 +35,26 @@ export function calloutPath({ w, h, radius = 16, edge = 'none', pos = 'center', 
   v.forEach((p) => { p[0] += ox; p[1] += oy })
   const n = v.length
   const f = (k) => +k.toFixed(3)
-  const seg = v.map(([x, y, r], i) => {
+  // per point: unit vectors to the neighbours, the tangent length d the radius asks for (r / tan(theta / 2))
+  const geo = v.map(([x, y, r], i) => {
     const [px, py] = v[(i + n - 1) % n], [nx, ny] = v[(i + 1) % n]
     let ax = px - x, ay = py - y, bx = nx - x, by = ny - y
     const la = Math.hypot(ax, ay), lb = Math.hypot(bx, by)
     ax /= la; ay /= la; bx /= lb; by /= lb
     const theta = Math.acos(Math.max(-1, Math.min(1, ax * bx + ay * by)))
     const tn = Math.tan(theta / 2)
-    let d = r / tn
-    const dmax = Math.min(la, lb) / 2
-    let rr = r
-    if (d > dmax) { d = dmax; rr = d * tn }
-    const cross = ((x - px) * (ny - y) - (y - py) * (nx - x)) // sign of the turn at this point
-    return { p1: [x + ax * d, y + ay * d], p2: [x + bx * d, y + by * d], rr, sweep: cross > 0 ? 1 : 0, r }
+    return { x, y, r, ax, ay, bx, by, la, lb, tn, d: r > 0 && tn > 0 ? r / tn : 0, cross: (x - px) * (ny - y) - (y - py) * (nx - x) }
+  })
+  // two neighbouring points share the edge between them: when both tangents do not fit, scale them down together (so a corner next to
+  // the arrow keeps its full radius as long as the edge has room for both, as in the kit)
+  const fit = geo.map(() => 1)
+  geo.forEach((g, i) => {
+    const nxt = geo[(i + 1) % n], len = g.lb, need = g.d + nxt.d
+    if (need > len) { const k = len / need; fit[i] = Math.min(fit[i], k); fit[(i + 1) % n] = Math.min(fit[(i + 1) % n], k) }
+  })
+  const seg = geo.map((g, i) => {
+    const d = g.d * fit[i]
+    return { p1: [g.x + g.ax * d, g.y + g.ay * d], p2: [g.x + g.bx * d, g.y + g.by * d], rr: d * g.tn, sweep: g.cross > 0 ? 1 : 0, r: g.r }
   })
   let dstr = ''
   seg.forEach((s, i) => {

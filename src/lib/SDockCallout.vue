@@ -18,7 +18,7 @@ const P = 64 // room around the shape for the drop shadow
 
 <template>
   <div ref="root" class="s-dock-callout" :style="{ '--s-dock-callout-arrow': ARROW_H + 'px' }">
-    <i class="s-dock-callout__shadow" aria-hidden="true" :style="{ clipPath: `path(evenodd, 'M0,0H${w + 2 * P}V${h + 2 * P}H0Z ${calloutPath(w, h, radius).replace(/(-?[\d.]+),(-?[\d.]+)/g, (m, x, y) => `${+x + P},${+y + P}`)}')` }"><svg :width="w + 2 * P" :height="h + 2 * P"><path :d="calloutPath(w, h, radius)" :transform="`translate(${P} ${P})`" /></svg></i>
+    <i class="s-dock-callout__shadow" aria-hidden="true" :style="{ clipPath: `path(evenodd, 'M0,0H${w + 2 * P}V${h + 2 * P}H0Z ${calloutPath(w, h, radius, undefined, P, P)}')` }"><svg :width="w + 2 * P" :height="h + 2 * P"><path :d="calloutPath(w, h, radius)" :transform="`translate(${P} ${P})`" /></svg></i>
     <i class="s-dock-callout__glass" aria-hidden="true" :style="{ clipPath: `path('${calloutPath(w, h, radius)}')` }" />
     <svg class="s-dock-callout__rim" aria-hidden="true" :width="w" :height="h" :style="{ clipPath: `path('${calloutPath(w, h, radius)}')` }"><path class="hi" :d="calloutPath(w, h, radius)" transform="translate(0 1)" /><path class="rim" :d="calloutPath(w, h, radius)" /></svg>
     <div class="s-dock-callout__body" :style="inset ? { padding: inset + 'px' } : null"><slot /></div>
