@@ -139,9 +139,9 @@
    },
    "shadow": "shadows.glass",
    "refraction": {
-    "distortion": 0.26,
-    "depth": 0.32,
-    "chromaticAberration": 0.022
+    "distortion": 0.3,
+    "depth": 0.35,
+    "chromaticAberration": 0.03
    },
    "specularHighlights": true,
    "brightness": {
