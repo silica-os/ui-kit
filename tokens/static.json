@@ -171,7 +171,7 @@
     "dark": 1.05
    }
   },
-  "Glass/Clear": {
+  "Glass/Lens": {
    "lens": true,
    "blur": 2,
    "refraction": {

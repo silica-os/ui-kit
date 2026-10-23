@@ -74,9 +74,9 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 
 <style>
 /* The kit's glass differs per theme (Light/Glass/*, Dark/Glass/*): blur radius, saturation and the inner glow. Set once here as variables
    that every glass in the library reads (SThinGlass, SCallout, SDockCallout, toolbar buttons). */
-:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(10px) saturate(1.6); --s-fx-thick: blur(18px) saturate(1.7); --s-fx-thin: blur(4px) saturate(1.5); --s-fx-clear: blur(1px) saturate(1.2); }
-[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-clear: blur(1px) saturate(1.2); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-clear: blur(1px) saturate(1.2); } }
+:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(10px) saturate(1.6); --s-fx-thick: blur(18px) saturate(1.7); --s-fx-thin: blur(4px) saturate(1.5); --s-fx-lens: blur(1px) saturate(1.2); }
+[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-lens: blur(1px) saturate(1.2); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-lens: blur(1px) saturate(1.2); } }
 .s-glass { position: relative; isolation: isolate; border-radius: var(--s-glass-r, 12px); }
 .s-glass::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;

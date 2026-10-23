@@ -193,7 +193,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 .s-segmented__thumb.is-lens {
   z-index: 2; border-radius: calc(var(--seg-item-h) * 1.1); background-color: transparent;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 1px 2px transparent;
-  backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2)); -webkit-backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2));
+  backdrop-filter: var(--s-fx-lens, blur(1px) saturate(1.2)); -webkit-backdrop-filter: var(--s-fx-lens, blur(1px) saturate(1.2));
 }
 .s-segmented--any .s-segmented__thumb { display: none; }
 

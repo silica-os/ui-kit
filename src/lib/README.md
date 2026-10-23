@@ -59,9 +59,14 @@ Four materials, each with a tint token and a blur variable (`--s-fx-*`, set per 
 | Thin | `--glass-tint-thin` | `--s-fx-thin` | the small controls: `SSegmented` track (`<SGlassPanel thin>`), toolbar buttons and segments (`STitlebarPiece`), `SButton variant="glass"` at rest, glass `STextField` / `SSearchField`, `SStepper`; also `SThinGlass` (Dock, Control Center tiles) |
 | Regular | `--glass-tint` | `--s-fx-regular` | `SGlassPanel` default, `SButton variant="glass"` hovered or pressed, banners |
 | Thick | `--glass-tint-thick` | `--s-fx-thick` | menus, popovers, tooltips, alerts, `SCallout` (`thick`) |
-| Clear (lens) | none | `--s-fx-clear` | the dragged switch / slider thumb and the pressed segmented thumb (`.is-lens`) |
+| Lens | none | `--s-fx-lens` | the dragged switch / slider thumb and the pressed segmented thumb (`.is-lens`) |
 
-Thin is the default for a control; Regular is its active step; Clear only ever appears as the lens over a thin control.
+Thin is the default for a control; Regular is its active step; the lens only ever appears over a thin control, while it is pressed or dragged.
+It is called Lens, not Clear, on purpose: Apple's `clear` variant is a static, more transparent glass for media overlays, a different thing.
+
+Rules (after Apple's public Liquid Glass guidance): glass is for the controls and navigation layer floating above content, never for the content itself
+(lists, tables, media); never glass on glass (what sits on a glass surface is a plain fill or a selection pill, not a second blur); do not mix levels in
+one group of controls; a control is only `interactive` when it can be pressed.
 
 ## Window panes
 
