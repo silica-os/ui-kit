@@ -28,6 +28,7 @@ export const pages = [
   { name: 'Sidebars in Windows', parts: [{ doc: 'sidebarwindows' }], kit: [], example: true },
   { name: 'Sliders', parts: [{ doc: 'controls', include: ['Playground', 'Slider'] }, { doc: 'extracontrols', include: ['Dial'] }], kit: ['Sliders/*'] },
   { name: 'Steppers', parts: [{ doc: 'controls', include: ['Stepper'] }, { doc: 'forms', include: ['Number field'] }], kit: ['Steppers/*'] },
+  { name: 'Tables and Lists', parts: [{ doc: 'tableslists', include: ['Playground', 'Tables, compared', 'Outlines, compared', 'Lists, compared', 'Grids, compared'] }], kit: ['Tables/*', 'Outlines/*', 'Lists/*', 'Grids/*'] },
   { name: 'Text Fields', parts: [{ doc: 'fields', include: ['Playground', 'Text field'] }, { doc: 'forms', include: ['Text area', 'Secure field', 'Token field', 'Inline button'] }], kit: ['Fields/Text Field', 'Fields/Text Area', 'Fields/Secure Field', 'Fields/Token Field', 'Fields/Token', 'Fields/Inline Button', 'Fields/Clear Button'] },
   { name: 'Titlebars and toolbars', parts: [{ doc: 'windows', include: ['Window controls', 'Title bars', 'Toolbar pieces', 'Tabs'] }], kit: ['Titlebars/*'] },
   { name: 'Toggles - Checkboxes', parts: [{ doc: 'toggles', include: ['Try them', 'Checkbox'] }], kit: ['Toggles/Checkbox', 'Toggles/Checkbox Group'] },

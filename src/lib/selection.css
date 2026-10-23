@@ -1,0 +1,6 @@
+/* The selection of tables, outlines, lists and grids. Active: the accent. Inactive (window in the background, or the list is not the
+   focused control): neutral grey, the text keeps its colour. The kit uses Control Pressed in light and Control in dark. The variable is
+   resolved on the component, so a surface that sets its own theme gets its own grey. */
+.s-table, .s-list, .s-grid { --s-sel-off: var(--surface-control-pressed); }
+:where([data-theme='dark']) :is(.s-table, .s-list, .s-grid) { --s-sel-off: var(--surface-control); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) :is(.s-table, .s-list, .s-grid) { --s-sel-off: var(--surface-control); } }
