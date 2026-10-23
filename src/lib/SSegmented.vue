@@ -4,7 +4,7 @@ import SGlassPanel from './SGlassPanel.vue'
 import SSegment from './SSegment.vue'
 
 /**
- * Segmented control on a glass capsule.
+ * Segmented control on a thin glass capsule (Glass/Thin).
  *  - single select (default): `v-model` is the selected value, a thumb slides to it; arrows move and select.
  *  - `multiple`: `v-model` is an array of selected values.
  *  - `action`: no selection, each item just fires `action(value)` (back/forward pairs, formatting buttons).
@@ -142,7 +142,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 
 <template>
   <SGlassPanel
-    ref="root" class="s-segmented" :radius="radius" :style="style"
+    ref="root" thin class="s-segmented" :radius="radius" :style="style"
     :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled, 'is-pressing': pressing || force === 'pressed' }]"
     :role="action ? 'group' : multiple ? 'group' : 'radiogroup'"
     @pointermove="move" @pointerup="up" @pointercancel="up"
@@ -193,7 +193,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 .s-segmented__thumb.is-lens {
   z-index: 2; border-radius: calc(var(--seg-item-h) * 1.1); background-color: transparent;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 1px 2px transparent;
-  backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
+  backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2)); -webkit-backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2));
 }
 .s-segmented--any .s-segmented__thumb { display: none; }
 

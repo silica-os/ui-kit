@@ -50,6 +50,19 @@ that exists as a token, or a shadow). Light/dark comes from `data-theme` on `<ht
 
 Surfaces that are not capsules use it through `<SGlassPanel smooth>` (one outline for fill, rim and shadow; the outline is also published as `--s-clip` so a child can `clip-path: var(--s-clip)`): `SCallout` (popovers, tooltips, Dock callouts), `SMenu`, `SDialog`, `SAlert`, `SFilePanel`, `SWindow`, `SForm`, `SFormSection`, `SGroupBox`, the notifications, the control modules, details and the Dock (`SThinGlass`). `raised` is the solid surface of dialogs and windows, `flat` drops the shadow. Capsule controls (buttons, fields, switches, tracks) keep plain `border-radius`: a capsule has no smoothing to show.
 
+## Glass materials
+
+Four materials, each with a tint token and a blur variable (`--s-fx-*`, set per theme in `SGlassPanel.vue`):
+
+| Material | Tint | Blur | Used by |
+|---|---|---|---|
+| Thin | `--glass-tint-thin` | `--s-fx-thin` | the small controls: `SSegmented` track (`<SGlassPanel thin>`), toolbar buttons and segments (`STitlebarPiece`), `SButton variant="glass"` at rest, glass `STextField` / `SSearchField`, `SStepper`; also `SThinGlass` (Dock, Control Center tiles) |
+| Regular | `--glass-tint` | `--s-fx-regular` | `SGlassPanel` default, `SButton variant="glass"` hovered or pressed, banners |
+| Thick | `--glass-tint-thick` | `--s-fx-thick` | menus, popovers, tooltips, alerts, `SCallout` (`thick`) |
+| Clear (lens) | none | `--s-fx-clear` | the dragged switch / slider thumb and the pressed segmented thumb (`.is-lens`) |
+
+Thin is the default for a control; Regular is its active step; Clear only ever appears as the lens over a thin control.
+
 ## Window panes
 
 `SWindow` folds its side panes: `v-model:sidebar-open` / `v-model:inspector-open` (animated by width, contents keep their size and are clipped, folded panes are `inert`), `v-model:sidebar-width` / `inspector-width` with `resizable` drag handles (pulling a pane well under its minimum folds it) and Ctrl-Cmd-S / Alt-Cmd-I. Every toolbar slot receives `{ sidebarOpen, inspectorOpen, toggleSidebar, toggleInspector }`. In the split toolbar the sections follow the panes: the window controls are one element over the columns, the toggles (`panelToggles`) sit at the pane's trailing edge while it is open and move into the first remaining column (list, else content) when it is folded, and that column clears the controls. The unified toolbar is one bar: the toggle is yours. The page "Sidebars in Windows" shows every case live.

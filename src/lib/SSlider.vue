@@ -118,7 +118,7 @@ function onKey(e) {
 .s-slider__body.is-dragging .s-slider__thumb {
   margin: -4px 0 0 -8px; width: 36px; height: 28px; border-radius: 14px; background-color: transparent;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 0 0 transparent;
-  backdrop-filter: blur(1px) saturate(1.2); -webkit-backdrop-filter: blur(1px) saturate(1.2);
+  backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2)); -webkit-backdrop-filter: var(--s-fx-clear, blur(1px) saturate(1.2));
 }
 .s-slider__body.is-dragging .s-slider__thumb::after { display: none; }
 

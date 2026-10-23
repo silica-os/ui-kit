@@ -70,19 +70,27 @@ onBeforeUnmount(stop)
 .s-stepper {
   --w: 24px; --h: 28px; --r: 9px;
   position: relative; display: inline-flex; flex-direction: column; flex: none; width: var(--w); height: var(--h); border-radius: var(--r);
-  background: var(--surface-control); box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-1); color: var(--text-primary);
-  transition: box-shadow var(--fade-quick);
+  isolation: isolate; color: var(--text-primary); transition: box-shadow var(--fade-quick);
+}
+/* thin glass body (Steppers/Stepper: Glass/Thin + Fill/Glass/Tint Thin, rim, 0 4 12 shadow) */
+.s-stepper::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow, #ffffff40), var(--elevation-2);
+  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
 }
 .s-stepper--mini { --w: 16px; --h: 20px; --r: 7px; }
 .s-stepper--small { --w: 20px; --h: 24px; --r: 8px; }
 .s-stepper--large { --w: 28px; --h: 32px; --r: 10px; }
-.s-stepper:is(:focus-visible, .is-focus) { box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-1), 0 0 0 3px var(--line-focus); }
-.s-stepper[aria-disabled='true'] { opacity: 0.35; pointer-events: none; }
+.s-stepper:is(:focus-visible, .is-focus) { box-shadow: 0 0 0 3px var(--line-focus); }
+.s-stepper[aria-disabled='true'] { pointer-events: none; }
+/* opacity on the stepper would make it the backdrop root and hide what is behind the glass: dim the glass and the halves separately */
+.s-stepper[aria-disabled='true']::before, .s-stepper[aria-disabled='true'] > *, .s-stepper[aria-disabled='true']::after { opacity: 0.35; }
 .s-stepper::after { content: ''; position: absolute; left: 4px; right: 4px; top: calc(var(--h) / 2); height: 1px; background: var(--line-separator); pointer-events: none; }
 
 .s-stepper__half { flex: 1 1 0; display: grid; place-items: center; cursor: default; transition: background var(--fade-quick); }
 .s-stepper__up { border-radius: var(--r) var(--r) 0 0; }
 .s-stepper__down { border-radius: 0 0 var(--r) var(--r); }
 .s-stepper__half:hover, .is-hover-up .s-stepper__up, .is-hover-down .s-stepper__down { background: var(--accent-amalfi-soft); }
-.s-stepper__half:active, .is-pressed-up .s-stepper__up, .is-pressed-down .s-stepper__down { background: var(--surface-control-pressed); }
+.s-stepper__half:active, .is-pressed-up .s-stepper__up, .is-pressed-down .s-stepper__down { background: var(--state-press-overlay); }
 </style>

@@ -16,6 +16,8 @@ let uid = 0
 const props = defineProps({
   tag: { type: String, default: 'div' },
   thick: Boolean,
+  /** the light control material (Glass/Thin): segmented tracks, toolbar buttons, small controls. SThinGlass is the same for shelves. */
+  thin: Boolean,
   radius: { type: [Number, String], default: 12 },
   smooth: Boolean,
   raised: Boolean,
@@ -43,7 +45,7 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 
 </script>
 
 <template>
-  <component :is="tag" ref="root" class="s-glass" :class="{ 's-glass--thick': thick, 's-glass--raised': raised, 's-glass--smooth': smooth, 's-glass--bare': bare }" :style="style">
+  <component :is="tag" ref="root" class="s-glass" :class="{ 's-glass--thick': thick, 's-glass--thin': thin, 's-glass--raised': raised, 's-glass--smooth': smooth, 's-glass--bare': bare }" :style="style">
     <template v-if="smooth && d">
       <svg v-if="!flat" class="s-glass__shadow" :style="{ clipPath: shadowClip }" :width="size.w + 128" :height="size.h + 128" :viewBox="`-64 -64 ${size.w + 128} ${size.h + 128}`" aria-hidden="true">
         <defs><filter :id="`${id}-b`" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur :stdDeviation="shadow.sd" /></filter></defs>
@@ -72,9 +74,9 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 
 <style>
 /* The kit's glass differs per theme (Light/Glass/*, Dark/Glass/*): blur radius, saturation and the inner glow. Set once here as variables
    that every glass in the library reads (SThinGlass, SCallout, SDockCallout, toolbar buttons). */
-:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(10px) saturate(1.6); --s-fx-thick: blur(18px) saturate(1.7); --s-fx-thin: blur(4px) saturate(1.5); }
-[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); } }
+:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(10px) saturate(1.6); --s-fx-thick: blur(18px) saturate(1.7); --s-fx-thin: blur(4px) saturate(1.5); --s-fx-clear: blur(1px) saturate(1.2); }
+[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-clear: blur(1px) saturate(1.2); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-clear: blur(1px) saturate(1.2); } }
 .s-glass { position: relative; isolation: isolate; border-radius: var(--s-glass-r, 12px); }
 .s-glass::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;

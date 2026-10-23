@@ -83,9 +83,9 @@ defineExpose({ focus: () => input.value?.focus(), blur: () => input.value?.blur(
 .s-field--glass.s-field--large { --r: 16px; }
 .s-field--glass::before {
   content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-2);
-  backdrop-filter: blur(10px) saturate(1.6) brightness(1.12); -webkit-backdrop-filter: blur(10px) saturate(1.6) brightness(1.12);
+  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
 }
 .s-field--glass:is(:focus-within, .is-focus) { box-shadow: 0 0 0 3px var(--line-focus); }
 /* opacity on the field would hide the backdrop from the glass (it becomes the backdrop root): dim the glass and the content separately */

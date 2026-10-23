@@ -57,15 +57,15 @@ defineProps({
 .s-button--borderless:is(:hover, .is-hover)::after, .s-button--borderless:is(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 
 .s-button--glass::before {
-  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 4px 12px #0000001f;
-  backdrop-filter: blur(10px) saturate(1.6) brightness(1.12); -webkit-backdrop-filter: blur(10px) saturate(1.6) brightness(1.12);
+  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
   transition: box-shadow var(--fade-quick);
 }
 .s-button--glass:is(:hover, .is-hover)::before, .s-button--glass:is(:active, .is-pressed)::before {
-  background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 12px 32px #0000002e;
-  backdrop-filter: blur(18px) saturate(1.7) brightness(1.15); -webkit-backdrop-filter: blur(18px) saturate(1.7) brightness(1.15);
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 4px 12px #0000001f;
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
 .s-button--glass:is(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 

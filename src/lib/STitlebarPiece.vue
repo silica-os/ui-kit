@@ -50,13 +50,13 @@ const nav = [{ value: 'back', icon: 'chevron-left' }, { value: 'forward', icon: 
 
 /* unified bars use the 36 pt toolbar size, one step above the kit's large control */
 .s-titlebar--unified .s-tbpiece .s-iconbutton { --s-d: var(--control-toolbar); }
-/* toolbar buttons are glass in the kit (Titlebars/Piece: tint, rim, 0 4 12 shadow, blur), in both themes */
+/* toolbar buttons are thin glass in the kit (Titlebars/Piece, Glass/Thin: tint, rim, 0 4 12 shadow, blur), in both themes */
 .s-tbpiece .s-iconbutton::before {
-  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
   box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow, #ffffff40), var(--elevation-2);
-  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
+  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
 }
-.s-tbpiece .s-iconbutton:is(:active, .is-pressed)::before { background: linear-gradient(var(--state-press-overlay), var(--state-press-overlay)), linear-gradient(var(--glass-tint), var(--glass-tint)); }
+.s-tbpiece .s-iconbutton:is(:active, .is-pressed)::before { background: linear-gradient(var(--state-press-overlay), var(--state-press-overlay)), linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)); }
 .s-tbpiece__seg { --seg-h: 36px; --seg-item-h: 28px; --seg-w: 36px; --s-glass-r: 18px; }
 .s-tbpiece__seg--text { --seg-w: 88px; }
 .s-tbpiece .s-segmented--action { --s-glass-r: 18px; }
