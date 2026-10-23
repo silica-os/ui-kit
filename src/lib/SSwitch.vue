@@ -101,7 +101,7 @@ function onClick() {
 .s-switch__thumb.is-lens {
   top: calc((var(--h) - var(--lens)) / 2); width: var(--lens); height: var(--lens); border-radius: calc(var(--lens) / 2);
   background-color: transparent; background-image: none;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-lens);
   backdrop-filter: var(--s-fx-lens); -webkit-backdrop-filter: var(--s-fx-lens);
   transition: top var(--spring-snappy), width var(--spring-snappy), height var(--spring-snappy), border-radius var(--spring-snappy),
     background-color var(--spring-snappy), box-shadow var(--spring-snappy), backdrop-filter var(--spring-snappy);

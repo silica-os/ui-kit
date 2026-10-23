@@ -192,7 +192,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 /* pressed: the selected thumb itself swells into a Clear glass lens around the pressed item (same element, animated); the labels stay above it */
 .s-segmented__thumb.is-lens {
   z-index: 0; border-radius: calc(var(--seg-item-h) * 1.1); background-color: transparent; background-image: none;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-lens);
   backdrop-filter: var(--s-fx-lens); -webkit-backdrop-filter: var(--s-fx-lens);
 }
 .s-segmented--any .s-segmented__thumb { display: none; }

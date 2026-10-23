@@ -59,7 +59,7 @@ With the UI Kit open in Sketch (MCP enabled), read-only:
 
 1. Tokens: `tools/export-tokens.js` (+ `tools/grab.py`), then `python3 tools/build-tokens.py`.
 2. Masters: run `tools/export-masters.js` in batches of 500 (`start` 0 … 3000), convert each batch with
-   `silica-design/tools/ingest.sh <scratch> b<start>`, then `python3 tools/assemble-kit.py <scratch>/stage <date>`
+   `tools/ingest.sh <scratch> b<start>`, then `python3 tools/assemble-kit.py <scratch>/stage <date>`
    and `python3 tools/build-deps.py`.
 
 ## Licence

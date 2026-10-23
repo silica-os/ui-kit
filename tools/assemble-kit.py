@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Group the master JSON files exported from Sketch (silica-design/tools/export-symbols.js + build_kit.py master)
+"""Group the master JSON files exported from Sketch (tools/export-masters.js + build_kit.py master)
 into kit/<Category>.json (one bundle per category) and kit/index.json.
 
 usage: assemble-kit.py <stage-dir> <label>

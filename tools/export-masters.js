@@ -1,4 +1,4 @@
-// Export the Amalfi UI Kit masters as JSON layer trees (the silica-design exporter plus layer ids,
+// Export the Amalfi UI Kit masters as JSON layer trees (the former silica-design exporter plus layer ids,
 // which instance overrides refer to, and the resizing rules: sizing 0 Fixed, 1 Fit, 2 Fill, 3 Relative;
 // pins 0 None, 1 Min, 4 Max, 5 All; ignore = the layer sits outside its parent's stack). Usage in run_code:
 //   require('/path/to/storybook/tools/export-masters.js')({ start: 0, count: 500, png: false, out: '/tmp' })

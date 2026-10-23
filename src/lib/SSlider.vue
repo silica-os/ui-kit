@@ -117,7 +117,7 @@ function onKey(e) {
 /* dragging: the thumb itself becomes the 36 x 28 Clear glass lens (same element, animated from the solid thumb) */
 .s-slider__body.is-dragging .s-slider__thumb {
   margin: -4px 0 0 -8px; width: 36px; height: 28px; border-radius: 14px; background-color: transparent; background-image: none;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-lens);
   backdrop-filter: var(--s-fx-lens); -webkit-backdrop-filter: var(--s-fx-lens);
 }
 .s-slider__body.is-dragging .s-slider__thumb::after { display: none; }

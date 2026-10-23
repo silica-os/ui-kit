@@ -94,6 +94,7 @@
   --elevation-2: 0 4px 12px #0000001F;
   --elevation-3: 0 12px 32px #0000002E;
   --elevation-glass: 0 8px 20px #00000029;
+  --elevation-lens: 0 2px 8px #00000026;
   --fade-instant: 100ms cubic-bezier(0.2, 0, 0, 1);
   --fade-quick: 150ms cubic-bezier(0.2, 0, 0, 1);
   --fade-standard: 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -210,6 +211,7 @@
   --elevation-2: 0 4px 12px #00000052;
   --elevation-3: 0 12px 32px #0000005C;
   --elevation-glass: 0 8px 20px #00000058;
+  --elevation-lens: 0 2px 8px #00000047;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -298,5 +300,6 @@
     --elevation-2: 0 4px 12px #00000052;
     --elevation-3: 0 12px 32px #0000005C;
     --elevation-glass: 0 8px 20px #00000058;
+    --elevation-lens: 0 2px 8px #00000047;
   }
 }

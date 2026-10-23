@@ -57,7 +57,7 @@ Two materials, the same count as Apple's Liquid Glass (`regular` and `clear`):
 | Material | Tint | Blur | Used by |
 |---|---|---|---|
 | Regular | `--glass-tint` | `--s-fx-regular` | everything that is glass: controls (`SSegmented` track, `STitlebarPiece` buttons and segments, `SButton variant="glass"`, glass `STextField` / `SSearchField`, `SStepper`), bars, menus, popovers, tooltips, alerts, notifications, the Dock, the Control Center |
-| Clear | none | `--s-fx-lens` | the lens a control grows into while pressed or dragged (`.is-lens` of `SSwitch`, `SSlider`, `SSegmented`: no tint, no shadow, only rims, so the label under it stays readable); also overlays on media |
+| Clear | none | `--s-fx-lens` | the lens a control grows into while pressed or dragged (`.is-lens` of `SSwitch`, `SSlider`, `SSegmented`: no tint, rims and a soft `--elevation-lens` shadow, so the label under it stays readable); also overlays on media |
 
 The values of Regular (blur 14 / 16, tint 50 % / 59 %, shadow `--elevation-glass` 0 8 20) are provisional: Apple publishes none, so they sit
 between the former Regular and Thick. Rules, after Apple's public Liquid Glass guidance: glass is for the controls and navigation layer floating

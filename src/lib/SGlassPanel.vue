@@ -71,7 +71,7 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 8, sd: 
 <style>
 /* The kit's glass differs per theme (Light/Glass/*, Dark/Glass/*): blur radius, saturation and the inner glow. Set once here as variables
    that every glass in the library reads (SCallout, SDockCallout, buttons, fields, toolbar pieces). `--s-fx-lens` is the sharp blur of the lens a
-   control grows into while it is pressed or dragged: Glass/Clear (no tint, no shadow), so the label under it stays readable. */
+   control grows into while it is pressed or dragged: Glass/Clear (no tint, a soft shadow), so the label under it stays readable. */
 /* Glass/Regular, the single material: blur 14 / 16 (light / dark), saturation 1.65 / 1.22, tint 50 % / 59 %, shadow 0 8 20 (provisional, see tokens) */
 :root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(14px) saturate(1.65); --s-fx-lens: blur(1px) saturate(1.2); --s-glass-shadow: #00000029; }
 [data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(16px) saturate(1.22); --s-fx-lens: blur(1px) saturate(1.2); --s-glass-shadow: #00000058; }
