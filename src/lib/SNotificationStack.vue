@@ -25,8 +25,8 @@ function set(v) { inner.value = v; emit('update:expanded', v) }
       <button type="button" class="s-control s-nstack__fold" @click="set(false)">Show less</button>
     </template>
     <template v-else-if="items.length">
-      <SGlassPanel v-if="items.length > 2" class="s-nstack__plate s-nstack__plate--2" :radius="18" />
-      <SGlassPanel v-if="items.length > 1" class="s-nstack__plate s-nstack__plate--1" :radius="18" />
+      <SGlassPanel v-if="items.length > 2" class="s-nstack__plate s-nstack__plate--2" smooth :radius="18" />
+      <SGlassPanel v-if="items.length > 1" class="s-nstack__plate s-nstack__plate--1" smooth :radius="18" />
       <SNotification v-bind="items[0]" class="s-nstack__front" @click="items.length > 1 && set(true)" @action="emit('action', items[0].id ?? 0, $event)" @close="emit('close', items[0].id ?? 0)" />
     </template>
   </div>

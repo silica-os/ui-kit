@@ -17,7 +17,7 @@ const emit = defineEmits(['clear', 'action', 'close'])
 </script>
 
 <template>
-  <SGlassPanel class="s-ncentre" thick :radius="24" role="region" :aria-label="title">
+  <SGlassPanel class="s-ncentre" thick smooth :radius="24" role="region" :aria-label="title">
     <header class="s-ncentre__head"><h2 class="s-ncentre__title">{{ title }}</h2><SLink v-if="clear" @click="emit('clear')">{{ clear }}</SLink></header>
     <slot>
       <template v-for="s in sections" :key="s.title">

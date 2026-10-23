@@ -12,6 +12,7 @@ import SSidebarGroup from './SSidebarGroup.vue'
 import SSidebarItem from './SSidebarItem.vue'
 import STrafficLights from './STrafficLights.vue'
 import SButton from './SButton.vue'
+import SGlassPanel from './SGlassPanel.vue'
 
 /**
  * The save and open panels in the Finder's layout (Dialogs/Dialog/Save Panel, Open Panel, Save Panel Compact): a sidebar of places
@@ -49,7 +50,8 @@ const w = () => (props.width ? (typeof props.width === 'number' ? props.width + 
 </script>
 
 <template>
-  <section class="s-dialog s-dialog--file" :class="{ 'is-compact': compact(), 'is-open': mode === 'open' }" role="dialog" aria-modal="true" :aria-label="title || (mode === 'save' ? 'Save' : 'Open')" :style="{ width: w() }" @keydown.esc.stop="emit('close')">
+  <SGlassPanel tag="section" raised smooth :radius="20" class="s-dialog s-dialog--file" :class="{ 'is-compact': compact(), 'is-open': mode === 'open' }" role="dialog" aria-modal="true" :aria-label="title || (mode === 'save' ? 'Save' : 'Open')" :style="{ width: w() }" @keydown.esc.stop="emit('close')">
+    <div class="s-filepanel__frame">
     <aside v-if="!compact()" class="s-filepanel__sidebar">
       <STrafficLights v-if="mode === 'save'" class="s-filepanel__lights" @close="emit('close')" />
       <SSidebar :model-value="place" @update:model-value="emit('update:place', $event)">
@@ -79,11 +81,13 @@ const w = () => (props.width ? (typeof props.width === 'number' ? props.width + 
         <template v-if="mode === 'save' && !compact()" #leading><SButton variant="secondary" @click="emit('new-folder')">New Folder</SButton></template>
       </SDialogFooter>
     </div>
-  </section>
+    </div>
+  </SGlassPanel>
 </template>
 
 <style>
-.s-dialog--file { display: flex; flex-direction: row; gap: 0; padding: 0; overflow: hidden; }
+.s-dialog--file { display: flex; flex-direction: row; gap: 0; padding: 0; }
+.s-filepanel__frame { display: flex; flex: 1 1 auto; min-width: 0; clip-path: var(--s-clip, none); } /* the content follows the surface's smooth outline */
 .s-filepanel__sidebar { flex: none; position: relative; box-sizing: border-box; width: 177px; padding: 12px 0 0; background: var(--surface-sidebar); border-right: 1px solid var(--line-separator); }
 .s-dialog--file:not(.is-open) .s-filepanel__sidebar { padding-top: 48px; }
 .s-filepanel__lights { position: absolute; left: 16px; top: 16px; }

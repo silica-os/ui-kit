@@ -1,6 +1,7 @@
 <script setup>
 import { computed, provide } from 'vue'
 import STitlebar from './STitlebar.vue'
+import SGlassPanel from './SGlassPanel.vue'
 
 /**
  * A window: title bar or toolbar, optional sidebar / list / inspector regions, content. Regions are separated by 1 pt lines, only the
@@ -37,7 +38,8 @@ const barVariant = computed(() => (props.kind === 'utility' ? 'title' : props.to
 </script>
 
 <template>
-  <section class="s-window" :class="[`s-window--${kind}`, { 'is-inactive': inactive, 's-window--fullscreen': fullscreen, 'is-sheeted': $slots.sheet }]" :style="style">
+  <SGlassPanel tag="section" raised :smooth="!fullscreen" :bare="fullscreen" :radius="kind === 'utility' ? 14 : 18" class="s-window" :class="[`s-window--${kind}`, { 'is-inactive': inactive, 's-window--fullscreen': fullscreen, 'is-sheeted': $slots.sheet }]" :style="style">
+    <div class="s-window__frame">
     <div v-if="fullscreen && $slots.menubar" class="s-window__menubar"><slot name="menubar" /></div>
 
     <template v-if="toolbar !== 'split' || kind === 'utility'">
@@ -80,18 +82,19 @@ const barVariant = computed(() => (props.kind === 'utility' ? 'title' : props.to
 
     <Transition name="s-veil"><div v-if="$slots.sheet" class="s-window__scrim" /></Transition>
     <Transition name="s-sheet"><div v-if="$slots.sheet" class="s-window__sheet"><slot name="sheet" /></div></Transition>
-  </section>
+    </div>
+  </SGlassPanel>
 </template>
 
 <style>
 .s-window {
-  position: relative; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden; border-radius: var(--radius-window);
-  background: var(--surface-window); color: var(--text-primary); font: var(--font-body); box-shadow: var(--elevation-3);
+  position: relative; display: flex; flex-direction: column; box-sizing: border-box;
+  color: var(--text-primary); font: var(--font-body);
 }
-.s-window::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px var(--line-border); z-index: 20; }
-.s-window--utility { border-radius: 14px; }
-.s-window--fullscreen { border-radius: 0; box-shadow: none; }
-.s-window--fullscreen::after { display: none; }
+/* the surface (fill, border, shadow) is SGlassPanel's smooth outline; the window's regions are clipped to it */
+.s-window .s-glass__fill { background: var(--surface-window); }
+.s-window__frame { position: relative; display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; min-width: 0; overflow: hidden; background: var(--surface-window); clip-path: var(--s-clip, none); }
+.s-window--fullscreen .s-window__frame { background: none; }
 .s-window__menubar { flex: none; height: 32px; margin: 0 20px 12px; }
 
 .s-window__rule { flex: none; height: 1px; background: var(--line-separator); }

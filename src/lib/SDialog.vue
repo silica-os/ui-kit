@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, useId } from 'vue'
 import SDialogFooter from './SDialogFooter.vue'
+import SGlassPanel from './SGlassPanel.vue'
 
 /**
  * A dialog surface (raised, 20 pt corners, large shadow): title, body in the default slot, footer buttons. As a sheet it goes in
@@ -22,22 +23,22 @@ const props = defineProps({
 const emit = defineEmits(['primary', 'secondary', 'close'])
 const id = useId()
 const root = ref(null)
-onMounted(() => { if (props.autofocus) root.value.querySelector('input, textarea, select')?.focus() })
+onMounted(() => { if (props.autofocus) (root.value?.$el ?? root.value).querySelector('input, textarea, select')?.focus() })
 function onEnter(e) { if (e.target.matches('input:not([type=checkbox]):not([type=radio])') && !props.primaryDisabled) emit('primary') }
 </script>
 
 <template>
-  <section ref="root" class="s-dialog" role="dialog" aria-modal="true" :aria-labelledby="title ? `${id}-t` : undefined" :style="{ width: typeof width === 'number' ? width + 'px' : width }" @keydown.esc.stop="emit('close')" @keydown.enter="onEnter">
+  <SGlassPanel ref="root" tag="section" raised smooth :radius="20" class="s-dialog" role="dialog" aria-modal="true" :aria-labelledby="title ? `${id}-t` : undefined" :style="{ width: typeof width === 'number' ? width + 'px' : width }" @keydown.esc.stop="emit('close')" @keydown.enter="onEnter">
     <h2 v-if="title || $slots.title" :id="`${id}-t`" class="s-dialog__title"><slot name="title">{{ title }}</slot></h2>
     <div class="s-dialog__body"><slot /></div>
     <slot v-if="!bare" name="footer"><SDialogFooter :primary="primary" :secondary="secondary" :primary-disabled="primaryDisabled" @primary="emit('primary')" @secondary="emit('secondary')"><template v-if="$slots.leading" #leading><slot name="leading" /></template></SDialogFooter></slot>
-  </section>
+  </SGlassPanel>
 </template>
 
 <style>
 .s-dialog {
   display: flex; flex-direction: column; gap: 20px; box-sizing: border-box; padding: 26px 24px 24px; max-width: 100%;
-  background: var(--surface-raised); border-radius: var(--radius-sheetalert); box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-3); color: var(--text-primary); font: var(--font-body);
+  color: var(--text-primary); font: var(--font-body);
 }
 .s-dialog__title { margin: 0; font: var(--font-title-3); color: var(--text-primary); }
 .s-dialog__body { display: flex; flex-direction: column; gap: 12px; margin-bottom: 4px; min-height: 0; } /* rows 12 apart, 24 to the footer (Dialogs/Dialog/Generic) */

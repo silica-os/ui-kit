@@ -26,7 +26,7 @@ const id = useId()
 </script>
 
 <template>
-  <component :is="variant === 'glass' ? SGlassPanel : 'div'" v-bind="variant === 'glass' ? { thick: true, radius: 20 } : {}" class="s-alert" :class="`s-alert--${variant}`" role="alertdialog" :aria-labelledby="`${id}-t`" :aria-describedby="`${id}-m`">
+  <SGlassPanel v-bind="variant === 'glass' ? { thick: true } : { raised: true }" smooth :radius="20" class="s-alert" :class="`s-alert--${variant}`" role="alertdialog" :aria-labelledby="`${id}-t`" :aria-describedby="`${id}-m`">
     <div v-if="$slots.icon || variant === 'critical'" class="s-alert__icon">
       <slot name="icon" />
       <span v-if="variant === 'critical'" class="s-alert__badge"><SIcon name="warning" :size="16" /></span>
@@ -40,15 +40,14 @@ const id = useId()
         <SButton v-for="(b, i) in buttons" :key="b.value ?? i" :variant="b.variant ?? (i === 0 ? 'primary' : 'secondary')" @click="emit('action', b.value ?? i)">{{ b.label }}</SButton>
       </slot>
     </div>
-  </component>
+  </SGlassPanel>
 </template>
 
 <style>
 .s-alert {
   position: relative; display: flex; flex-direction: column; align-items: center; width: 280px; box-sizing: border-box; padding: 24px 20px 20px; text-align: center;
-  border-radius: var(--radius-sheetalert); color: var(--text-primary); font: var(--font-body);
+  color: var(--text-primary); font: var(--font-body);
 }
-.s-alert--default, .s-alert--critical { background: var(--surface-raised); box-shadow: inset 0 0 0 1px var(--line-border), var(--elevation-3); }
 .s-alert__icon { position: relative; width: 56px; height: 56px; margin-bottom: 16px; display: grid; place-items: center; }
 .s-alert__icon > img, .s-alert__icon > svg { width: 56px; height: 56px; }
 .s-alert__badge {

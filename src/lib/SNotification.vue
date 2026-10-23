@@ -24,7 +24,7 @@ const emit = defineEmits(['action', 'close', 'click'])
 </script>
 
 <template>
-  <component :is="variant === 'banner' ? SGlassPanel : 'div'" v-bind="variant === 'banner' ? { radius: 18 } : {}" class="s-notification" :class="[`s-notification--${variant}`, force && `is-${force}`]" role="alert" @click="emit('click', $event)">
+  <component :is="variant === 'banner' ? SGlassPanel : 'div'" v-bind="variant === 'banner' ? { radius: 18, smooth: true } : {}" class="s-notification" :class="[`s-notification--${variant}`, force && `is-${force}`]" role="alert" @click="emit('click', $event)">
     <button v-if="closable" type="button" class="s-control s-notification__close" aria-label="Close" @click.stop="emit('close')"><SIcon name="xmark" :size="12" /></button>
     <div class="s-notification__main">
       <span class="s-notification__icon"><slot name="icon"><span class="s-notification__ph" :style="color ? { background: color } : null"><SIcon v-if="glyph" :name="glyph" :size="20" /></span></slot></span>
