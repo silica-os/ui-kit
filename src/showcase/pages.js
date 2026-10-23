@@ -25,6 +25,7 @@ export const pages = [
   { name: 'Search Fields', parts: [{ doc: 'fields', include: ['Search field'] }], kit: ['Fields/Search Field'] },
   { name: 'Segmented Controls', parts: [{ doc: 'segmented' }], kit: ['Segments/*'] },
   { name: 'Sidebars', parts: [{ doc: 'sidebar' }], kit: ['Sidebars/*'] },
+  { name: 'Sidebars in Windows', parts: [{ doc: 'sidebarwindows' }], kit: [], example: true },
   { name: 'Sliders', parts: [{ doc: 'controls', include: ['Playground', 'Slider'] }, { doc: 'extracontrols', include: ['Dial'] }], kit: ['Sliders/*'] },
   { name: 'Steppers', parts: [{ doc: 'controls', include: ['Stepper'] }, { doc: 'forms', include: ['Number field'] }], kit: ['Steppers/*'] },
   { name: 'Text Fields', parts: [{ doc: 'fields', include: ['Playground', 'Text field'] }, { doc: 'forms', include: ['Text area', 'Secure field', 'Token field', 'Inline button'] }], kit: ['Fields/Text Field', 'Fields/Text Area', 'Fields/Secure Field', 'Fields/Token Field', 'Fields/Token', 'Fields/Inline Button', 'Fields/Clear Button'] },

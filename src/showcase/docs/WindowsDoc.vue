@@ -215,7 +215,6 @@ const tabCols = [{ key: 'Rest', label: 'Rest' }, { key: 'Hover', label: 'Hover',
 
       <SidePair stack label="Split toolbar (sidebar | content)" kit="Windows/Split Toolbar/Active">
       <SWindow toolbar="split" :width="960" :height="600">
-        <template #toolbar-sidebar><span class="fill" /><STitlebarPiece kind="icon" icon="sidebar" label="Sidebar" /></template>
         <template #toolbar><STitlebarPiece kind="nav" /><STitlebarTitle flex title="Lemon cake" /><STitlebarPiece kind="group" :items="g2" /><STitlebarPiece kind="views" :items="views" v-model="seg2" /><STitlebarPiece kind="search" /></template>
         <template #sidebar>
           <SSidebar v-model="nav">
@@ -229,7 +228,6 @@ const tabCols = [{ key: 'Rest', label: 'Rest' }, { key: 'Hover', label: 'Hover',
 
       <SidePair stack label="Split toolbar, three columns" kit="Windows/Split Toolbar Three Columns/Active">
       <SWindow toolbar="split" :width="1280" :height="600">
-        <template #toolbar-sidebar><span class="fill" /><STitlebarPiece kind="icon" icon="sidebar" label="Sidebar" /></template>
         <template #toolbar-list><STitlebarTitle flex title="Recipes" /><STitlebarPiece kind="group" :items="g2" /></template>
         <template #toolbar><STitlebarPiece kind="nav" /><STitlebarTitle flex title="Lemon cake" /><STitlebarPiece kind="views" :items="views" v-model="seg2" /><STitlebarPiece kind="search" /></template>
         <template #sidebar>
