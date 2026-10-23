@@ -26,7 +26,7 @@ const id = useId()
 </script>
 
 <template>
-  <SGlassPanel v-bind="variant === 'glass' ? { thick: true } : { raised: true }" smooth :radius="20" class="s-alert" :class="`s-alert--${variant}`" role="alertdialog" :aria-labelledby="`${id}-t`" :aria-describedby="`${id}-m`">
+  <SGlassPanel v-bind="variant === 'glass' ? {} : { raised: true }" smooth :radius="20" class="s-alert" :class="`s-alert--${variant}`" role="alertdialog" :aria-labelledby="`${id}-t`" :aria-describedby="`${id}-m`">
     <div v-if="$slots.icon || variant === 'critical'" class="s-alert__icon">
       <slot name="icon" />
       <span v-if="variant === 'critical'" class="s-alert__badge"><SIcon name="warning" :size="16" /></span>

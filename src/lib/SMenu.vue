@@ -34,7 +34,7 @@ defineExpose({ focusFirst: () => items()[0]?.focus() })
 </script>
 
 <template>
-  <SGlassPanel ref="root" class="s-menu" :class="{ 's-menu--sub': sub, 's-menu--plain': plain }" thick smooth :radius="12" role="menu" :style="width ? { minWidth: typeof width === 'number' ? width + 'px' : width } : null" @keydown="onKey"><slot /></SGlassPanel>
+  <SGlassPanel ref="root" class="s-menu" :class="{ 's-menu--sub': sub, 's-menu--plain': plain }" smooth :radius="12" role="menu" :style="width ? { minWidth: typeof width === 'number' ? width + 'px' : width } : null" @keydown="onKey"><slot /></SGlassPanel>
 </template>
 
 <style>

@@ -70,7 +70,7 @@ const tiles = [
 </script>
 
 <template>
-  <DocPage title="Menu bar and Dock" lead="The 32 pt menu bar (Silica mark, bold app name, menus that open an SMenu, a status cluster on the right) and the dock (a thin-glass shelf of 64 x 80 tiles with running dots, tooltips and a context menu).">
+  <DocPage title="Menu bar and Dock" lead="The 32 pt menu bar (Silica mark, bold app name, menus that open an SMenu, a status cluster on the right) and the dock (a Regular-glass shelf of 64 x 80 tiles with running dots, tooltips and a context menu).">
     <h2>Playground: menu bar</h2>
     <Stage glass :pad="0" class="stack">
       <SMenuBar v-model:open="open" app-name="Recipes" glass style="width: 100%">

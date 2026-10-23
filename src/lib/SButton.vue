@@ -57,15 +57,10 @@ defineProps({
 .s-button--borderless:is(:hover, .is-hover)::after, .s-button--borderless:is(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 
 .s-button--glass::before {
-  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 4px 12px #0000001f;
-  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
-  transition: box-shadow var(--fade-quick);
-}
-.s-button--glass:is(:hover, .is-hover)::before, .s-button--glass:is(:active, .is-pressed)::before {
   background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 4px 12px #0000001f;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-glass);
   backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
+  transition: box-shadow var(--fade-quick);
 }
 .s-button--glass:is(:active, .is-pressed)::after { background: var(--accent-amalfi-soft); }
 

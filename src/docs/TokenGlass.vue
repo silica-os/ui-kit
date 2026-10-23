@@ -4,8 +4,12 @@ import tokens from '../../tokens/tokens.json'
 
 const mode = ref('light')
 const names = Object.keys(tokens.glass)
-const css = (s) => {
-  const f = s.fills.map((x) => x.color)
+// the kit draws the tint of Light Regular as a separate layer above the glass, so the glass fill itself is near-transparent
+const tintOf = { Regular: 'Glass/Tint' }
+const css = (s, n) => {
+  let f = s.fills.map((x) => x.color)
+  const tint = tokens.colors[mode.value][tintOf[n]]
+  if (tint && (!f.length || parseInt(f[0].slice(7, 9) || 'ff', 16) <= 3)) f = [tint]
   const out = { background: f.length ? `linear-gradient(${f[0]}, ${f[0]})` : 'transparent' }
   const sh = []
   s.borders.forEach((b) => sh.push(`inset 0 0 0 ${b.thickness}px ${b.color}`))
@@ -28,7 +32,7 @@ const backdrop = computed(() => mode.value === 'light'
     </div>
     <div class="cards">
       <figure v-for="n in names" :key="n">
-        <div class="stripes"><div class="pane" :style="css(tokens.glass[n][mode] || tokens.glass[n].light)">{{ n }}</div></div>
+        <div class="stripes"><div class="pane" :style="css(tokens.glass[n][mode] || tokens.glass[n].light, n)">{{ n }}</div></div>
         <figcaption>
           Glass/{{ n }}
           <code v-for="(b, i) in (tokens.glass[n][mode] || tokens.glass[n].light).blurs" :key="i">blur {{ b.radius }} · sat {{ b.saturation }}</code>

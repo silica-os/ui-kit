@@ -93,9 +93,9 @@ function onFocusOut(e) {
 .s-combo__button:is(:active, .is-pressed) { background: var(--surface-control-pressed); }
 .s-combo__list {
   position: absolute; z-index: 20; left: 0; top: calc(100% + 4px); width: 100%; margin: 0; padding: 4px; list-style: none; border-radius: 12px;
-  background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-3);
-  backdrop-filter: blur(18px) saturate(1.7); -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-glass);
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
 .s-combo__item {
   display: flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 7px; font: var(--font-body); color: var(--text-primary);

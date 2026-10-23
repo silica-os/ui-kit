@@ -12,7 +12,6 @@ import { calloutPath } from './calloutPath.js'
  * `clip-path: path()`), the 1 pt inner border, the inner highlights and the shadow all follow the same line, arrow included.
  *  - `edge`: the edge that carries the arrow (`top | bottom | leading | trailing`, `none` = plain rounded box). The arrow adds 8 pt to that side.
  *  - `align`: `start | center | end` (kit: tip 30 pt from the nearer corner) or a number = distance of the tip from the start of the edge.
- *  - `thick`: menu/popover/tooltip material (default); otherwise the thinner control glass.
  * Content goes in the default slot; style the padding with `--s-callout-pad` (default 0) on the element.
  */
 const props = defineProps({
@@ -21,7 +20,6 @@ const props = defineProps({
   radius: { type: Number, default: 16 },
   arrowWidth: { type: Number, default: 20 },
   arrowHeight: { type: Number, default: 8 },
-  thin: Boolean,
   tag: { type: String, default: 'div' },
 })
 const id = `s-callout-${++uid}`
@@ -54,7 +52,7 @@ const glassStyle = computed(() => ({ clipPath: d.value ? `path('${d.value}')` : 
 </script>
 
 <template>
-  <component :is="tag" ref="root" class="s-callout" :class="{ 's-callout--thin': thin }" :style="style">
+  <component :is="tag" ref="root" class="s-callout" :style="style">
     <svg v-if="d" class="s-callout__shadow" :style="{ clipPath: shadowClip }" :width="size.w + 128" :height="size.h + 128" :viewBox="`-64 -64 ${size.w + 128} ${size.h + 128}`" aria-hidden="true">
       <defs><filter :id="`${id}-b`" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="16" /></filter></defs>
       <g><g transform="translate(0 12)"><path :d="d" :filter="`url(#${id}-b)`" class="s-callout__shadow-path" /></g></g>
@@ -82,13 +80,12 @@ const glassStyle = computed(() => ({ clipPath: d.value ? `path('${d.value}')` : 
 .s-callout__shadow, .s-callout__rim { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .s-callout__shadow { z-index: -2; left: -64px; top: -64px; }
 .s-callout__rim { z-index: -1; }
-.s-callout__shadow-path { fill: var(--shadow-3); }
+.s-callout__shadow-path { fill: var(--s-glass-shadow); }
 .s-callout__glass {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick);
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
-.s-callout--thin .s-callout__glass { background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03; backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular); }
 .s-callout__border { stroke: var(--glass-rim-dark); }
 .s-callout__light { stroke: var(--glass-rim-light); }
 .s-callout__glow { stroke: var(--s-glow, #ffffff40); }

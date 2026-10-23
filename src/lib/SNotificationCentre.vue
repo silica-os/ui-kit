@@ -4,7 +4,7 @@ import SLink from './SLink.vue'
 import SGlassPanel from './SGlassPanel.vue'
 
 /**
- * The notification centre panel: a thick-glass column (380 pt) with the "Notifications" header, a Clear link, and sections (Today,
+ * The notification centre panel: a Regular-glass column (380 pt) with the "Notifications" header, a Clear link, and sections (Today,
  * Earlier…) of panel cards. `sections` is [{ title, items: [{ id, title, message, time, actions, color, glyph }] }]; or use the default slot.
  * Emits `clear`, `action(id, value)`, `close(id)`.
  */
@@ -17,7 +17,7 @@ const emit = defineEmits(['clear', 'action', 'close'])
 </script>
 
 <template>
-  <SGlassPanel class="s-ncentre" thick smooth :radius="24" role="region" :aria-label="title">
+  <SGlassPanel class="s-ncentre" smooth :radius="24" role="region" :aria-label="title">
     <header class="s-ncentre__head"><h2 class="s-ncentre__title">{{ title }}</h2><SLink v-if="clear" @click="emit('clear')">{{ clear }}</SLink></header>
     <slot>
       <template v-for="s in sections" :key="s.title">

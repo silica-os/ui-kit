@@ -48,25 +48,21 @@ that exists as a token, or a shadow). Light/dark comes from `data-theme` on `<ht
 
 `smoothPath.js` draws rounded outlines with the kit's continuous corners (`radii.cornerStyle: smooth, smoothing 0.6`): `smoothRectPath(w, h, r, smoothing = 0.6)` for a rectangle and `smoothPolygonPath([[x, y, r], …], smoothing)` for any polygon (SVG path, also valid as `clip-path: path('…')`). Each rounded point is a reduced circular arc plus two cubic Béziers with tangent length `(1 + smoothing) · r / tan(θ/2)`, at any angle; neighbouring points share their edge and lose smoothing before radius when it is short (a capsule stays a capsule).
 
-Surfaces that are not capsules use it through `<SGlassPanel smooth>` (one outline for fill, rim and shadow; the outline is also published as `--s-clip` so a child can `clip-path: var(--s-clip)`): `SCallout` (popovers, tooltips, Dock callouts), `SMenu`, `SDialog`, `SAlert`, `SFilePanel`, `SWindow`, `SForm`, `SFormSection`, `SGroupBox`, the notifications, the control modules, details and the Dock (`SThinGlass`). `raised` is the solid surface of dialogs and windows, `flat` drops the shadow. Capsule controls (buttons, fields, switches, tracks) keep plain `border-radius`: a capsule has no smoothing to show.
+Surfaces that are not capsules use it through `<SGlassPanel smooth>` (one outline for fill, rim and shadow; the outline is also published as `--s-clip` so a child can `clip-path: var(--s-clip)`): `SCallout` (popovers, tooltips, Dock callouts), `SMenu`, `SDialog`, `SAlert`, `SFilePanel`, `SWindow`, `SForm`, `SFormSection`, `SGroupBox`, the notifications, the control modules, details and the Dock. `raised` is the solid surface of dialogs and windows, `flat` drops the shadow. Capsule controls (buttons, fields, switches, tracks) keep plain `border-radius`: a capsule has no smoothing to show.
 
 ## Glass materials
 
-Four materials, each with a tint token and a blur variable (`--s-fx-*`, set per theme in `SGlassPanel.vue`):
+Two materials, the same count as Apple's Liquid Glass (`regular` and `clear`):
 
 | Material | Tint | Blur | Used by |
 |---|---|---|---|
-| Thin | `--glass-tint-thin` | `--s-fx-thin` | the small controls: `SSegmented` track (`<SGlassPanel thin>`), toolbar buttons and segments (`STitlebarPiece`), `SButton variant="glass"` at rest, glass `STextField` / `SSearchField`, `SStepper`; also `SThinGlass` (Dock, Control Center tiles) |
-| Regular | `--glass-tint` | `--s-fx-regular` | `SGlassPanel` default, `SButton variant="glass"` hovered or pressed, banners |
-| Thick | `--glass-tint-thick` | `--s-fx-thick` | menus, popovers, tooltips, alerts, `SCallout` (`thick`) |
-| Lens | none | `--s-fx-lens` | the dragged switch / slider thumb and the pressed segmented thumb (`.is-lens`) |
+| Regular | `--glass-tint` | `--s-fx-regular` | everything that is glass: controls (`SSegmented` track, `STitlebarPiece` buttons and segments, `SButton variant="glass"`, glass `STextField` / `SSearchField`, `SStepper`), bars, menus, popovers, tooltips, alerts, notifications, the Dock, the Control Center |
+| Clear | none | `--s-fx-lens` (the lens) | overlays on media only. No component uses it yet; the lens a control grows into while pressed or dragged (`.is-lens`) is Regular glass kept sharp so the label under it stays readable |
 
-Thin is the default for a control; Regular is its active step; the lens only ever appears over a thin control, while it is pressed or dragged.
-It is called Lens, not Clear, on purpose: Apple's `clear` variant is a static, more transparent glass for media overlays, a different thing.
-
-Rules (after Apple's public Liquid Glass guidance): glass is for the controls and navigation layer floating above content, never for the content itself
-(lists, tables, media); never glass on glass (what sits on a glass surface is a plain fill or a selection pill, not a second blur); do not mix levels in
-one group of controls; a control is only `interactive` when it can be pressed.
+The values of Regular (blur 14 / 16, tint 50 % / 59 %, shadow `--elevation-glass` 0 8 20) are provisional: Apple publishes none, so they sit
+between the former Regular and Thick. Rules, after Apple's public Liquid Glass guidance: glass is for the controls and navigation layer floating
+above content, never for the content itself (lists, tables, media); never glass on glass (what sits on a glass surface is a plain fill or a
+selection pill, not a second blur); a control is interactive glass (hover, press, lens) only when it can be pressed.
 
 ## Window panes
 

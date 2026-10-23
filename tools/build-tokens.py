@@ -26,6 +26,8 @@ colors = {"light": {}, "dark": {}}
 brand = {}
 for s in sw["swatches"]:
     mode, _, rest = s["name"].partition("/")
+    if rest in ("Glass/Tint Thin", "Glass/Tint Thick"):
+        continue  # retired: Amalfi has two glass materials, Regular and Clear (the swatches stay in the Sketch file, the API cannot delete them)
     if mode in ("Light", "Dark"):
         colors[mode.lower()][rest] = hexa(s["color"])
     elif mode == "Brand":

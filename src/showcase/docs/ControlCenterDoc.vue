@@ -59,7 +59,7 @@ const rowsKit = [
 </script>
 
 <template>
-  <DocPage title="Control Center" lead="Modules on thin glass in a 292 pt grid (toggle, tile, slider, now playing, pills), and the 312 pt detail panes with their rows. Everything is live: switches, sliders, taps on a toggle's text open its detail.">
+  <DocPage title="Control Center" lead="Modules on Regular glass in a 292 pt grid (toggle, tile, slider, now playing, pills), and the 312 pt detail panes with their rows. Everything is live: switches, sliders, taps on a toggle's text open its detail.">
     <h2>Playground</h2>
     <Stage glass :pad="32" class="play">
       <SControlPanel>

@@ -4,7 +4,7 @@ import SGlassPanel from './SGlassPanel.vue'
 import SSegment from './SSegment.vue'
 
 /**
- * Segmented control on a thin glass capsule (Glass/Thin).
+ * Segmented control on a glass capsule (Glass/Regular).
  *  - single select (default): `v-model` is the selected value, a thumb slides to it; arrows move and select.
  *  - `multiple`: `v-model` is an array of selected values.
  *  - `action`: no selection, each item just fires `action(value)` (back/forward pairs, formatting buttons).
@@ -142,7 +142,7 @@ onMounted(() => requestAnimationFrame(() => (animate.value = true)))
 
 <template>
   <SGlassPanel
-    ref="root" thin class="s-segmented" :radius="radius" :style="style"
+    ref="root" class="s-segmented" :radius="radius" :style="style"
     :class="[`s-segmented--${size}`, { 's-segmented--any': multiple, 's-segmented--action': action, 's-segmented--stacked': isStacked, 'is-disabled': disabled, 'is-pressing': pressing || force === 'pressed' }]"
     :role="action ? 'group' : multiple ? 'group' : 'radiogroup'"
     @pointermove="move" @pointerup="up" @pointercancel="up"

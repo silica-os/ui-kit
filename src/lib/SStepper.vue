@@ -72,12 +72,12 @@ onBeforeUnmount(stop)
   position: relative; display: inline-flex; flex-direction: column; flex: none; width: var(--w); height: var(--h); border-radius: var(--r);
   isolation: isolate; color: var(--text-primary); transition: box-shadow var(--fade-quick);
 }
-/* thin glass body (Steppers/Stepper: Glass/Thin + Fill/Glass/Tint Thin, rim, 0 4 12 shadow) */
+/* Regular glass body (Steppers/Stepper: Glass/Regular + Fill/Glass/Tint, rim, shadow) */
 .s-stepper::before {
   content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(var(--glass-tint-thin), var(--glass-tint-thin)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow, #ffffff40), var(--elevation-2);
-  backdrop-filter: var(--s-fx-thin); -webkit-backdrop-filter: var(--s-fx-thin);
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow, #ffffff40), var(--elevation-glass);
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
 .s-stepper--mini { --w: 16px; --h: 20px; --r: 7px; }
 .s-stepper--small { --w: 20px; --h: 24px; --r: 8px; }

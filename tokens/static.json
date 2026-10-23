@@ -67,6 +67,11 @@
     "color": "#0000002E",
     "y": 12,
     "blur": 32
+   },
+   "glass": {
+    "color": "#00000029",
+    "y": 8,
+    "blur": 20
    }
   },
   "dark": {
@@ -84,12 +89,18 @@
     "color": "#0000005C",
     "y": 12,
     "blur": 32
+   },
+   "glass": {
+    "color": "#00000058",
+    "y": 8,
+    "blur": 20
    }
   },
   "use": {
    "1": "small raised controls (switch thumb, slider thumb, secondary push button)",
-   "2": "Glass/Regular objects (Dock, toolbar controls, banners, HUDs)",
-   "3": "windows, menus, popovers, Faro, sheets (Glass/Thick and windows)"
+   "2": "small raised controls on a surface and objects that are not glass",
+   "3": "windows and sheets",
+   "glass": "Glass/Regular (every glass surface)"
   },
   "onPhoto": {
    "color": "#00000066",
@@ -106,11 +117,11 @@
  },
  "materials": {
   "Glass/Regular": {
-   "backgroundBlur": 6,
+   "backgroundBlur": 8,
    "saturation": 1.1,
    "tint": {
-    "light": "#FFFFFF99",
-    "dark": "#2A2B3099"
+    "light": "#FFFFFF80",
+    "dark": "#2A2B3096"
    },
    "rimInside": {
     "width": 1,
@@ -126,53 +137,20 @@
     "light": "#FFFFFFB3",
     "dark": "#FFFFFF38"
    },
-   "shadow": "shadows.2",
+   "shadow": "shadows.glass",
    "refraction": {
-    "distortion": 0.3,
-    "depth": 0.35,
-    "chromaticAberration": 0.03
+    "distortion": 0.26,
+    "depth": 0.32,
+    "chromaticAberration": 0.022
    },
    "specularHighlights": true,
    "brightness": {
-    "light": 1.25,
-    "dark": 1.1
-   }
+    "light": 1.18,
+    "dark": 1.07
+   },
+   "use": "the one material of controls, bars, menus, popovers, tooltips, alerts, panels, banners, the Dock; also the lens a control grows into while pressed or dragged. Provisional values between the former Regular and Thick (Apple publishes none)"
   },
-  "Glass/Thick": {
-   "backgroundBlur": 10,
-   "saturation": 1.1,
-   "tint": {
-    "light": "#FFFFFF94",
-    "dark": "#2A2B3094"
-   },
-   "rimInside": {
-    "width": 1,
-    "light": "#0000001F",
-    "dark": "#00000066"
-   },
-   "rimLight": {
-    "innerShadow": {
-     "x": 0,
-     "y": 1,
-     "blur": 1
-    },
-    "light": "#FFFFFFB3",
-    "dark": "#FFFFFF38"
-   },
-   "shadow": "shadows.3",
-   "refraction": {
-    "distortion": 0.22,
-    "depth": 0.28,
-    "chromaticAberration": 0.015
-   },
-   "specularHighlights": true,
-   "brightness": {
-    "light": 1.12,
-    "dark": 1.05
-   }
-  },
-  "Glass/Lens": {
-   "lens": true,
+  "Glass/Clear": {
    "blur": 2,
    "refraction": {
     "distortion": 0.3,
@@ -200,7 +178,8 @@
     },
     "light": "#FFFFFFB3",
     "dark": "#FFFFFF38"
-   }
+   },
+   "use": "static, nearly transparent glass for overlays on media only (Apple's clear variant); never on controls: those use Regular"
   },
   "Blur/Sidebar Title Bar": {
    "backgroundBlur": 10,

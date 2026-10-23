@@ -1,11 +1,11 @@
 <script setup>
 import { computed } from 'vue'
-import SThinGlass from './SThinGlass.vue'
+import SGlassPanel from './SGlassPanel.vue'
 import SIcon from './SIcon.vue'
 import SSlider from './SSlider.vue'
 
 /**
- * A module of the Control Center on thin glass. `kind`:
+ * A module of the Control Center on Regular glass. `kind`:
  *  - toggle (140 x 64): a round disc with a glyph, `title`, `subtitle` (the state). The disc turns the module on / off (`v-model`);
  *    the text opens its detail (`detail` event, the chevron shows on hover when `detail` is set).
  *  - tile (64 x 64): a round button with a glyph; accent when on.
@@ -33,7 +33,7 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
 </script>
 
 <template>
-  <SThinGlass class="s-cmod" :class="[`s-cmod--${props.kind}`, { 'is-on': on, 's-cmod--noout': kind === 'slider' && !output }, force && `is-${force}`]" :radius="radius">
+  <SGlassPanel smooth class="s-cmod" :class="[`s-cmod--${props.kind}`, { 'is-on': on, 's-cmod--noout': kind === 'slider' && !output }, force && `is-${force}`]" :radius="radius">
     <template v-if="kind === 'toggle'">
       <button type="button" class="s-control s-cmod__disc" role="switch" :aria-checked="on" :aria-label="title" @click="emit('update:modelValue', !on)"><SIcon :name="glyph" :size="24" /></button>
       <button type="button" class="s-control s-cmod__text" @click="emit('detail')">
@@ -69,7 +69,7 @@ const radius = computed(() => ({ toggle: 32, tile: 32, slider: 28, playing: 36, 
       <span v-if="glyph" class="s-cmod__app" :style="tint ? { background: tint } : null"><SIcon :name="glyph" :size="12" /></span>
       <span class="s-cmod__pilltext">{{ title }}</span>
     </button>
-  </SThinGlass>
+  </SGlassPanel>
 </template>
 
 <style>

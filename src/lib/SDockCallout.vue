@@ -3,7 +3,7 @@ import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { calloutPath, ARROW_H } from './dockCallout.js'
 
 /**
- * The glass callout of the Dock (label bubble above a tile, tile menu): thick glass cut to a single path that includes the
+ * The glass callout of the Dock (label bubble above a tile, tile menu): Regular glass cut to a single path that includes the
  * arrow pointing down at the tile. The content goes in the slot; the arrow is centred and sits below it.
  */
 defineProps({ radius: { type: Number, default: 8 }, inset: { type: Number, default: 0 } })
@@ -29,12 +29,12 @@ const P = 64 // room around the shape for the drop shadow
 .s-dock-callout { position: relative; width: max-content; padding-bottom: var(--s-dock-callout-arrow); box-sizing: content-box; }
 .s-dock-callout__body { position: relative; }
 .s-dock-callout__shadow { position: absolute; left: -64px; top: -64px; pointer-events: none; }
-.s-dock-callout__shadow svg { display: block; overflow: visible; filter: drop-shadow(var(--elevation-3)); }
+.s-dock-callout__shadow svg { display: block; overflow: visible; filter: drop-shadow(var(--elevation-glass)); }
 .s-dock-callout__shadow path { fill: #000; }
 .s-dock-callout__glass {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick);
+  background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
 .s-dock-callout__rim { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; fill: none; }
 .s-dock-callout__rim .rim { stroke: var(--glass-rim-dark); stroke-width: 2; }

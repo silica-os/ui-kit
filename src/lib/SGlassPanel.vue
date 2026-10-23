@@ -7,7 +7,7 @@ let uid = 0
 
 /**
  * The kit's glass surface: tint over a backdrop blur, rim light, drop shadow. Used by segmented tracks, menus, popovers,
- * tooltips and the glass alert. `thick` is the menu/popover material, `regular` the control one. Content goes in the slot.
+ * tooltips and the glass alert. There is one glass material, Regular (Amalfi follows Apple: Regular and Clear, and Clear is for media overlays only). Content goes in the slot.
  *  - `smooth`: draw the surface as the kit does, with continuous corners (smoothing 0.6): a clipped fill, a rim and a shadow that follow
  *    one smooth outline (see smoothPath.js). The default draws a plain rounded box. The outline is also published as `--s-clip`
  *    (`path('…')`) for children that must follow it, e.g. `clip-path: var(--s-clip)`.
@@ -15,9 +15,6 @@ let uid = 0
  */
 const props = defineProps({
   tag: { type: String, default: 'div' },
-  thick: Boolean,
-  /** the light control material (Glass/Thin): segmented tracks, toolbar buttons, small controls. SThinGlass is the same for shelves. */
-  thin: Boolean,
   radius: { type: [Number, String], default: 12 },
   smooth: Boolean,
   raised: Boolean,
@@ -32,7 +29,7 @@ const root = ref(null)
 const size = useBoxSize(root)
 const r = computed(() => (typeof props.radius === 'number' ? props.radius : parseFloat(props.radius) || 12))
 const d = computed(() => (props.smooth ? smoothRectPath(size.value.w, size.value.h, r.value, props.smoothing) : ''))
-const strong = computed(() => props.thick || props.raised)
+const strong = computed(() => props.raised)
 const shadowClip = computed(() => {
   // the shadow shows only outside the surface: "big rectangle minus the outline" (even-odd), the outline moved by the 64 pt margin
   const { w, h } = size.value
@@ -41,11 +38,11 @@ const shadowClip = computed(() => {
   return `path(evenodd, 'M0,0H${w + 128}V${h + 128}H0Z${hole}')`
 })
 const style = computed(() => ({ '--s-glass-r': r.value + 'px', ...(d.value ? { '--s-clip': `path('${d.value}')` } : null) }))
-const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 6 }))
+const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 8, sd: 10 }))
 </script>
 
 <template>
-  <component :is="tag" ref="root" class="s-glass" :class="{ 's-glass--thick': thick, 's-glass--thin': thin, 's-glass--raised': raised, 's-glass--smooth': smooth, 's-glass--bare': bare }" :style="style">
+  <component :is="tag" ref="root" class="s-glass" :class="{ 's-glass--raised': raised, 's-glass--smooth': smooth, 's-glass--bare': bare }" :style="style">
     <template v-if="smooth && d">
       <svg v-if="!flat" class="s-glass__shadow" :style="{ clipPath: shadowClip }" :width="size.w + 128" :height="size.h + 128" :viewBox="`-64 -64 ${size.w + 128} ${size.h + 128}`" aria-hidden="true">
         <defs><filter :id="`${id}-b`" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur :stdDeviation="shadow.sd" /></filter></defs>
@@ -73,21 +70,18 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 
 
 <style>
 /* The kit's glass differs per theme (Light/Glass/*, Dark/Glass/*): blur radius, saturation and the inner glow. Set once here as variables
-   that every glass in the library reads (SThinGlass, SCallout, SDockCallout, toolbar buttons). */
-:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(10px) saturate(1.6); --s-fx-thick: blur(18px) saturate(1.7); --s-fx-thin: blur(4px) saturate(1.5); --s-fx-lens: blur(1px) saturate(1.2); }
-[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-lens: blur(1px) saturate(1.2); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(12px) saturate(1.25); --s-fx-thick: blur(20px) saturate(1.2); --s-fx-thin: blur(5px) saturate(1.4); --s-fx-lens: blur(1px) saturate(1.2); } }
+   that every glass in the library reads (SCallout, SDockCallout, buttons, fields, toolbar pieces). `--s-fx-lens` is the sharp blur of the lens a
+   control grows into while it is pressed or dragged (Regular glass kept clear enough for the label under it to stay readable). */
+/* Glass/Regular, the single material: blur 14 / 16 (light / dark), saturation 1.65 / 1.22, tint 50 % / 59 %, shadow 0 8 20 (provisional, see tokens) */
+:root, [data-theme='light'] { --s-glow: #ffffff40; --s-fx-regular: blur(14px) saturate(1.65); --s-fx-lens: blur(1px) saturate(1.2); --s-glass-shadow: #00000029; }
+[data-theme='dark'] { --s-glow: #ffffff17; --s-fx-regular: blur(16px) saturate(1.22); --s-fx-lens: blur(1px) saturate(1.2); --s-glass-shadow: #00000058; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --s-glow: #ffffff17; --s-fx-regular: blur(16px) saturate(1.22); --s-fx-lens: blur(1px) saturate(1.2); --s-glass-shadow: #00000058; } }
 .s-glass { position: relative; isolation: isolate; border-radius: var(--s-glass-r, 12px); }
 .s-glass::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow), var(--elevation-2);
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow), var(--elevation-glass);
   backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
-}
-.s-glass--thick::before {
-  background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px var(--s-glow), var(--elevation-3);
-  backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick);
 }
 /* smooth: the layers are real elements (the outline is an SVG path), the legacy ::before is off */
 .s-glass--smooth, .s-glass--bare { border-radius: 0; }
@@ -95,14 +89,13 @@ const shadow = computed(() => (strong.value ? { dy: 12, sd: 16 } : { dy: 4, sd: 
 .s-glass__shadow, .s-glass__rim { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .s-glass__shadow { z-index: -2; left: -64px; top: -64px; }
 .s-glass__rim { z-index: -1; }
-.s-glass__shadow-path { fill: var(--shadow-2); }
-.s-glass--thick .s-glass__shadow-path, .s-glass--raised .s-glass__shadow-path { fill: var(--shadow-3); }
+.s-glass__shadow-path { fill: var(--s-glass-shadow); }
+.s-glass--raised .s-glass__shadow-path { fill: var(--shadow-3); }
 .s-glass__fill {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: linear-gradient(var(--glass-tint), var(--glass-tint)), #ffffff03;
   backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
-.s-glass--thick .s-glass__fill { background: linear-gradient(var(--glass-tint-thick), var(--glass-tint-thick)), #ffffff03; backdrop-filter: var(--s-fx-thick); -webkit-backdrop-filter: var(--s-fx-thick); }
 .s-glass--raised .s-glass__fill { background: var(--surface-raised); backdrop-filter: none; -webkit-backdrop-filter: none; }
 .s-glass__border { stroke: var(--glass-rim-dark); }
 .s-glass--raised .s-glass__border { stroke: var(--line-border); }

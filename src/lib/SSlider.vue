@@ -114,11 +114,11 @@ function onKey(e) {
 .s-slider__body:is(:active, .is-pressed) .s-slider__thumb::after { background: none; }
 .s-slider__body:is(:focus-visible, .is-focus) .s-slider__thumb::after { box-shadow: 0 0 0 3px var(--line-focus); }
 
-/* dragging: the thumb itself becomes the 36 x 28 glass lens (same element, animated from the solid thumb) */
+/* dragging: the thumb itself becomes the 36 x 28 Regular glass lens (same element, animated from the solid thumb) */
 .s-slider__body.is-dragging .s-slider__thumb {
-  margin: -4px 0 0 -8px; width: 36px; height: 28px; border-radius: 14px; background-color: transparent;
-  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, 0 0 0 transparent;
-  backdrop-filter: var(--s-fx-lens, blur(1px) saturate(1.2)); -webkit-backdrop-filter: var(--s-fx-lens, blur(1px) saturate(1.2));
+  margin: -4px 0 0 -8px; width: 36px; height: 28px; border-radius: 14px; background-color: transparent; background-image: linear-gradient(var(--glass-tint), var(--glass-tint));
+  box-shadow: inset 0 0 0 1px var(--glass-rim-dark), inset 0 1px 1px var(--glass-rim-light), inset 0 0 3px #ffffff40, var(--elevation-glass);
+  backdrop-filter: var(--s-fx-regular); -webkit-backdrop-filter: var(--s-fx-regular);
 }
 .s-slider__body.is-dragging .s-slider__thumb::after { display: none; }
 

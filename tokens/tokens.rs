@@ -38,7 +38,6 @@ pub mod light {
     pub const LINE_BORDER: Rgba = Rgba(29, 30, 33, 36);
     pub const LINE_FOCUS: Rgba = Rgba(14, 119, 230, 115);
     pub const GLASS_TINT: Rgba = Rgba(255, 255, 255, 102);
-    pub const GLASS_TINT_THICK: Rgba = Rgba(255, 255, 255, 148);
     pub const GLASS_RIM_LIGHT: Rgba = Rgba(255, 255, 255, 179);
     pub const GLASS_RIM_DARK: Rgba = Rgba(0, 0, 0, 31);
     pub const SHADOW_SOFT: Rgba = Rgba(0, 0, 0, 36);
@@ -77,7 +76,6 @@ pub mod light {
     pub const MENU_BAR_SELECTION: Rgba = Rgba(255, 255, 255, 102);
     pub const PALETTE_ARANCIA: Rgba = Rgba(249, 138, 23, 255);
     pub const PALETTE_LIMONE_SCURO: Rgba = Rgba(166, 118, 0, 255);
-    pub const GLASS_TINT_THIN: Rgba = Rgba(255, 255, 255, 36);
 }
 
 pub mod dark {
@@ -105,7 +103,6 @@ pub mod dark {
     pub const LINE_BORDER: Rgba = Rgba(244, 245, 247, 41);
     pub const LINE_FOCUS: Rgba = Rgba(61, 149, 255, 115);
     pub const GLASS_TINT: Rgba = Rgba(42, 43, 48, 153);
-    pub const GLASS_TINT_THICK: Rgba = Rgba(42, 43, 48, 148);
     pub const GLASS_RIM_LIGHT: Rgba = Rgba(255, 255, 255, 56);
     pub const GLASS_RIM_DARK: Rgba = Rgba(0, 0, 0, 102);
     pub const SHADOW_SOFT: Rgba = Rgba(0, 0, 0, 82);
@@ -163,7 +160,6 @@ pub mod dark {
     pub const MENU_BAR_SELECTION: Rgba = Rgba(255, 255, 255, 51);
     pub const PALETTE_ARANCIA: Rgba = Rgba(255, 159, 64, 255);
     pub const PALETTE_LIMONE_SCURO: Rgba = Rgba(255, 207, 61, 255);
-    pub const GLASS_TINT_THIN: Rgba = Rgba(42, 43, 48, 82);
 }
 
 pub mod brand {
